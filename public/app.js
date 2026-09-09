@@ -1,3 +1,21 @@
+const hero = document.querySelector('.hero');
+const heroCopy = document.querySelector('.hero-copy');
+const heroMark = document.querySelector('.hero-mark');
+
+if (hero && heroCopy) {
+  hero.style.gridTemplateColumns = '1fr';
+  hero.style.justifyItems = 'center';
+  heroCopy.style.width = '100%';
+  heroCopy.style.maxWidth = '1000px';
+  heroCopy.style.marginInline = 'auto';
+  heroCopy.style.textAlign = 'center';
+
+  if (heroMark) {
+    heroMark.style.width = 'min(520px, 100%)';
+    heroMark.style.margin = '2.5rem auto 0';
+  }
+}
+
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
 
