@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR" data-page="lab">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Laboratório Beyblade da UPPTB: lógica, JavaScript, Turtle Step e TGB." />
+  <meta name="theme-color" content="#07120a" />
+  <title>Laboratório Beyblade | UPPTB</title>
+  <link rel="icon" href="assets/turtle-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <a class="brand-mini" href="index.html" aria-label="Página principal da UPPTB"><img src="assets/turtle-mark.svg" alt="" width="36" height="36" /><span>UPPTB</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav id="main-nav" aria-label="Navegação principal">
+      <a class="site-page-link" href="index.html">Página principal</a>
+      <details class="nav-group" open>
+        <summary>Laboratório Beyblade</summary>
+        <div class="nav-panel">
+          <a href="#visao">Visão geral</a>
+          <a href="#tgb">TGB</a>
+          <a href="#javascript">JavaScript</a>
+          <a href="#qa">QA com Beyblade</a>
+        </div>
+      </details>
+      <a class="site-page-link" href="memorias.html">Memórias</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <div class="random-asset-plane" id="random-asset-plane" aria-hidden="true">
+      <figure class="random-asset random-character"><img src="assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp" alt="" /><figcaption>ROBIN.EXE // 01</figcaption></figure>
+      <figure class="random-asset random-character"><img src="assets/ekusu-remade.webp" alt="" /><figcaption>PERSONA X // INPUT INSTÁVEL</figcaption></figure>
+      <figure class="random-asset random-character"><img src="assets/Beyblade_X_-_Ekusu_Kurosu.webp" alt="" /><figcaption>CAPACETE REMOVIDO EM PRODUÇÃO</figcaption></figure>
+      <figure class="random-asset random-character"><img src="assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp" alt="" /><figcaption>MULTI REBORN // REITORIA</figcaption></figure>
+    </div>
+    <p class="do-not-feed" aria-hidden="true">FAVOR NÃO ALIMENTAR AS TARTARUGAS. ELAS JÁ ESTÃO BEM ALIMENTADAS.</p>
+
+    <section class="hero" id="visao" aria-labelledby="lab-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Faculdade sem MEC · laboratório com requisito</p>
+        <h1 id="lab-title">Laboratório Beyblade</h1>
+        <p class="lead">Onde lógica, JavaScript e QA deixam de ser exemplos genéricos e passam a usar bladers, times, rotações, condições e derrotas estatisticamente preocupantes do Robin.</p>
+        <div class="hero-actions"><a class="button" href="#javascript">Abrir código</a><a class="button secondary" href="memorias.html">Ver memórias</a></div>
+      </div>
+      <div class="hero-mark"><img src="assets/upptb-collage.webp" alt="Identidade caótica da UPPTB" /></div>
+    </section>
+
+    <section class="chaos-cluster" id="tgb" aria-labelledby="tgb-title">
+      <p class="eyebrow">TGB</p>
+      <h2 id="tgb-title">Turtle Step + GPT + Beyblade</h2>
+      <div class="memory-grid">
+        <article><span class="memory-tag">Método</span><h3>Contexto constante</h3><p>O conceito muda, o universo continua. Variável, condição, função ou teste entram sem trocar o Beyblade por maçãs e caixas.</p></article>
+        <article><span class="memory-tag">Robin</span><h3>Persistência como regra</h3><p>Perder não encerra o algoritmo. Ajusta cenário, registra evidência e executa novamente.</p></article>
+        <article><span class="memory-tag">Multi</span><h3>Customização como aprendizagem</h3><p>Quando o exemplo precisa mudar, muda a peça, não o método inteiro.</p></article>
+      </div>
+    </section>
+
+    <section id="javascript" class="lab" aria-labelledby="js-title">
+      <p class="eyebrow">JavaScript</p>
+      <h2 id="js-title">Fundamentos com Beyblade</h2>
+      <div class="code-grid">
+        <article><h3>const</h3><p>Algo que não deve ser reatribuído.</p><pre><code>const game = "Beyblade X";
+console.log(game);</code></pre></article>
+        <article><h3>let</h3><p>Algo que pode variar.</p><pre><code>let blader = "Robin";
+blader = "Multi";</code></pre></article>
+        <article><h3>if / else</h3><p>Decisão baseada em condição.</p><pre><code>if (robinWins &gt; 0) {
+  console.log("Evento histórico");
+} else {
+  console.log("Robin perdeu de novo");
+}</code></pre></article>
+        <article><h3>console.log()</h3><p>Saída visível para entender o fluxo.</p><pre><code>const team = "Persona";
+console.log(team);</code></pre></article>
+      </div>
+    </section>
+
+    <section id="qa" class="chaos-cluster" aria-labelledby="qa-title">
+      <p class="eyebrow">QA Lab</p>
+      <h2 id="qa-title">Beyblade também virou massa de teste</h2>
+      <div class="memory-grid">
+        <article><span class="memory-tag">Requisito</span><h3>Matchup não é achismo</h3><p>Primeiro entende regra, depois cenário. O requisito vem antes da execução.</p></article>
+        <article><span class="memory-tag">Regressão</span><h3>Robin perdeu de novo</h3><p>Quando o mesmo comportamento reaparece, pode ser bug, regra aceita ou simplesmente regressão consistente. O PO decide o esperado.</p></article>
+        <article><span class="memory-tag">Evidência</span><h3>Plausível não basta</h3><p>“Uma evidência plausível não é necessariamente uma evidência válida.” O laboratório preserva essa regra.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer><img src="assets/turtle-mark.svg" alt="" width="32" height="32" /><p>UPPTB · Laboratório Beyblade.</p><p><small>Let's rip, dude.</small></p></footer>
+</body>
+</html>
