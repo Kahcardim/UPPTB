@@ -20,6 +20,12 @@ uiPatch.textContent = `
   .memory-grid article p { color: var(--muted); }
   .memory-tag { display: inline-block; margin-bottom: .8rem; padding: .28rem .55rem; border: 1px solid var(--green); border-radius: 999px; color: var(--green); font: 850 .72rem/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform: uppercase; letter-spacing: .08em; }
 
+  /* UX gate: o efeito Alice continua, mas conteúdo e controles sempre ficam acima dele. */
+  main > section { position: relative; z-index: 10 !important; }
+  .random-asset-plane { z-index: 3 !important; }
+  .random-identity { width: clamp(9rem, 18vw, 15rem) !important; opacity: .52; }
+  .random-turtle.large-turtle { width: clamp(8rem, 15vw, 13rem) !important; opacity: .58; }
+
   @media (max-width: 900px) {
     .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
@@ -95,9 +101,10 @@ uiPatch.textContent = `
     .code-grid, .mode-grid, .origin .timeline, .split, .archive { grid-template-columns: minmax(0, 1fr) !important; }
     .carousel { grid-auto-columns: minmax(0, 88%); }
     .random-character { width: clamp(6.5rem, 29vw, 10rem); }
-    .random-identity { width: clamp(9rem, 46vw, 15rem); }
+    .random-identity { width: clamp(4.8rem, 20vw, 6.5rem) !important; max-width: 6.5rem !important; opacity: .38; }
     .random-turtle { width: clamp(3.8rem, 17vw, 6.2rem); }
-    .random-turtle.large-turtle { width: clamp(7rem, 32vw, 11rem); }
+    .random-turtle.large-turtle { width: clamp(4.2rem, 18vw, 5.8rem) !important; max-width: 5.8rem !important; opacity: .46; }
+    .random-identity img, .random-turtle.large-turtle img { max-height: 7rem !important; }
     .do-not-feed { width: min(18rem, calc(100vw - 1.4rem)); font-size: .64rem; right: .7rem; bottom: .7rem; }
   }
 `;
