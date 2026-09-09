@@ -48,15 +48,61 @@ carousel?.addEventListener('keydown', (event) => {
 
 const chaosButton = document.querySelector('#chaos-button');
 const terminalOutput = document.querySelector('#terminal-output');
+const randomAssetPlane = document.querySelector('#random-asset-plane');
 const audits = [
   '$ upptb audit\nresultado ............ 0 bugs encontrados\nqa ................... recusou acreditar\nstatus ................ executar novamente',
   '$ upptb audit --deep\nrobinWins ............. 0\nregression ............ consistente\nmetodologia ........... turtle step\nstatus ................ suspeitamente estável',
   '$ upptb audit --institutional\ncredenciamento ........ inexistente\nreitoria .............. o mesmo cara\ndepartamentos ......... também\nproduto ................ funcionando apesar disso'
 ];
 let auditIndex = 0;
+let turtlesCreated = false;
+
+function randomBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function createTurtles() {
+  if (!randomAssetPlane || turtlesCreated) return;
+
+  for (let index = 1; index <= 31; index += 1) {
+    const figure = document.createElement('figure');
+    const turtle = document.createElement('img');
+    figure.className = `random-asset random-turtle${index >= 28 ? ' large-turtle' : ''}`;
+    turtle.src = `assets/turtles/turtle-${String(index).padStart(2, '0')}.webp`;
+    turtle.alt = '';
+    turtle.loading = 'lazy';
+    figure.append(turtle);
+    randomAssetPlane.append(figure);
+  }
+
+  turtlesCreated = true;
+}
+
+function scatterAssets() {
+  if (!randomAssetPlane) return;
+  const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 4000, 4000);
+
+  randomAssetPlane.querySelectorAll('.random-asset').forEach((asset, index) => {
+    const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
+    const topLimit = Math.max(pageHeight - (isLarge ? 540 : 240), 600);
+    asset.style.top = `${randomBetween(100, topLimit).toFixed(0)}px`;
+    asset.style.left = `${randomBetween(-4, isLarge ? 82 : 92).toFixed(1)}%`;
+    asset.style.transform = `rotate(${randomBetween(-26, 26).toFixed(1)}deg)`;
+    asset.style.zIndex = `${index % 4}`;
+  });
+}
+
+function reorganizeCampus() {
+  createTurtles();
+  scatterAssets();
+}
 
 chaosButton?.addEventListener('click', () => {
   if (!terminalOutput) return;
   terminalOutput.textContent = audits[auditIndex % audits.length];
   auditIndex += 1;
+  reorganizeCampus();
 });
+
+reorganizeCampus();
+window.addEventListener('load', scatterAssets, { once: true });
