@@ -29,10 +29,14 @@ uiPatch.textContent = `
     main > section { width: min(100% - 1.25rem, var(--max)); }
     .site-header { padding-inline: .7rem; }
     .brand-mini span { font-size: .9rem; }
-    .nav-group, .site-page-link { width: 100%; }
-    .nav-group > summary, .site-page-link { padding: .8rem 1rem; }
-    .nav-panel { position: static; min-width: 0; margin-top: .35rem; box-shadow: none; background: #07120a; }
-    .nav-panel a { white-space: normal; }
+    .site-header nav[data-open="true"] {
+      align-items: center !important;
+      text-align: center;
+    }
+    .nav-group, .site-page-link { width: min(100%, 22rem); margin-inline: auto; text-align: center; }
+    .nav-group > summary, .site-page-link { display: block; padding: .8rem 1rem; text-align: center; }
+    .nav-panel { position: static; min-width: 0; width: 100%; margin: .35rem auto 0; box-shadow: none; background: #07120a; text-align: center; }
+    .nav-panel a { white-space: normal; text-align: center; }
     .memory-grid { grid-template-columns: 1fr; }
 
     .hero {
@@ -53,7 +57,7 @@ uiPatch.textContent = `
       justify-self: center !important;
     }
     .hero-copy .eyebrow { font-size: .68rem; line-height: 1.4; }
-    #hero-title {
+    #hero-title, .hero h1 {
       width: 100% !important;
       max-width: 18ch !important;
       margin-inline: auto !important;
@@ -71,11 +75,7 @@ uiPatch.textContent = `
       font-size: clamp(.98rem, 4.5vw, 1.12rem) !important;
       line-height: 1.55 !important;
     }
-    .hero-actions {
-      justify-content: center !important;
-      width: 100%;
-      gap: .65rem;
-    }
+    .hero-actions { justify-content: center !important; width: 100%; gap: .65rem; }
     .hero-actions .button { flex: 1 1 13rem; max-width: 18rem; }
     .hero-mark {
       position: relative !important;
@@ -104,9 +104,9 @@ uiPatch.textContent = `
 document.head.append(uiPatch);
 
 const currentPage = document.documentElement.dataset.page || 'home';
-const campusPages = ['home', 'lab', 'memories'];
+const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v2';
+const campusStorageKey = 'upptb-campus-distribution-v3';
 
 const roamingImages = [
   { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity' },
@@ -256,7 +256,7 @@ const randomAssetPlane = document.querySelector('#random-asset-plane');
 const audits = [
   '$ upptb audit\nresultado ............ 0 bugs encontrados\nqa ................... recusou acreditar\nstatus ................ executar novamente',
   '$ upptb audit --deep\nrobinWins ............. 0\nregression ............ consistente\nmetodologia ........... turtle step\nstatus ................ suspeitamente estável',
-  '$ upptb audit --institutional\npaginas ............... 3\ntartarugas ............ migratorias\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
+  '$ upptb audit --institutional\npaginas ............... 4\ntartarugas ............ migratorias\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
 ];
 let auditIndex = 0;
 let turtlesCreated = false;
