@@ -19,13 +19,86 @@ uiPatch.textContent = `
   .memory-grid article:nth-child(3n) { --card-tilt: -.25deg; }
   .memory-grid article p { color: var(--muted); }
   .memory-tag { display: inline-block; margin-bottom: .8rem; padding: .28rem .55rem; border: 1px solid var(--green); border-radius: 999px; color: var(--green); font: 850 .72rem/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform: uppercase; letter-spacing: .08em; }
-  @media (max-width: 900px) { .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  @media (max-width: 900px) {
+    .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width: 700px) {
+    html, body { max-width: 100%; overflow-x: hidden; }
+    main > section { width: min(100% - 1.25rem, var(--max)); }
+    .site-header { padding-inline: .7rem; }
+    .brand-mini span { font-size: .9rem; }
     .nav-group, .site-page-link { width: 100%; }
     .nav-group > summary, .site-page-link { padding: .8rem 1rem; }
     .nav-panel { position: static; min-width: 0; margin-top: .35rem; box-shadow: none; background: #07120a; }
     .nav-panel a { white-space: normal; }
     .memory-grid { grid-template-columns: 1fr; }
+
+    .hero {
+      grid-template-columns: 1fr !important;
+      justify-items: center !important;
+      align-items: start !important;
+      gap: 1.4rem !important;
+      min-height: auto !important;
+      padding-top: 2.4rem !important;
+      padding-bottom: 2.8rem !important;
+    }
+    .hero-copy {
+      width: min(100%, 34rem) !important;
+      max-width: 34rem !important;
+      margin-inline: auto !important;
+      padding-inline: .4rem !important;
+      text-align: center !important;
+      justify-self: center !important;
+    }
+    .hero-copy .eyebrow { font-size: .68rem; line-height: 1.4; }
+    #hero-title {
+      width: 100% !important;
+      max-width: 18ch !important;
+      margin-inline: auto !important;
+      font-size: clamp(1.85rem, 8.5vw, 2.55rem) !important;
+      line-height: 1.03 !important;
+      letter-spacing: -.04em !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      hyphens: none !important;
+      text-wrap: balance;
+    }
+    .hero-copy .lead {
+      max-width: 34ch !important;
+      margin: 1rem auto 0 !important;
+      font-size: clamp(.98rem, 4.5vw, 1.12rem) !important;
+      line-height: 1.55 !important;
+    }
+    .hero-actions {
+      justify-content: center !important;
+      width: 100%;
+      gap: .65rem;
+    }
+    .hero-actions .button { flex: 1 1 13rem; max-width: 18rem; }
+    .hero-mark {
+      position: relative !important;
+      top: auto !important;
+      width: min(68vw, 250px) !important;
+      max-width: 250px !important;
+      margin: .35rem auto 0 !important;
+      justify-self: center !important;
+      transform: rotate(.8deg) !important;
+      border-radius: 22px !important;
+    }
+    .hero-mark img { width: 100% !important; height: auto !important; }
+
+    h2 { font-size: clamp(1.8rem, 9vw, 2.7rem); overflow-wrap: anywhere; }
+    h3 { overflow-wrap: anywhere; }
+    pre { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .code-grid, .mode-grid, .origin .timeline, .split, .archive { grid-template-columns: minmax(0, 1fr) !important; }
+    .carousel { grid-auto-columns: minmax(0, 88%); }
+    .random-character { width: clamp(6.5rem, 29vw, 10rem); }
+    .random-identity { width: clamp(9rem, 46vw, 15rem); }
+    .random-turtle { width: clamp(3.8rem, 17vw, 6.2rem); }
+    .random-turtle.large-turtle { width: clamp(7rem, 32vw, 11rem); }
+    .do-not-feed { width: min(18rem, calc(100vw - 1.4rem)); font-size: .64rem; right: .7rem; bottom: .7rem; }
   }
 `;
 document.head.append(uiPatch);
@@ -33,7 +106,19 @@ document.head.append(uiPatch);
 const currentPage = document.documentElement.dataset.page || 'home';
 const campusPages = ['home', 'lab', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v1';
+const campusStorageKey = 'upptb-campus-distribution-v2';
+
+const roamingImages = [
+  { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity' },
+  { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity' },
+  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '' },
+  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '' },
+  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '' },
+  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '' },
+  { src: 'assets/images-2-.jpg', caption: 'DEPARTAMENTO DESCONHECIDO', classes: 'random-photo' },
+  { src: 'assets/images-1-.jpg', caption: 'ARQUIVO LEGADO', classes: 'random-photo' },
+  { src: 'assets/images.jpg', caption: 'A MESMA FOTO MENOR', classes: 'random-photo tiny-evidence' }
+];
 
 function shuffled(values) {
   const clone = [...values];
@@ -44,17 +129,19 @@ function shuffled(values) {
   return clone;
 }
 
-function makeCampusDistribution() {
-  const turtleIds = shuffled(Array.from({ length: turtleCount }, (_, index) => index + 1));
+function distributeIds(ids) {
   const pageOrder = shuffled(campusPages);
-  const turtles = {};
-
-  turtleIds.forEach((turtleId, index) => {
-    turtles[turtleId] = pageOrder[index % pageOrder.length];
+  const assignments = {};
+  shuffled(ids).forEach((id, index) => {
+    assignments[id] = pageOrder[index % pageOrder.length];
   });
+  return assignments;
+}
 
+function makeCampusDistribution() {
   return {
-    turtles,
+    turtles: distributeIds(Array.from({ length: turtleCount }, (_, index) => index + 1)),
+    images: distributeIds(Array.from({ length: roamingImages.length }, (_, index) => index)),
     catPage: campusPages[Math.floor(Math.random() * campusPages.length)],
     generatedAt: Date.now()
   };
@@ -169,14 +256,20 @@ const randomAssetPlane = document.querySelector('#random-asset-plane');
 const audits = [
   '$ upptb audit\nresultado ............ 0 bugs encontrados\nqa ................... recusou acreditar\nstatus ................ executar novamente',
   '$ upptb audit --deep\nrobinWins ............. 0\nregression ............ consistente\nmetodologia ........... turtle step\nstatus ................ suspeitamente estável',
-  '$ upptb audit --institutional\npaginas ............... 3\ntartarugas ............ migratorias\nproduto ................ finalmente deixou de ser landing page'
+  '$ upptb audit --institutional\npaginas ............... 3\ntartarugas ............ migratorias\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
 ];
 let auditIndex = 0;
 let turtlesCreated = false;
+let roamingImagesCreated = false;
 let hairlessCatCreated = false;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
+}
+
+function clearLegacyRandomAssets() {
+  if (!randomAssetPlane) return;
+  randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
 }
 
 function createHairlessCat() {
@@ -193,6 +286,26 @@ function createHairlessCat() {
   figure.append(cat, caption);
   randomAssetPlane.append(figure);
   hairlessCatCreated = true;
+}
+
+function createRoamingImages() {
+  if (!randomAssetPlane || roamingImagesCreated) return;
+
+  roamingImages.forEach((asset, index) => {
+    if (campusDistribution.images?.[index] !== currentPage) return;
+    const figure = document.createElement('figure');
+    const image = document.createElement('img');
+    const caption = document.createElement('figcaption');
+    figure.className = `random-asset random-character ${asset.classes}`.trim();
+    image.src = asset.src;
+    image.alt = '';
+    image.loading = 'lazy';
+    caption.textContent = asset.caption;
+    figure.append(image, caption);
+    randomAssetPlane.append(figure);
+  });
+
+  roamingImagesCreated = true;
 }
 
 function createTurtles() {
@@ -219,9 +332,9 @@ function scatterAssets() {
 
   randomAssetPlane.querySelectorAll('.random-asset').forEach((asset, index) => {
     const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
-    const topLimit = Math.max(pageHeight - (isLarge ? 540 : 240), 600);
+    const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
     asset.style.top = `${randomBetween(100, topLimit).toFixed(0)}px`;
-    asset.style.left = `${randomBetween(-4, isLarge ? 82 : 92).toFixed(1)}%`;
+    asset.style.left = `${randomBetween(-3, isLarge ? 80 : 90).toFixed(1)}%`;
     asset.style.transform = `rotate(${randomBetween(-26, 26).toFixed(1)}deg)`;
     asset.style.zIndex = `${index % 4}`;
   });
@@ -229,6 +342,7 @@ function scatterAssets() {
 
 function reorganizeCampus() {
   createHairlessCat();
+  createRoamingImages();
   createTurtles();
   scatterAssets();
 }
@@ -240,5 +354,6 @@ chaosButton?.addEventListener('click', () => {
   scatterAssets();
 });
 
+clearLegacyRandomAssets();
 reorganizeCampus();
 window.addEventListener('load', scatterAssets, { once: true });
