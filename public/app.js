@@ -106,11 +106,18 @@ document.head.append(uiPatch);
 const currentPage = document.documentElement.dataset.page || 'home';
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v3';
+const campusStorageKey = 'upptb-campus-distribution-v4';
+
+const fixedLargeTurtles = {
+  28: 'home',
+  29: 'lab',
+  30: 'english',
+  31: 'memories'
+};
 
 const roamingImages = [
-  { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity' },
-  { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity' },
+  { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity', fixedPage: 'home' },
+  { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity', fixedPage: 'memories' },
   { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '' },
   { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '' },
   { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '' },
@@ -139,9 +146,18 @@ function distributeIds(ids) {
 }
 
 function makeCampusDistribution() {
+  const smallTurtleIds = Array.from({ length: 27 }, (_, index) => index + 1);
+  const roamingImageIds = roamingImages
+    .map((asset, index) => ({ asset, index }))
+    .filter(({ asset }) => !asset.fixedPage)
+    .map(({ index }) => index);
+
   return {
-    turtles: distributeIds(Array.from({ length: turtleCount }, (_, index) => index + 1)),
-    images: distributeIds(Array.from({ length: roamingImages.length }, (_, index) => index)),
+    turtles: {
+      ...distributeIds(smallTurtleIds),
+      ...fixedLargeTurtles
+    },
+    images: distributeIds(roamingImageIds),
     catPage: campusPages[Math.floor(Math.random() * campusPages.length)],
     generatedAt: Date.now()
   };
@@ -256,7 +272,7 @@ const randomAssetPlane = document.querySelector('#random-asset-plane');
 const audits = [
   '$ upptb audit\nresultado ............ 0 bugs encontrados\nqa ................... recusou acreditar\nstatus ................ executar novamente',
   '$ upptb audit --deep\nrobinWins ............. 0\nregression ............ consistente\nmetodologia ........... turtle step\nstatus ................ suspeitamente estável',
-  '$ upptb audit --institutional\npaginas ............... 4\ntartarugas ............ migratorias\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
+  '$ upptb audit --institutional\npaginas ............... 4\ntartarugas pequenas ... migratorias\ntartarugas grandes .... fixas por pagina\nlogos .................. fixas por pagina\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
 ];
 let auditIndex = 0;
 let turtlesCreated = false;
@@ -292,7 +308,8 @@ function createRoamingImages() {
   if (!randomAssetPlane || roamingImagesCreated) return;
 
   roamingImages.forEach((asset, index) => {
-    if (campusDistribution.images?.[index] !== currentPage) return;
+    const targetPage = asset.fixedPage || campusDistribution.images?.[index];
+    if (targetPage !== currentPage) return;
     const figure = document.createElement('figure');
     const image = document.createElement('img');
     const caption = document.createElement('figcaption');
