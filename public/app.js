@@ -37,11 +37,17 @@ if (hero && heroCopy) {
   }
 
   if (heroMark) {
-    heroMark.style.width = 'min(380px, 100%)';
+    heroMark.style.width = 'min(420px, 100%)';
     heroMark.style.margin = '0';
     heroMark.style.justifySelf = 'end';
     heroMark.style.position = 'sticky';
     heroMark.style.top = '6rem';
+
+    const heroLogo = heroMark.querySelector('img');
+    if (heroLogo) {
+      heroLogo.src = 'assets/upptb-collage.webp';
+      heroLogo.alt = 'Logo manifesto da UPPTB com tartaruga, Beyblade, código e caos visual';
+    }
   }
 }
 
@@ -103,9 +109,37 @@ const audits = [
 ];
 let auditIndex = 0;
 let turtlesCreated = false;
+let hairlessCatCreated = false;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
+}
+
+function createHairlessCat() {
+  if (!randomAssetPlane || hairlessCatCreated) return;
+
+  const figure = document.createElement('figure');
+  const cat = document.createElement('img');
+  const caption = document.createElement('figcaption');
+
+  figure.className = 'random-asset random-character random-photo random-hairless-cat';
+  cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
+  cat.alt = '';
+  cat.loading = 'lazy';
+  cat.referrerPolicy = 'no-referrer';
+  caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
+
+  figure.append(cat, caption);
+  randomAssetPlane.append(figure);
+  hairlessCatCreated = true;
+
+  const footer = document.querySelector('footer');
+  if (footer && !footer.querySelector('[data-sphynx-credit]')) {
+    const credit = document.createElement('p');
+    credit.dataset.sphynxCredit = 'true';
+    credit.innerHTML = '<small>Foto do Sphynx: M.M.Minderhoud / Wikipedia (CC BY-SA 3.0).</small>';
+    footer.append(credit);
+  }
 }
 
 function createTurtles() {
@@ -140,6 +174,7 @@ function scatterAssets() {
 }
 
 function reorganizeCampus() {
+  createHairlessCat();
   createTurtles();
   scatterAssets();
 }
