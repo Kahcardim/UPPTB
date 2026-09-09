@@ -1,0 +1,2042 @@
+[
+  {
+    "id": "HOM-01",
+    "category": "Home",
+    "text": "Bem-vindo à UPPTB. Aqui até a ideia sem pé nem cabeça ganhou um casco.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-02",
+    "category": "Home",
+    "text": "Conhecimento em movimento. Às vezes em círculos.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-03",
+    "category": "Home",
+    "text": "Entre por curiosidade. Fique porque a tartaruga bloqueou a saída conceitual.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-04",
+    "category": "Home",
+    "text": "Um laboratório para ideias que não cabiam no grupo da família.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-05",
+    "category": "Home",
+    "text": "Seu próximo grande projeto pode começar com uma pergunta muito idiota.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-06",
+    "category": "Home",
+    "text": "A UPPTB abriu as portas. A lógica entrou pela janela.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-07",
+    "category": "Home",
+    "text": "A reitoria pede que não alimentem os botões depois da meia-noite.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-08",
+    "category": "Home",
+    "text": "Se o site piscar, foi uma tartaruga confirmando presença.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-09",
+    "category": "Home",
+    "text": "Você está a três cliques de uma decisão que o conselho não entende.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-10",
+    "category": "Home",
+    "text": "Welcome to the shell side.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-11",
+    "category": "Home",
+    "text": "O campus foi construído sobre três certezas e um miojo estrutural.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-12",
+    "category": "Home",
+    "text": "A recepção é um repolho com crachá e acesso de administrador.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-13",
+    "category": "Home",
+    "text": "O porteiro é um Beyblade aposentado que só aceita matrícula por rotação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-14",
+    "category": "Home",
+    "text": "A gravidade está em período de experiência nesta instituição.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "HOM-15",
+    "category": "Home",
+    "text": "Hoje a aula inaugural será ministrada por uma cadeira que cansou de apoiar decisões.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "TST-01",
+    "category": "Turtle Step",
+    "text": "Devagar também é uma direção.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-02",
+    "category": "Turtle Step",
+    "text": "Um passo pequeno ainda muda o lugar onde você está.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-03",
+    "category": "Turtle Step",
+    "text": "O casco pesa. O próximo passo continua possível.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-04",
+    "category": "Turtle Step",
+    "text": "Aprender é deixar o erro de ontem um pouco menos misterioso.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-05",
+    "category": "Turtle Step",
+    "text": "Hoje um conceito. Amanhã uma gambiarra melhor documentada.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-06",
+    "category": "Turtle Step",
+    "text": "Seu ritmo não precisa pedir desculpas.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "TST-07",
+    "category": "Turtle Step",
+    "text": "Turtle Step não mede velocidade. Mede estabilidade.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "TST-08",
+    "category": "Turtle Step",
+    "text": "Slow progress. Strong shell.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "TST-09",
+    "category": "Turtle Step",
+    "text": "A tartaruga chegou depois, mas trouxe o histórico de versões.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "TST-10",
+    "category": "Turtle Step",
+    "text": "Checkpoint salvo no departamento de pequenas vitórias.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "TST-11",
+    "category": "Turtle Step",
+    "text": "Minha meta é ultrapassar a lesma, mas ela abriu uma consultoria.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "TST-12",
+    "category": "Turtle Step",
+    "text": "Fiz um Turtle Step e o chão pediu revisão de escopo.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "TST-13",
+    "category": "Turtle Step",
+    "text": "O cronograma saiu correndo. A tartaruga abriu um chamado por abandono.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "TST-14",
+    "category": "Turtle Step",
+    "text": "Meu plano de carreira é uma escada rolante desligada dentro de um aquário.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "TST-15",
+    "category": "Turtle Step",
+    "text": "Hoje aprendi um conceito e precisei reiniciar o mamífero inteiro.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-01",
+    "category": "Robin",
+    "text": "Na UPPTB, toda revanche merece uma hipótese nova.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-02",
+    "category": "Robin",
+    "text": "O placar conta uma partida. O treino conta o resto.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-03",
+    "category": "Robin",
+    "text": "Robin voltou para a arena. A aula continua.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-04",
+    "category": "Robin",
+    "text": "Uma derrota pode render um bom estudo de caso.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-05",
+    "category": "Robin",
+    "text": "Aqui a revanche começa com uma pergunta melhor.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-06",
+    "category": "Robin",
+    "text": "Robin trouxe disposição. O resultado ainda está em análise.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-07",
+    "category": "Robin",
+    "text": "O placar pediu para conversar com Robin em particular.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-08",
+    "category": "Robin",
+    "text": "Robin não perdeu. Produziu dados para a próxima aula.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-09",
+    "category": "Robin",
+    "text": "Achievement unlocked: pedir revanche antes de o pião parar.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-10",
+    "category": "Robin",
+    "text": "O histórico de partidas está sob proteção do departamento de autoestima.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-11",
+    "category": "Robin",
+    "text": "Robin foi disputar cara ou coroa e a moeda pediu transferência.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-12",
+    "category": "Robin",
+    "text": "O troféu viu Robin chegando e ativou o modo avião.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-13",
+    "category": "Robin",
+    "text": "Robin perdeu no tutorial de abrir a caixa.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-14",
+    "category": "Robin",
+    "text": "O replay entrou com pedido de férias por repetição de trauma esportivo.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROB-15",
+    "category": "Robin",
+    "text": "Robin trouxe um plano infalível. A arena trouxe os termos e condições.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-01",
+    "category": "Multi",
+    "text": "Multi tem um plano. A versão será informada em breve.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-02",
+    "category": "Multi",
+    "text": "A reitoria aceita ideias. Até as que chegam girando.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-03",
+    "category": "Multi",
+    "text": "Toda boa pergunta merece espaço no campus.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-04",
+    "category": "Multi",
+    "text": "Multi convocou o conselho de possibilidades improváveis.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-05",
+    "category": "Multi",
+    "text": "Uma ideia entrou na reunião e saiu com um departamento.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-06",
+    "category": "Multi",
+    "text": "A pauta de hoje é descobrir o que a pauta de ontem quis dizer.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-07",
+    "category": "Multi",
+    "text": "Multi assinou o documento em três dimensões e um guardanapo.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-08",
+    "category": "Multi",
+    "text": "Reitoria em modo multitarefa. Resultado em modo surpresa.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-09",
+    "category": "Multi",
+    "text": "This meeting could have been a Beyblade battle.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-10",
+    "category": "Multi",
+    "text": "A cadeira da reitoria exige autenticação por giro.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-11",
+    "category": "Multi",
+    "text": "Multi privatizou a quarta-feira e nacionalizou o intervalo.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-12",
+    "category": "Multi",
+    "text": "A caneta de Multi tem vice-reitor, assessor e plano odontológico.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-13",
+    "category": "Multi",
+    "text": "Multi abriu uma filial da reitoria dentro da própria gaveta.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-14",
+    "category": "Multi",
+    "text": "O carimbo de Multi foi promovido e agora carimba o próprio salário.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "MUL-15",
+    "category": "Multi",
+    "text": "A reunião acabou quando Multi concedeu autonomia universitária ao ventilador.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-01",
+    "category": "Army Turtle",
+    "text": "Ninguém precisa carregar o casco sozinho.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-02",
+    "category": "Army Turtle",
+    "text": "Army Turtle em formação. Cada um no seu ritmo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-03",
+    "category": "Army Turtle",
+    "text": "Missão de hoje: aprender algo e compartilhar o caminho.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-04",
+    "category": "Army Turtle",
+    "text": "Nossa estratégia começa por não deixar ninguém para trás.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-05",
+    "category": "Army Turtle",
+    "text": "Reunir, estudar, testar, repetir.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-06",
+    "category": "Army Turtle",
+    "text": "Uma equipe forte também sabe pedir ajuda.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-07",
+    "category": "Army Turtle",
+    "text": "Pelotão autorizado a avançar três centímetros conceituais.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-08",
+    "category": "Army Turtle",
+    "text": "A unidade de reconhecimento encontrou um bug e fez amizade.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-09",
+    "category": "Army Turtle",
+    "text": "Shell formation complete.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-10",
+    "category": "Army Turtle",
+    "text": "Operação Alface: objetivos verdes, resultados documentados.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-11",
+    "category": "Army Turtle",
+    "text": "O general é uma tartaruga de chinelo com doutorado em fila.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-12",
+    "category": "Army Turtle",
+    "text": "O batalhão chegou atrasado porque o mapa tinha uma folha de alface desenhada.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-13",
+    "category": "Army Turtle",
+    "text": "Nosso tanque é um aquário com rodinhas e autoestima.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-14",
+    "category": "Army Turtle",
+    "text": "A marcha oficial foi interrompida por um pedágio de capivaras.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ARM-15",
+    "category": "Army Turtle",
+    "text": "A missão secreta vazou porque o rádio só transmitia barulho de mastigação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-01",
+    "category": "QA",
+    "text": "Confiança é boa. Evidência é reproduzível.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-02",
+    "category": "QA",
+    "text": "O teste passou. A curiosidade continua.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-03",
+    "category": "QA",
+    "text": "Encontrar um erro também é fazer o projeto avançar.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-04",
+    "category": "QA",
+    "text": "O caminho feliz trouxe companhia: os casos de borda.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-05",
+    "category": "QA",
+    "text": "Qualidade começa quando a pergunta fica específica.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-06",
+    "category": "QA",
+    "text": "Requisito lembrado, comportamento conferido.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-07",
+    "category": "QA",
+    "text": "A tartaruga clicou duas vezes. O sistema contou uma história diferente.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-08",
+    "category": "QA",
+    "text": "Bug encontrado no habitat natural: sexta-feira.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-09",
+    "category": "QA",
+    "text": "Works on my shell is not a test plan.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-10",
+    "category": "QA",
+    "text": "Não toque no fóssil sem um teste de regressão.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-11",
+    "category": "QA",
+    "text": "O bug reproduziu, fez graduação e agora revisa meu código.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-12",
+    "category": "QA",
+    "text": "QA entrou na sala e a exceção fingiu ser requisito.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-13",
+    "category": "QA",
+    "text": "Testei o limite da paciência. Retornou 429 com um suspiro.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-14",
+    "category": "QA",
+    "text": "O caso de borda caiu da borda e abriu outro caso.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "QAT-15",
+    "category": "QA",
+    "text": "O botão funcionou tão errado que desbloqueou a pós-graduação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-01",
+    "category": "DEV",
+    "text": "Código legível também ajuda quem você será amanhã.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-02",
+    "category": "DEV",
+    "text": "Uma função de cada vez. O universo pode esperar.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-03",
+    "category": "DEV",
+    "text": "Construindo o próximo passo com espaço para aprender.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-04",
+    "category": "DEV",
+    "text": "A solução ficou menor. O entendimento ficou maior.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-05",
+    "category": "DEV",
+    "text": "Antes do grande sistema, um comportamento que funciona.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-06",
+    "category": "DEV",
+    "text": "Documentar é deixar uma lanterna para a próxima visita.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-07",
+    "category": "DEV",
+    "text": "O ponto e vírgula foi visto saindo pela porta dos fundos.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-08",
+    "category": "DEV",
+    "text": "Há uma tartaruga fazendo code review deste comentário.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-09",
+    "category": "DEV",
+    "text": "Keep calm and return JSON.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-10",
+    "category": "DEV",
+    "text": "O backend chegou cedo para escolher a melhor cadeira.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-11",
+    "category": "DEV",
+    "text": "Minha variável tem nome provisório há três gerações.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-12",
+    "category": "DEV",
+    "text": "O JavaScript somou uma string com minha estabilidade emocional.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-13",
+    "category": "DEV",
+    "text": "Instalei uma dependência e ganhei a árvore genealógica inteira.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-14",
+    "category": "DEV",
+    "text": "O callback chamou outro callback e agora temos um congresso.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "DEV-15",
+    "category": "DEV",
+    "text": "A função é pura. O desenvolvedor está em estado gasoso.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-01",
+    "category": "Universidade e lore",
+    "text": "Universidade imaginária. Curiosidade de verdade.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-02",
+    "category": "Universidade e lore",
+    "text": "O campus existe onde alguém decide aprender.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-03",
+    "category": "Universidade e lore",
+    "text": "Aqui a pergunta estranha pode virar projeto.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-04",
+    "category": "Universidade e lore",
+    "text": "Nosso acervo cresce a cada tentativa documentada.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-05",
+    "category": "Universidade e lore",
+    "text": "A tradição da casa é experimentar com cuidado.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-06",
+    "category": "Universidade e lore",
+    "text": "Conhecimento, casco e uma quantidade discutível de piões.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-07",
+    "category": "Universidade e lore",
+    "text": "Biblioteca fechada para catalogação de pensamentos que fugiram.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-08",
+    "category": "Universidade e lore",
+    "text": "O diploma honorário vem com um pequeno ruído de rotação.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-09",
+    "category": "Universidade e lore",
+    "text": "A matéria optativa escolheu você.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-10",
+    "category": "Universidade e lore",
+    "text": "Major in Turtle Studies. Minor in Unexpected Events.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-11",
+    "category": "Universidade e lore",
+    "text": "O professor faltou porque foi citado como fonte e ficou preso na bibliografia.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-12",
+    "category": "Universidade e lore",
+    "text": "A secretaria exige comprovante de existência em três vias metafísicas.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-13",
+    "category": "Universidade e lore",
+    "text": "O bandejão serve sopa de tese com croutons de referência cruzada.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-14",
+    "category": "Universidade e lore",
+    "text": "O prédio de humanas discutiu com o de exatas e nasceu um estacionamento interdisciplinar.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "UNI-15",
+    "category": "Universidade e lore",
+    "text": "Minha matrícula foi aceita por uma impressora que acredita em reencarnação acadêmica.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-01",
+    "category": "Erros e 404",
+    "text": "Página não encontrada. A tartaruga também conferiu o mapa.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-02",
+    "category": "Erros e 404",
+    "text": "Este caminho terminou. Você pode voltar para a Home.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-03",
+    "category": "Erros e 404",
+    "text": "Não encontramos esse conteúdo. Vamos tentar outro caminho?",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-04",
+    "category": "Erros e 404",
+    "text": "Algo falhou por aqui. Tente novamente em instantes.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-05",
+    "category": "Erros e 404",
+    "text": "A página mudou de endereço ou ainda não existe.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-06",
+    "category": "Erros e 404",
+    "text": "Não foi possível concluir a solicitação. Você pode tentar de novo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-07",
+    "category": "Erros e 404",
+    "text": "404: esta sala foi transferida para o semestre que vem.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-08",
+    "category": "Erros e 404",
+    "text": "O mapa reconhece sua coragem, mas não este endereço.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-09",
+    "category": "Erros e 404",
+    "text": "Page not found. Shell still intact.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-10",
+    "category": "Erros e 404",
+    "text": "Multi autorizou a sala. Esqueceu de autorizar a existência.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-11",
+    "category": "Erros e 404",
+    "text": "Erro 404: o corredor comeu a porta e está negando em depoimento.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-12",
+    "category": "Erros e 404",
+    "text": "A página foi fazer intercâmbio numa torradeira e perdeu o passaporte.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-13",
+    "category": "Erros e 404",
+    "text": "O servidor tropeçou numa abstração e caiu dentro da própria documentação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-14",
+    "category": "Erros e 404",
+    "text": "A realidade retornou undefined e saiu para comprar pão.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ERR-15",
+    "category": "Erros e 404",
+    "text": "O endpoint virou um ponto final. A gramática assumiu o incidente.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-01",
+    "category": "Loading",
+    "text": "Carregando o próximo passo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-02",
+    "category": "Loading",
+    "text": "Buscando o conteúdo. Um instante.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-03",
+    "category": "Loading",
+    "text": "Preparando a próxima parada do campus.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-04",
+    "category": "Loading",
+    "text": "Organizando as ideias por aqui.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-05",
+    "category": "Loading",
+    "text": "Carregando. O casco já está a caminho.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-06",
+    "category": "Loading",
+    "text": "Só um momento enquanto reunimos o conteúdo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-07",
+    "category": "Loading",
+    "text": "Consultando uma tartaruga com boa memória.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-08",
+    "category": "Loading",
+    "text": "Alinhando os piões com as leis locais da física.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-09",
+    "category": "Loading",
+    "text": "Loading tiny academic chaos.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-10",
+    "category": "Loading",
+    "text": "Pedindo à biblioteca que devolva a biblioteca.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-11",
+    "category": "Loading",
+    "text": "Ensinando o servidor a respirar sem abrir uma reunião.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-12",
+    "category": "Loading",
+    "text": "Aguardando o elevador terminar o mestrado.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-13",
+    "category": "Loading",
+    "text": "Convertendo ansiedade em um formato que o navegador aceite.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-14",
+    "category": "Loading",
+    "text": "Contando grãos de areia para descobrir qual deles é o administrador.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "LOD-15",
+    "category": "Loading",
+    "text": "O loading está carregando outro loading. É um programa de mentoria.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-01",
+    "category": "Easter eggs",
+    "text": "Você encontrou um detalhe escondido. Boa exploração.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-02",
+    "category": "Easter eggs",
+    "text": "Curiosidade recompensada com uma pequena bobagem.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-03",
+    "category": "Easter eggs",
+    "text": "Este canto do campus estava esperando uma visita.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-04",
+    "category": "Easter eggs",
+    "text": "Nem toda descoberta precisa valer pontos.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-05",
+    "category": "Easter eggs",
+    "text": "A tartaruga viu você olhando com atenção.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-06",
+    "category": "Easter eggs",
+    "text": "Uma surpresa pequena para quem saiu da trilha.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-07",
+    "category": "Easter eggs",
+    "text": "Você inspecionou o casco. O casco está inspecionando você.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-08",
+    "category": "Easter eggs",
+    "text": "Aqui jaz um h2. Ninguém sabe por que ele resistiu tanto.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-09",
+    "category": "Easter eggs",
+    "text": "Secret shell society: visitor detected.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-10",
+    "category": "Easter eggs",
+    "text": "O fundador deixou uma marca. O QA deixou um comentário ao lado.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-11",
+    "category": "Easter eggs",
+    "text": "Parabéns. Você desbloqueou uma geladeira que dá aula de epistemologia.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-12",
+    "category": "Easter eggs",
+    "text": "A senha secreta é uma alface pronunciada em itálico.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-13",
+    "category": "Easter eggs",
+    "text": "O conselho dos rodapés se reúne aqui para julgar os cabeçalhos.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-14",
+    "category": "Easter eggs",
+    "text": "Você achou o botão que ensina o mouse a duvidar de si mesmo.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "EGG-15",
+    "category": "Easter eggs",
+    "text": "Este comentário foi enterrado por uma civilização de divs sencientes.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-01",
+    "category": "Rodapé",
+    "text": "Feito com curiosidade e revisões.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-02",
+    "category": "Rodapé",
+    "text": "Mais um passo registrado.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-03",
+    "category": "Rodapé",
+    "text": "O campus termina aqui. As ideias continuam.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-04",
+    "category": "Rodapé",
+    "text": "UPPTB. Um projeto em aprendizado constante.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-05",
+    "category": "Rodapé",
+    "text": "Obrigado por visitar este pequeno universo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-06",
+    "category": "Rodapé",
+    "text": "Até a próxima volta.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-07",
+    "category": "Rodapé",
+    "text": "Você chegou ao rodapé. A tartaruga respeita a dedicação.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-08",
+    "category": "Rodapé",
+    "text": "Abaixo desta linha, apenas raízes de dependências.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-09",
+    "category": "Rodapé",
+    "text": "End of page. Not end of lore.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-10",
+    "category": "Rodapé",
+    "text": "O rodapé sustenta opiniões que não foram consultadas.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-11",
+    "category": "Rodapé",
+    "text": "Este rodapé foi aprovado por seis tijolos e um orientador invisível.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-12",
+    "category": "Rodapé",
+    "text": "A margem inferior está cursando direito para processar o scroll infinito.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-13",
+    "category": "Rodapé",
+    "text": "Se você cavar mais, encontra a versão beta do planeta.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-14",
+    "category": "Rodapé",
+    "text": "Nenhuma cadeira foi promovida durante a fabricação deste rodapé. Ainda.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "ROD-15",
+    "category": "Rodapé",
+    "text": "O fundo do site é alugado de uma tartaruga que só recebe em vírgulas.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "COM-01",
+    "category": "Commits",
+    "text": "chore: preparar a base do campus",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-02",
+    "category": "Commits",
+    "text": "docs: registrar o próximo Turtle Step",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-03",
+    "category": "Commits",
+    "text": "test: conferir o caminho antes da próxima volta",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-04",
+    "category": "Commits",
+    "text": "fix: corrigir a rota que saiu da trilha",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-05",
+    "category": "Commits",
+    "text": "refactor: abrir espaço para a próxima ideia",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-06",
+    "category": "Commits",
+    "text": "feat: entregar mais um pequeno passo",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "COM-07",
+    "category": "Commits",
+    "text": "docs: deixar uma lanterna para o eu do futuro",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "COM-08",
+    "category": "Commits",
+    "text": "test: impedir que o mesmo fantasma volte sem crachá",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "COM-09",
+    "category": "Commits",
+    "text": "chore: shell we begin",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "COM-10",
+    "category": "Commits",
+    "text": "fix: devolver ao botão sua única responsabilidade",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "COM-11",
+    "category": "Commits",
+    "text": "fix: exorcizar a vírgula que assumiu a reitoria",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "COM-12",
+    "category": "Commits",
+    "text": "chore: retirar o micro-ondas do comitê de arquitetura",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "COM-13",
+    "category": "Commits",
+    "text": "refactor: desembaraçar o macarrão sem convocar a Itália",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "COM-14",
+    "category": "Commits",
+    "text": "test: provar que a capivara não é uma variável global",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "COM-15",
+    "category": "Commits",
+    "text": "docs: registrar o acordo de paz entre duas chaves",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "INT-01",
+    "category": "Mensagens internas",
+    "text": "Decisão registrada. Seguimos para o próximo passo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-02",
+    "category": "Mensagens internas",
+    "text": "Precisamos confirmar este ponto antes de implementar.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-03",
+    "category": "Mensagens internas",
+    "text": "Revisão concluída. Os ajustes estão descritos abaixo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-04",
+    "category": "Mensagens internas",
+    "text": "Ideia recebida. Ainda não entrou no escopo.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-05",
+    "category": "Mensagens internas",
+    "text": "Encontramos uma diferença entre o combinado e o resultado.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-06",
+    "category": "Mensagens internas",
+    "text": "Pausa registrada. Retomamos com o contexto preservado.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "INT-07",
+    "category": "Mensagens internas",
+    "text": "O conselho do casco pede um exemplo reproduzível.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "INT-08",
+    "category": "Mensagens internas",
+    "text": "Essa ideia recebeu o selo provisório de maluquice promissora.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "INT-09",
+    "category": "Mensagens internas",
+    "text": "Plot twist: era um requisito não documentado.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "INT-10",
+    "category": "Mensagens internas",
+    "text": "A reitoria agradece e solicita menos telepatia entre as frentes.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "INT-11",
+    "category": "Mensagens internas",
+    "text": "A pauta adquiriu consciência e convocou outra pauta.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "INT-12",
+    "category": "Mensagens internas",
+    "text": "O prazo está latindo para a planilha. Ninguém faça contato visual.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "INT-13",
+    "category": "Mensagens internas",
+    "text": "A ata foi redigida por um pião e só pode ser lida em rotação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "INT-14",
+    "category": "Mensagens internas",
+    "text": "Meu cérebro abriu dez abas e todas estão tocando o hino do campus.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "INT-15",
+    "category": "Mensagens internas",
+    "text": "Suspender a reunião: o projetor acaba de se candidatar a reitor.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-01",
+    "category": "Frases de impacto",
+    "text": "O próximo passo não precisa impressionar. Precisa existir.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-02",
+    "category": "Frases de impacto",
+    "text": "A curiosidade merece uma estrutura onde possa crescer.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-03",
+    "category": "Frases de impacto",
+    "text": "Devagar o bastante para entender. Constante o bastante para avançar.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-04",
+    "category": "Frases de impacto",
+    "text": "Transforme a tentativa em algo que você possa revisitar.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-05",
+    "category": "Frases de impacto",
+    "text": "Seu aprendizado também pode deixar uma trilha.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-06",
+    "category": "Frases de impacto",
+    "text": "Uma ideia absurda pode ser o começo de uma pergunta séria.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-07",
+    "category": "Frases de impacto",
+    "text": "O casco guarda a história. O passo escreve a próxima linha.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-08",
+    "category": "Frases de impacto",
+    "text": "Small steps. Unexpected worlds.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-09",
+    "category": "Frases de impacto",
+    "text": "A rotação chama atenção. A constância constrói o caminho.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-10",
+    "category": "Frases de impacto",
+    "text": "O universo não estava pronto. Criamos uma pasta docs.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-11",
+    "category": "Frases de impacto",
+    "text": "Se a vida fechar uma porta, investigue por que ela virou um crustáceo.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-12",
+    "category": "Frases de impacto",
+    "text": "Sonhe alto, mas confira se o teto não está em manutenção acadêmica.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-13",
+    "category": "Frases de impacto",
+    "text": "Você é maior que seus medos e menor que o node_modules.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-14",
+    "category": "Frases de impacto",
+    "text": "Acredite no impossível. O possível está aguardando aprovação de orçamento.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "IMP-15",
+    "category": "Frases de impacto",
+    "text": "Seja a tartaruga que sua planilha teme encontrar numa segunda-feira.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-01",
+    "category": "Beyblade",
+    "text": "Cada giro deixa uma pergunta para a próxima rodada.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-02",
+    "category": "Beyblade",
+    "text": "Teste a hipótese. Observe a arena. Ajuste o próximo lançamento.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-03",
+    "category": "Beyblade",
+    "text": "A batalha termina. A análise começa.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-04",
+    "category": "Beyblade",
+    "text": "Um bom lançamento também aprende com o anterior.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-05",
+    "category": "Beyblade",
+    "text": "Experimentos de arena, curiosidade em rotação.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-06",
+    "category": "Beyblade",
+    "text": "Treinar é dar à próxima tentativa uma chance diferente.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-07",
+    "category": "Beyblade",
+    "text": "Let’s rip. Depois a gente documenta.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-08",
+    "category": "Beyblade",
+    "text": "A arena não aceita argumento de autoridade.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-09",
+    "category": "Beyblade",
+    "text": "O pião está girando mais que a discussão sobre a stack.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-10",
+    "category": "Beyblade",
+    "text": "A física entrou no chat e pediu os dados do experimento.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-11",
+    "category": "Beyblade",
+    "text": "Meu Beyblade abriu uma startup e agora pivota por assinatura.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-12",
+    "category": "Beyblade",
+    "text": "A arena virou uma centrífuga de decisões questionáveis.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-13",
+    "category": "Beyblade",
+    "text": "Lancei com tanta convicção que a hipótese saiu antes do pião.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-14",
+    "category": "Beyblade",
+    "text": "O pião parou, mas o departamento de desculpas continua em alta rotação.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "BEY-15",
+    "category": "Beyblade",
+    "text": "O juiz é um ventilador e foi afastado por conflito de interesses.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-01",
+    "category": "New Tamar World",
+    "text": "Um novo mundo começa com uma trilha ainda sem nome.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-02",
+    "category": "New Tamar World",
+    "text": "Explore as histórias que estamos começando a construir.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-03",
+    "category": "New Tamar World",
+    "text": "Cada descoberta pode abrir uma parte do mapa.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-04",
+    "category": "New Tamar World",
+    "text": "New Tamar World está ganhando forma, um detalhe por vez.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-05",
+    "category": "New Tamar World",
+    "text": "Há espaço neste mundo para perguntas que ainda não chegaram.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-06",
+    "category": "New Tamar World",
+    "text": "O mapa cresce junto com a história.",
+    "language": "pt-BR",
+    "classification": "public",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-07",
+    "category": "New Tamar World",
+    "text": "Fronteira provisória. Tartarugas podem estar redesenhando o horizonte.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-08",
+    "category": "New Tamar World",
+    "text": "New world. Same curious turtle.",
+    "language": "en",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-09",
+    "category": "New Tamar World",
+    "text": "O cartógrafo deixou uma ilha em rascunho.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-10",
+    "category": "New Tamar World",
+    "text": "Você atravessou uma hipótese geográfica.",
+    "language": "pt-BR",
+    "classification": "easter_egg",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-11",
+    "category": "New Tamar World",
+    "text": "O oceano pediu um período sabático e deixou um copo d’água no lugar.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-12",
+    "category": "New Tamar World",
+    "text": "A montanha mudou de curso e agora estuda comunicação visual.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-13",
+    "category": "New Tamar World",
+    "text": "O sol é terceirizado e esqueceu a senha do amanhecer.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-14",
+    "category": "New Tamar World",
+    "text": "A capital fica na terceira gaveta de uma tartaruga extradimensional.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  },
+  {
+    "id": "NTW-15",
+    "category": "New Tamar World",
+    "text": "O planeta gira porque ninguém encontrou o botão de cancelar reunião.",
+    "language": "pt-BR",
+    "classification": "internal_chaos",
+    "status": "draft"
+  }
+]
