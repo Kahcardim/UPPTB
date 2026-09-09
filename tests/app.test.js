@@ -24,6 +24,40 @@ test('health expõe o contrato JSON sem cabeçalho do framework', async () => {
   });
 });
 
+test('Home V1 é servida com identidade e fóssil fundador preservados', async () => {
+  await withServer(async base => {
+    const response = await fetch(`${base}/`);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), /text\/html/);
+    const html = await response.text();
+    assert.match(html, /Universidade Pública Peculiar Turtle and Beys/);
+    assert.match(html, /Identidade HIGH · Severidade ULTRA TURTLE/);
+    assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
+    assert.match(html, /Turtle Drill/);
+    assert.match(html, /Negation and Negation/);
+    assert.match(html, /Forbidden Turtle Archive/);
+  });
+});
+
+test('assets principais da Home estão acessíveis', async () => {
+  await withServer(async base => {
+    for (const path of ['/styles.css', '/app.js', '/assets/upptb-logo.svg', '/assets/turtle-mark.svg', '/assets/bey-mark.svg']) {
+      const response = await fetch(`${base}${path}`);
+      assert.equal(response.status, 200, `asset indisponível: ${path}`);
+    }
+  });
+});
+
+test('documento do Arquivo Proibido Turtle é servido pelo backend', async () => {
+  await withServer(async base => {
+    const response = await fetch(`${base}/docs/UPPTB-Arquivo-Proibido-Turtle.md`);
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.match(text, /Identidade:\*\* HIGH/);
+    assert.match(text, /ULTRA TURTLE/);
+  });
+});
+
 test('rotas e métodos sem contrato retornam 404 JSON', async () => {
   await withServer(async base => {
     for (const [path, method] of [['/nao-existe', 'GET'], ['/api/v1/health', 'POST'], ['/api/v1/phrases', 'GET']]) {
