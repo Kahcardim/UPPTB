@@ -20,12 +20,38 @@
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
     <nav id="main-nav" aria-label="Navegação principal">
-      <a href="#quem">Quem é</a>
-      <a href="#origem">Como surgiu</a>
-      <a href="#caos">Caos</a>
-      <a href="#javascript">Beyblade Lab</a>
-      <a href="#english">Graduação Peculiar</a>
-      <a href="#arquivo">Downloads</a>
+      <details class="nav-group">
+        <summary>Página principal</summary>
+        <div class="nav-panel">
+          <a href="#topo">Início</a>
+          <a href="#quem">Quem é</a>
+          <a href="#origem">Como surgiu</a>
+          <a href="#caos">Caos</a>
+          <a href="#english">Graduação Peculiar</a>
+          <a href="#arquivo">Downloads</a>
+          <a href="#status">Status</a>
+        </div>
+      </details>
+
+      <details class="nav-group">
+        <summary>Laboratório Beyblade</summary>
+        <div class="nav-panel">
+          <a href="#laboratorio-beyblade">Visão geral</a>
+          <a href="#javascript">JavaScript com Beyblade</a>
+          <a href="#tgb">TGB</a>
+          <a href="#beyblade-memorias">Robin, Multi e lógica</a>
+        </div>
+      </details>
+
+      <details class="nav-group">
+        <summary>Memórias</summary>
+        <div class="nav-panel">
+          <a href="#memorias">Arquivo de memórias</a>
+          <a href="#fossil-title">Fóssil fundador</a>
+          <a href="#memorias-frases">Frases preservadas</a>
+          <a href="#origem">Origem da UPPTB</a>
+        </div>
+      </details>
     </nav>
   </header>
 
@@ -41,7 +67,9 @@
       <figure class="random-asset random-character random-photo"><img src="assets/images-1-.jpg" alt="" /><figcaption>ARQUIVO LEGADO</figcaption></figure>
       <figure class="random-asset random-character random-photo tiny-evidence"><img src="assets/images.jpg" alt="" /><figcaption>A MESMA FOTO MENOR</figcaption></figure>
     </div>
+
     <p class="do-not-feed" aria-hidden="true">FAVOR NÃO ALIMENTAR AS TARTARUGAS. ELAS JÁ ESTÃO BEM ALIMENTADAS.</p>
+
     <section class="hero" id="topo" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">Identidade HIGH · Severidade ULTRA TURTLE</p>
@@ -53,7 +81,7 @@
         </div>
       </div>
       <div class="hero-mark" aria-label="Identidade visual completa da UPPTB">
-        <img src="assets/upptb-logo.svg" alt="Logo completa da UPPTB com tartaruga acadêmica, símbolo de bey e assinatura Universidade Pública Peculiar Turtle and Beys" />
+        <img src="assets/upptb-collage.webp" alt="Logo manifesto da UPPTB com tartaruga, Beyblade, código e caos visual" />
       </div>
     </section>
 
@@ -111,6 +139,34 @@
       </div>
     </section>
 
+    <section id="laboratorio-beyblade" class="chaos-cluster lab" aria-labelledby="lab-bey-title">
+      <p class="eyebrow">Novo conjunto · conteúdo provisório</p>
+      <h2 id="lab-bey-title">Laboratório Beyblade</h2>
+      <p class="lead small">Aqui entram os estudos que fazem sentido porque o exemplo continua no mesmo universo. O conteúdo abaixo é só massa de teste até você substituir pelo seu próprio.</p>
+      <div class="memory-grid" id="tgb">
+        <article>
+          <span class="memory-tag">TGB</span>
+          <h3>Turtle Step + GPT + Beyblade</h3>
+          <p>Aprender o conceito, jogar dentro de um contexto conhecido, quebrar o exemplo e só depois subir o próximo degrau.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Lógica</span>
+          <h3>Robin como caso de teste eterno</h3>
+          <p>Se <code>robinWins &gt; 0</code>, evento histórico. Caso contrário, regressão comportando-se exatamente como esperado.</p>
+        </article>
+        <article id="beyblade-memorias">
+          <span class="memory-tag">Variáveis</span>
+          <h3>Persona X versus Z</h3>
+          <p><code>const team = "Persona"</code>, <code>let blader = "Robin"</code>. O time fica. O blader pode mudar. A lógica finalmente para de parecer aula genérica.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Multi</span>
+          <h3>Multi reborn</h3>
+          <p>Multi virou símbolo de adaptação, customização e daquele momento em que um conceito técnico deixa de ser abstrato e ganha personagem.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="javascript" class="lab" aria-labelledby="js-title">
       <div class="section-head">
         <div><p class="eyebrow">Beyblade Lab · JavaScript</p><h2 id="js-title">Como a UPPTB ensina fundamentos</h2></div>
@@ -158,6 +214,44 @@ console.log(team + " entra com " + currentBlader);</code></pre></article>
       </div>
     </section>
 
+    <section id="memorias" class="chaos-cluster memories" aria-labelledby="memorias-title">
+      <p class="eyebrow">Novo conjunto · arquivo provisório</p>
+      <h2 id="memorias-title">Memórias</h2>
+      <p class="lead small">Recortes das conversas que acabaram virando parte da identidade da UPPTB. Depois você troca, expande ou apaga o que quiser.</p>
+      <div class="memory-grid" id="memorias-frases">
+        <article>
+          <span class="memory-tag">Origem</span>
+          <h3>Universidade de tartarugas pensantes e rodantes</h3>
+          <p>Uma frase absurda ganhou nome, depois metodologia, documentação, repositório, deploy e uma quantidade completamente evitável de governança.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Governança</span>
+          <h3>Todos os departamentos são o mesmo cara</h3>
+          <p>Reitoria, QA, PO, aluno, professor e comitê de crise podem compartilhar exatamente a mesma cadeira e ainda assim exigir evidência.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Alice</span>
+          <h3>F5 = mapa novo</h3>
+          <p>As imagens mudam de lugar a cada recarga. Não encontrar a mesma coisa duas vezes deixou de ser defeito e virou parte oficial da experiência.</p>
+        </article>
+        <article>
+          <span class="memory-tag">QA</span>
+          <h3>Evidência plausível não é evidência válida</h3>
+          <p>Uma das regras que ficou: parecer certo não basta. Requisito, contexto e evidência precisam bater antes de chamar qualquer coisa de aprovada.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Turtle Step</span>
+          <h3>O norte dá direção</h3>
+          <p>A constância cobre a distância. A velocidade pode variar, o importante é o próximo degrau continuar sustentando o seguinte.</p>
+        </article>
+        <article>
+          <span class="memory-tag">Caos institucional</span>
+          <h3>Favor não alimentar as tartarugas</h3>
+          <p>Elas já estão bem alimentadas. O aviso não ajuda em absolutamente nada, por isso permanece extremamente importante.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="arquivo" class="archive" aria-labelledby="archive-title">
       <div>
         <p class="eyebrow">Forbidden Turtle Archive</p>
@@ -172,7 +266,7 @@ console.log(team + " entra com " + currentBlader);</code></pre></article>
       </div>
     </section>
 
-    <section class="chaos-terminal" aria-labelledby="terminal-title">
+    <section class="chaos-terminal" id="status" aria-labelledby="terminal-title">
       <p class="eyebrow">Terminal institucional</p>
       <h2 id="terminal-title">Status operacional da universidade</h2>
       <pre aria-live="polite"><code id="terminal-output">$ upptb status
