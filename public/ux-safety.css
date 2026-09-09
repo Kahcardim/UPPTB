@@ -1,0 +1,59 @@
+/* UX safety layer: o caos continua visual, mas nunca pode bloquear conteúdo. */
+
+main > section {
+  z-index: 10;
+}
+
+.random-asset-plane {
+  z-index: 3;
+}
+
+/* Logos decorativas e tartarugas grandes continuam fixas na página,
+   mas ocupam menos área útil e funcionam como cenário, não como obstáculo. */
+.random-identity {
+  width: clamp(9rem, 18vw, 15rem) !important;
+  opacity: .52;
+}
+
+.random-turtle.large-turtle {
+  width: clamp(8rem, 15vw, 13rem) !important;
+  opacity: .58;
+}
+
+/* Os elementos aleatórios continuam visíveis atrás do conteúdo legível. */
+.random-asset {
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .random-identity {
+    width: clamp(4.8rem, 20vw, 6.5rem) !important;
+    max-width: 6.5rem !important;
+    opacity: .38;
+  }
+
+  .random-turtle.large-turtle {
+    width: clamp(4.2rem, 18vw, 5.8rem) !important;
+    max-width: 5.8rem !important;
+    opacity: .46;
+  }
+
+  .random-identity img,
+  .random-turtle.large-turtle img {
+    max-height: 7rem !important;
+  }
+
+  /* Mesmo em telas estreitas, texto e controles ficam sempre acima do efeito Alice. */
+  .hero,
+  .fossil,
+  .split,
+  .origin,
+  .chaos-cluster,
+  .english,
+  .lab,
+  .archive,
+  .chaos-terminal {
+    position: relative;
+    z-index: 10;
+  }
+}
