@@ -1,18 +1,26 @@
 const hero = document.querySelector('.hero');
 const heroCopy = document.querySelector('.hero-copy');
 const heroMark = document.querySelector('.hero-mark');
+const heroTitle = document.querySelector('#hero-title');
 
 if (hero && heroCopy) {
   hero.style.gridTemplateColumns = '1fr';
   hero.style.justifyItems = 'center';
-  heroCopy.style.width = '100%';
-  heroCopy.style.maxWidth = '1000px';
+  heroCopy.style.width = 'min(100%, 760px)';
+  heroCopy.style.maxWidth = '760px';
   heroCopy.style.marginInline = 'auto';
+  heroCopy.style.paddingInline = '1rem';
   heroCopy.style.textAlign = 'center';
 
+  if (heroTitle) {
+    heroTitle.style.fontSize = 'clamp(2.7rem, 5vw, 4.8rem)';
+    heroTitle.style.maxWidth = '760px';
+    heroTitle.style.marginInline = 'auto';
+  }
+
   if (heroMark) {
-    heroMark.style.width = 'min(520px, 100%)';
-    heroMark.style.margin = '2.5rem auto 0';
+    heroMark.style.width = 'min(460px, 100%)';
+    heroMark.style.margin = '2.25rem auto 0';
   }
 }
 
