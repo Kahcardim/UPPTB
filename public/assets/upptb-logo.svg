@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-labelledby="title desc">
+  <title id="title">UPPTB</title>
+  <desc id="desc">Marca da Universidade Pública Peculiar Turtle and Beys com tartaruga acadêmica e beyblade minimalista.</desc>
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35ff66"/>
+      <stop offset="1" stop-color="#00a82a"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="320" rx="40" fill="#07120a"/>
+  <g transform="translate(32 34)">
+    <ellipse cx="130" cy="140" rx="95" ry="78" fill="url(#shell)" stroke="#d9ffe0" stroke-width="8"/>
+    <path d="M70 98h120M66 142h128M82 184h96M130 64v152M94 76l72 128M166 76L94 204" fill="none" stroke="#082a12" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+    <circle cx="229" cy="138" r="34" fill="#35ff66" stroke="#d9ffe0" stroke-width="7"/>
+    <circle cx="239" cy="130" r="5" fill="#07120a"/>
+    <path d="M220 150q18 12 34 0" fill="none" stroke="#07120a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M204 104l28-39 50 22-42 28z" fill="#d9ffe0" stroke="#07120a" stroke-width="6"/>
+    <path d="M244 86v31" stroke="#07120a" stroke-width="5"/>
+    <circle cx="244" cy="121" r="6" fill="#35ff66"/>
+    <path d="M49 136L10 119M58 194l-36 28M198 198l33 30" stroke="#35ff66" stroke-width="18" stroke-linecap="round"/>
+    <g transform="translate(273 158)">
+      <circle cx="44" cy="44" r="38" fill="none" stroke="#35ff66" stroke-width="7"/>
+      <path d="M44 6l11 25 27-5-17 22 20 19-29-2-12 27-10-27-29 2 20-19L8 26l27 5z" fill="#d9ffe0"/>
+      <circle cx="44" cy="44" r="10" fill="#07120a"/>
+    </g>
+  </g>
+  <g transform="translate(375 64)" font-family="Arial, Helvetica, sans-serif">
+    <text x="0" y="92" font-size="104" font-weight="900" letter-spacing="4" fill="#f4fff6">UPPTB</text>
+    <text x="4" y="140" font-size="24" font-weight="800" letter-spacing="3" fill="#35ff66">UNIVERSIDADE PÚBLICA PECULIAR</text>
+    <text x="4" y="177" font-size="24" font-weight="800" letter-spacing="3" fill="#35ff66">TURTLE AND BEYS</text>
+    <text x="4" y="224" font-size="18" fill="#b7c9bb">Universidade informal. Laboratório real. Caos controlado.</text>
+  </g>
+</svg>
