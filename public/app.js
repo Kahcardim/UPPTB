@@ -1,3 +1,91 @@
+const uiPatch = document.createElement('style');
+uiPatch.textContent = `
+  .site-header nav { overflow: visible; }
+  .nav-group { position: relative; }
+  .nav-group > summary {
+    list-style: none;
+    cursor: pointer;
+    color: var(--muted);
+    padding: .55rem .8rem;
+    border-radius: 999px;
+    font-weight: 850;
+    font-size: .9rem;
+    user-select: none;
+  }
+  .nav-group > summary::-webkit-details-marker { display: none; }
+  .nav-group > summary::after { content: ' ▾'; color: var(--green); }
+  .nav-group[open] > summary,
+  .nav-group > summary:hover,
+  .nav-group > summary:focus-visible { color: var(--text); background: rgba(53,255,102,.1); }
+  .nav-group[open] > summary::after { content: ' ▴'; }
+  .nav-panel {
+    position: absolute;
+    top: calc(100% + .55rem);
+    right: 0;
+    z-index: 220;
+    min-width: 230px;
+    display: grid;
+    gap: .25rem;
+    padding: .6rem;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(7,18,10,.98);
+    box-shadow: var(--shadow);
+  }
+  .nav-panel a { display: block; white-space: nowrap; }
+
+  .chaos-cluster { border-top: 1px solid rgba(53,255,102,.14); }
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .memory-grid article {
+    min-height: 220px;
+    padding: 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, rgba(16,39,24,.95), rgba(7,18,10,.94));
+    box-shadow: var(--shadow);
+    transform: rotate(var(--card-tilt, 0deg));
+  }
+  .memory-grid article:nth-child(3n+1) { --card-tilt: -.7deg; }
+  .memory-grid article:nth-child(3n+2) { --card-tilt: .8deg; }
+  .memory-grid article:nth-child(3n) { --card-tilt: -.25deg; }
+  .memory-grid article p { color: var(--muted); }
+  .memory-tag {
+    display: inline-block;
+    margin-bottom: .8rem;
+    padding: .28rem .55rem;
+    border: 1px solid var(--green);
+    border-radius: 999px;
+    color: var(--green);
+    font: 850 .72rem/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  @media (max-width: 900px) {
+    .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 700px) {
+    .nav-group { width: 100%; }
+    .nav-group > summary { padding: .8rem 1rem; }
+    .nav-panel {
+      position: static;
+      min-width: 0;
+      margin-top: .35rem;
+      box-shadow: none;
+      background: #07120a;
+    }
+    .nav-panel a { white-space: normal; }
+    .memory-grid { grid-template-columns: 1fr; }
+  }
+`;
+document.head.append(uiPatch);
+
 const hero = document.querySelector('.hero');
 const heroCopy = document.querySelector('.hero-copy');
 const heroMark = document.querySelector('.hero-mark');
@@ -27,14 +115,10 @@ if (hero && heroCopy) {
   }
 
   const heroLead = heroCopy.querySelector('.lead');
-  if (heroLead) {
-    heroLead.style.marginInline = '0';
-  }
+  if (heroLead) heroLead.style.marginInline = '0';
 
   const heroActions = heroCopy.querySelector('.hero-actions');
-  if (heroActions) {
-    heroActions.style.justifyContent = 'flex-start';
-  }
+  if (heroActions) heroActions.style.justifyContent = 'flex-start';
 
   if (heroMark) {
     heroMark.style.width = 'min(420px, 100%)';
@@ -53,6 +137,16 @@ if (hero && heroCopy) {
 
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
+const navGroups = [...document.querySelectorAll('.nav-group')];
+
+navGroups.forEach((group) => {
+  group.addEventListener('toggle', () => {
+    if (!group.open) return;
+    navGroups.forEach((other) => {
+      if (other !== group) other.open = false;
+    });
+  });
+});
 
 if (menuButton && nav) {
   menuButton.addEventListener('click', () => {
@@ -65,6 +159,7 @@ if (menuButton && nav) {
     if (event.target.matches('a')) {
       menuButton.setAttribute('aria-expanded', 'false');
       nav.dataset.open = 'false';
+      navGroups.forEach((group) => { group.open = false; });
     }
   });
 }
