@@ -6,21 +6,26 @@ const heroTitle = document.querySelector('#hero-title');
 if (hero && heroCopy) {
   hero.style.gridTemplateColumns = '1fr';
   hero.style.justifyItems = 'center';
-  heroCopy.style.width = 'min(100%, 760px)';
-  heroCopy.style.maxWidth = '760px';
+  hero.style.minHeight = 'auto';
+  hero.style.paddingTop = '4.5rem';
+  hero.style.paddingBottom = '4rem';
+
+  heroCopy.style.width = 'min(100%, 620px)';
+  heroCopy.style.maxWidth = '620px';
   heroCopy.style.marginInline = 'auto';
   heroCopy.style.paddingInline = '1rem';
   heroCopy.style.textAlign = 'center';
 
   if (heroTitle) {
-    heroTitle.style.fontSize = 'clamp(2.7rem, 5vw, 4.8rem)';
-    heroTitle.style.maxWidth = '760px';
+    heroTitle.style.fontSize = 'clamp(2rem, 3.4vw, 3.25rem)';
+    heroTitle.style.lineHeight = '1.08';
+    heroTitle.style.maxWidth = '620px';
     heroTitle.style.marginInline = 'auto';
   }
 
   if (heroMark) {
-    heroMark.style.width = 'min(460px, 100%)';
-    heroMark.style.margin = '2.25rem auto 0';
+    heroMark.style.width = 'min(360px, 90%)';
+    heroMark.style.margin = '2rem auto 0';
   }
 }
 
