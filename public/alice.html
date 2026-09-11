@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR" data-page="alice">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Alice na UPPTB: identidade, efeito Alice, composição dinâmica, caos administrado e regras de negócio da interface." />
+  <meta name="theme-color" content="#080008" />
+  <title>Alice | UPPTB</title>
+  <link rel="icon" href="assets/turtle-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="alice-page.css" />
+  <script src="app.js" defer></script>
+  <script src="alice.js" defer></script>
+  <script src="alice-page.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <a class="brand-mini" href="index.html" aria-label="Página principal da UPPTB"><img src="assets/turtle-mark.svg" alt="" width="36" height="36" /><span>UPPTB</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav id="main-nav" aria-label="Navegação principal">
+      <a class="site-page-link" href="index.html">Página principal</a>
+      <a class="site-page-link" href="laboratorio-beyblade.html">Laboratório Beyblade</a>
+      <a class="site-page-link" href="ingles.html">Desenvolvimento de Inglês</a>
+      <a class="site-page-link" href="memorias.html">Memórias</a>
+      <details class="nav-group" open>
+        <summary>Alice</summary>
+        <div class="nav-panel">
+          <a href="#alice-topo">Identidade</a>
+          <a href="#efeito">Efeito Alice</a>
+          <a href="#regras">Regras</a>
+          <a href="#wallpapers">Wallpapers</a>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main id="conteudo" class="alice-page-shell">
+    <section class="alice-hero" id="alice-topo" aria-labelledby="alice-title">
+      <div class="alice-hero-copy">
+        <p class="eyebrow">ADM MASTER · Universo UPPTB</p>
+        <h1 id="alice-title">Alice</h1>
+        <p class="lead">Alice não existe para organizar a UPPTB até ela ficar previsível. Ela existe para administrar o caos sem obrigar Kauan a controlar cada ocorrência.</p>
+        <p class="alice-state-quote" data-alice-quote>Você não precisa controlar tudo.</p>
+        <div class="hero-actions">
+          <a class="button" href="#efeito" data-alice-cta>Entender Alice</a>
+          <a class="button secondary" href="#wallpapers">Ver estados visuais</a>
+        </div>
+      </div>
+      <div class="alice-hero-visual">
+        <div class="alice-wallpaper-frame">
+          <img data-alice-wallpaper alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section id="efeito" class="chaos-cluster" aria-labelledby="efeito-title">
+      <div class="alice-section-head">
+        <p class="eyebrow">Efeito Alice</p>
+        <h2 id="efeito-title">A página explica Alice executando Alice.</h2>
+        <p class="lead small">Posição, frase, CTA, gato e composição podem mudar entre ocorrências. O conteúdo crítico continua legível e as regras continuam valendo.</p>
+      </div>
+
+      <div class="alice-card-grid">
+        <article class="alice-card"><span class="memory-tag">Definição</span><h3>Composição não determinística</h3><p>O Efeito Alice é um sistema de randomização e composição dinâmica da interface que gera estados visuais diferentes a cada ocorrência, mantendo regras estruturais definidas pelo produto.</p></article>
+        <article class="alice-card"><span class="memory-tag">Seleção</span><h3>O sistema escolhe um estado</h3><p>Alice não sorteia cada frase isoladamente. Um estado agrupa <code>frase + resposta do gato + CTA + imagem</code>. Isso evita combinações semanticamente quebradas.</p></article>
+        <article class="alice-card"><span class="memory-tag">Posição</span><h3>Esquerda ou direita</h3><p>A composição principal pode inverter de lado. A mudança visual é esperada e não altera a hierarquia nem a compreensão do conteúdo.</p></article>
+        <article class="alice-card"><span class="memory-tag">Domínio</span><h3>Elementos exclusivos</h3><p>As borboletas e o gato desta página pertencem a Alice. Eles não migram para o restante da UPPTB. Em contrapartida, as tartarugas globais não entram aqui.</p></article>
+        <article class="alice-card"><span class="memory-tag">QA</span><h3>Aleatório não significa sem regra</h3><p>O teste não procura uma única ordem correta. Ele verifica se a ocorrência observada pertence ao conjunto de comportamentos permitidos pelo produto.</p></article>
+        <article class="alice-card"><span class="memory-tag">UX Gate</span><h3>Caos abaixo do conteúdo</h3><p>Elementos decorativos podem se mover e mudar. Conteúdo crítico, controles, navegação e leitura continuam acima do caos e utilizáveis.</p></article>
+        <article class="alice-card"><span class="memory-tag">Persistência</span><h3>Estado pode sobreviver</h3><p>Quando a experiência pede estabilidade entre páginas, o estado pode ser persistido. Quando o produto pede uma nova ocorrência, o estado pode ser regenerado.</p></article>
+        <article class="alice-card"><span class="memory-tag">Produto</span><h3>A mesma engine, regras diferentes</h3><p>Na UPPTB Alice pode ser agressivamente imprevisível. Em produtos comerciais, a mesma técnica precisa respeitar limites próprios de conteúdo, conversão e risco.</p></article>
+        <article class="alice-card"><span class="memory-tag">PO</span><h3>Esperado é decisão consciente</h3><p>Se uma ocorrência parece estranha, QA pode identificá-la. A decisão sobre corrigir, aceitar ou canonizar pertence ao resultado esperado definido pelo produto.</p></article>
+        <article class="alice-card"><span class="memory-tag">Filosofia</span><h3>Entender sem dominar</h3><p>Alice também representa uma ideia fora do código: compreender uma variável não cria obrigação de interferir nela. Controle disponível não precisa ser controle exercido.</p></article>
+      </div>
+    </section>
+
+    <section id="regras" class="chaos-cluster" aria-labelledby="regras-title">
+      <div class="alice-section-head">
+        <p class="eyebrow">Regras de negócio</p>
+        <h2 id="regras-title">O caos tem fronteira.</h2>
+      </div>
+      <div class="memory-grid">
+        <article><span class="memory-tag">RN-A01</span><h3>Sem tartarugas globais</h3><p>A página Alice não faz parte do conjunto de destinos da distribuição de tartarugas da UPPTB.</p></article>
+        <article><span class="memory-tag">RN-A02</span><h3>15 borboletas exclusivas</h3><p>As borboletas nascem e permanecem neste domínio. Nenhuma ocorrência válida deve enviá-las a outra página.</p></article>
+        <article><span class="memory-tag">RN-A03</span><h3>Gato exclusivo</h3><p>O gato da Alice só existe aqui e provoca exatamente o estado semântico escolhido para aquela ocorrência.</p></article>
+        <article><span class="memory-tag">RN-A04</span><h3>Frases sincronizadas</h3><p>Frase da Alice, provocação do gato, CTA e wallpaper pertencem ao mesmo registro de estado.</p></article>
+        <article><span class="memory-tag">RN-A05</span><h3>Rosa e preto</h3><p>A página preserva a base estrutural da UPPTB, mas possui identidade cromática própria em rosa e preto.</p></article>
+        <article><span class="memory-tag">RN-A06</span><h3>Leitura preservada</h3><p>Nenhuma borboleta, gato ou mudança de lado pode impedir navegação, leitura ou interação com controles importantes.</p></article>
+      </div>
+      <p class="alice-rule"><strong>Critério simples:</strong> se uma tartaruga global aparecer aqui, uma borboleta escapar para outra página ou o gato responder a uma frase diferente da Alice, a ocorrência está fora das regras deste domínio.</p>
+    </section>
+
+    <section id="wallpapers" class="chaos-cluster" aria-labelledby="wallpapers-title">
+      <div class="alice-section-head">
+        <p class="eyebrow">Estados visuais</p>
+        <h2 id="wallpapers-title">As 15 Alic(es) do pacote.</h2>
+        <p class="lead small">O mesmo conjunto criado para wallpaper também serve como repertório visual da personagem dentro da página.</p>
+      </div>
+      <div class="alice-gallery">
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Você não precisa controlar tudo.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Entender não obriga você a interferir.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Nem toda variável é sua.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Aceitar não significa gostar.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Tudo talvez.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>O segundo mudou.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Sai da sala de controle.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Eu cuido disso daqui.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Você consegue prever. Não precisa dominar.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Erro não é identidade.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Vai viver também, caralho.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Eu sei que é chato. Por isso eu existo.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Alice está administrando o caos.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Kauan, larga o painel.</figcaption></figure>
+        <figure><img data-gallery-wallpaper alt="" /><figcaption>Hoje você só precisa existir nesse segundo.</figcaption></figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="assets/turtle-mark.svg" alt="" width="32" height="32" />
+    <p>UPPTB · Alice administra o caos.</p>
+    <p class="alice-page-footer-note"><small>Entender uma variável não obriga ninguém a controlá-la.</small></p>
+  </footer>
+</body>
+</html>
