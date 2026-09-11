@@ -21,12 +21,11 @@ if (alicePageRoot.dataset.page === 'alice') {
 
   const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
   const state = randomItem(aliceStates);
-  const side = Math.random() < 0.5 ? 'left' : 'right';
   const hero = document.querySelector('.alice-hero');
   const quote = document.querySelector('[data-alice-quote]');
   const cta = document.querySelector('[data-alice-cta]');
   const heroImage = document.querySelector('[data-alice-wallpaper]');
-  if (hero) hero.dataset.side = side;
+  if (hero) hero.dataset.side = 'center';
   if (quote) quote.textContent = state.alice;
   if (cta) cta.textContent = state.cta;
   if (heroImage) {
@@ -37,15 +36,13 @@ if (alicePageRoot.dataset.page === 'alice') {
 
   const catSvg = `<svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gato exclusivo da Alice"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M53 73 38 35l42 20c17-10 63-10 84 2l48-23-17 46c14 16 17 44 6 64-16 29-53 38-89 33-41-5-68-28-70-61-1-17 3-31 11-43Z" fill="#0b0209" stroke="#ff4fa3" stroke-width="5"/><path d="M81 101c9-11 22-11 31 0M149 101c9-11 22-11 31 0" fill="none" stroke="#ff8dc6" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/><path d="M126 118l8 0-4 7Z" fill="#ff4fa3"/><path d="M111 132c12 10 28 10 40 0" fill="none" stroke="#d7a2bf" stroke-width="3" stroke-linecap="round"/><text x="130" y="184" text-anchor="middle" fill="#ff8dc6" font-size="13" font-family="monospace" font-weight="800">GATO // ALICE</text></svg>`;
   const cat = document.createElement('aside');
-  cat.className = `alice-cat ${Math.random() < 0.5 ? 'left' : 'right'}`;
-  cat.style.top = `${Math.floor(170 + Math.random() * 460)}px`;
+  cat.className = 'alice-cat';
+  cat.setAttribute('aria-live', 'polite');
   cat.innerHTML = `${catSvg}<div class="alice-cat-bubble"></div>`;
   const catBubble = cat.querySelector('.alice-cat-bubble');
   if (catBubble) catBubble.textContent = state.cat;
-  document.querySelector('.alice-page-shell')?.append(cat);
+  document.body.append(cat);
 
-  // Domínio visual da Alice: 15 borboletas exclusivas. Elas não usam o sistema
-  // migratório do campus. O caos existe, mas Alice controla composição e trajetória.
   const butterflyPlane = document.createElement('div');
   butterflyPlane.className = 'alice-butterfly-plane';
   butterflyPlane.setAttribute('aria-hidden', 'true');
@@ -54,12 +51,7 @@ if (alicePageRoot.dataset.page === 'alice') {
     { wing: '#45a7ff', wing2: '#8dd1ff', edge: '#d9f1ff', glow: 'rgba(69,167,255,.38)' },
     { wing: '#080008', wing2: '#2d1229', edge: '#ff79ba', glow: 'rgba(255,79,163,.24)' }
   ];
-  const zones = [
-    [10, 12], [25, 8], [73, 10], [88, 18],
-    [8, 34], [22, 42], [78, 36], [91, 48],
-    [12, 65], [29, 72], [70, 68], [87, 76],
-    [18, 88], [52, 84], [80, 91]
-  ];
+  const zones = [[10,12],[25,8],[73,10],[88,18],[8,34],[22,42],[78,36],[91,48],[12,65],[29,72],[70,68],[87,76],[18,88],[52,84],[80,91]];
   const butterflySvg = (tone, index) => `<svg viewBox="0 0 72 58" xmlns="http://www.w3.org/2000/svg"><g class="butterfly-wings"><path d="M34 29C20 2 3 4 8 22c3 11 14 14 26 11" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M38 29C52 2 69 4 64 22c-3 11-14 14-26 11" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M34 33C22 54 8 52 13 39c3-8 11-10 21-7" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.6"/><path d="M38 33c12 21 26 19 21 6-3-8-11-10-21-7" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.6"/></g><ellipse cx="36" cy="30" rx="2.7" ry="14" fill="#050005"/><path d="M35 17c-5-7-8-8-11-9M37 17c5-7 8-8 11-9" fill="none" stroke="${tone.edge}" stroke-width="1.2" stroke-linecap="round"/><circle cx="${index % 2 ? 20 : 52}" cy="20" r="2" fill="#fff" opacity=".55"/></svg>`;
 
   zones.forEach(([x, y], index) => {
@@ -85,4 +77,30 @@ if (alicePageRoot.dataset.page === 'alice') {
     image.alt = entry.alice;
     image.addEventListener('error', () => { image.hidden = true; image.parentElement?.classList.add('missing-wallpaper'); }, { once: true });
   });
+
+  // Navegação Alice acompanha a leitura da página.
+  const sectionLinks = [...document.querySelectorAll('.nav-panel a[href^="#"]')];
+  const sections = sectionLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  const setActiveSection = (id) => {
+    sectionLinks.forEach((link) => {
+      const active = link.getAttribute('href') === `#${id}`;
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActiveSection(visible.target.id);
+    }, { rootMargin: '-22% 0px -55% 0px', threshold: [0.05, 0.2, 0.45] });
+    sections.forEach((section) => observer.observe(section));
+  }
+  sectionLinks.forEach((link) => link.addEventListener('click', () => {
+    const nav = document.querySelector('#main-nav');
+    const toggle = document.querySelector('.menu-toggle');
+    if (window.innerWidth <= 700 && nav && toggle) {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  }));
 }
