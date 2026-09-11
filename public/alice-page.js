@@ -25,7 +25,18 @@ if (alicePageRoot.dataset.page === 'alice') {
   const quote = document.querySelector('[data-alice-quote]');
   const cta = document.querySelector('[data-alice-cta]');
   const heroImage = document.querySelector('[data-alice-wallpaper]');
-  if (hero) hero.dataset.side = 'center';
+
+  // A Alice é sempre a primeira experiência. F5 nunca restaura uma seção interna.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const forceAliceFirst = () => {
+    if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  };
+  forceAliceFirst();
+  window.addEventListener('pageshow', forceAliceFirst, { once: true });
+
+  const side = Math.random() < 0.5 ? 'left' : 'right';
+  if (hero) hero.dataset.side = side;
   if (quote) quote.textContent = state.alice;
   if (cta) cta.textContent = state.cta;
   if (heroImage) {
@@ -41,7 +52,26 @@ if (alicePageRoot.dataset.page === 'alice') {
   cat.innerHTML = `${catSvg}<div class="alice-cat-bubble"></div>`;
   const catBubble = cat.querySelector('.alice-cat-bubble');
   if (catBubble) catBubble.textContent = state.cat;
-  document.body.append(cat);
+  const shell = document.querySelector('.alice-page-shell');
+  shell?.append(cat);
+
+  // Roaming seguro: o gato muda de posição dentro da main, com margem das bordas.
+  const safeCatPositions = [
+    [8, 18], [72, 16], [12, 36], [70, 40], [9, 58], [73, 62], [14, 78], [68, 82]
+  ];
+  let lastCatPosition = -1;
+  const moveCat = () => {
+    if (!cat || !shell) return;
+    let next = Math.floor(Math.random() * safeCatPositions.length);
+    if (safeCatPositions.length > 1 && next === lastCatPosition) next = (next + 1) % safeCatPositions.length;
+    lastCatPosition = next;
+    const [x, y] = safeCatPositions[next];
+    const mobile = window.innerWidth <= 760;
+    cat.style.left = `${mobile ? Math.min(x, 62) : x}%`;
+    cat.style.top = `${y}%`;
+  };
+  moveCat();
+  window.setInterval(moveCat, 6500);
 
   const butterflyPlane = document.createElement('div');
   butterflyPlane.className = 'alice-butterfly-plane';
@@ -53,7 +83,6 @@ if (alicePageRoot.dataset.page === 'alice') {
   ];
   const zones = [[10,12],[25,8],[73,10],[88,18],[8,34],[22,42],[78,36],[91,48],[12,65],[29,72],[70,68],[87,76],[18,88],[52,84],[80,91]];
   const butterflySvg = (tone, index) => `<svg viewBox="0 0 72 58" xmlns="http://www.w3.org/2000/svg"><g class="butterfly-wings"><path d="M34 29C20 2 3 4 8 22c3 11 14 14 26 11" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M38 29C52 2 69 4 64 22c-3 11-14 14-26 11" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M34 33C22 54 8 52 13 39c3-8 11-10 21-7" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.6"/><path d="M38 33c12 21 26 19 21 6-3-8-11-10-21-7" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.6"/></g><ellipse cx="36" cy="30" rx="2.7" ry="14" fill="#050005"/><path d="M35 17c-5-7-8-8-11-9M37 17c5-7 8-8 11-9" fill="none" stroke="${tone.edge}" stroke-width="1.2" stroke-linecap="round"/><circle cx="${index % 2 ? 20 : 52}" cy="20" r="2" fill="#fff" opacity=".55"/></svg>`;
-
   zones.forEach(([x, y], index) => {
     const tone = palette[index % palette.length];
     const butterfly = document.createElement('div');
@@ -68,7 +97,7 @@ if (alicePageRoot.dataset.page === 'alice') {
     butterfly.style.animationDelay = `${(-Math.random() * 8).toFixed(2)}s`;
     butterflyPlane.append(butterfly);
   });
-  document.querySelector('.alice-page-shell')?.prepend(butterflyPlane);
+  shell?.prepend(butterflyPlane);
 
   document.querySelectorAll('[data-gallery-wallpaper]').forEach((image, index) => {
     const entry = aliceStates[index];
@@ -78,29 +107,60 @@ if (alicePageRoot.dataset.page === 'alice') {
     image.addEventListener('error', () => { image.hidden = true; image.parentElement?.classList.add('missing-wallpaper'); }, { once: true });
   });
 
-  // Navegação Alice acompanha a leitura da página.
   const sectionLinks = [...document.querySelectorAll('.nav-panel a[href^="#"]')];
   const sections = sectionLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  const navGroup = document.querySelector('.nav-group');
+  const closeAliceMenu = () => {
+    if (navGroup?.hasAttribute('open')) navGroup.removeAttribute('open');
+    const nav = document.querySelector('#main-nav');
+    const toggle = document.querySelector('.menu-toggle');
+    if (nav) nav.classList.remove('open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  };
   const setActiveSection = (id) => {
     sectionLinks.forEach((link) => {
       const active = link.getAttribute('href') === `#${id}`;
-      if (active) link.setAttribute('aria-current', 'true');
-      else link.removeAttribute('aria-current');
+      if (active) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current');
     });
   };
+  const pushToSection = (section) => {
+    if (!section) return;
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   if (sections.length && 'IntersectionObserver' in window) {
+    let currentSection = '';
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible?.target?.id) setActiveSection(visible.target.id);
-    }, { rootMargin: '-22% 0px -55% 0px', threshold: [0.05, 0.2, 0.45] });
+      if (!visible?.target?.id || visible.target.id === currentSection) return;
+      currentSection = visible.target.id;
+      setActiveSection(currentSection);
+      closeAliceMenu();
+      moveCat();
+    }, { rootMargin: '-18% 0px -58% 0px', threshold: [0.08, 0.25, 0.5] });
     sections.forEach((section) => observer.observe(section));
   }
-  sectionLinks.forEach((link) => link.addEventListener('click', () => {
-    const nav = document.querySelector('#main-nav');
-    const toggle = document.querySelector('.menu-toggle');
-    if (window.innerWidth <= 700 && nav && toggle) {
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    }
+
+  sectionLinks.forEach((link) => link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    closeAliceMenu();
+    pushToSection(target);
   }));
+
+  // Push controlado ao terminar a rolagem: encaixa na seção mais próxima.
+  let scrollTimer;
+  window.addEventListener('scroll', () => {
+    closeAliceMenu();
+    clearTimeout(scrollTimer);
+    scrollTimer = window.setTimeout(() => {
+      if (window.scrollY < 80) return;
+      const headerOffset = 96;
+      const nearest = sections.reduce((best, section) => {
+        const distance = Math.abs(section.getBoundingClientRect().top - headerOffset);
+        return !best || distance < best.distance ? { section, distance } : best;
+      }, null);
+      if (nearest && nearest.distance < window.innerHeight * 0.34) pushToSection(nearest.section);
+    }, 180);
+  }, { passive: true });
 }
