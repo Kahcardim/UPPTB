@@ -7,18 +7,17 @@ html[data-page="alice"] .nav-panel a[aria-current="true"] { color:#fff; backgrou
 .alice-page-shell { position:relative; }
 .alice-page-shell > section { width:min(1080px,calc(100% - 2rem)); margin-inline:auto; padding:clamp(2.25rem,5vw,4.25rem) 0; scroll-margin-top:6.5rem; scroll-snap-align:start; scroll-snap-stop:normal; }
 
-/* Hero volta a ser composição lateral. A imagem continua no tamanho aprovado e pode trocar de lado. */
 .alice-hero { min-height:calc(100svh - 5rem); display:grid; grid-template-columns:minmax(0,1.08fr) minmax(280px,360px); align-items:center; justify-content:center; gap:clamp(2rem,6vw,5rem); padding-top:clamp(3rem,6vw,5rem)!important; }
 .alice-hero[data-side="left"] { grid-template-columns:minmax(280px,360px) minmax(0,1.08fr); }
 .alice-hero[data-side="left"] .alice-hero-visual { order:-1; }
 .alice-hero[data-side="left"] .alice-hero-copy { order:2; }
-.alice-hero-copy { width:min(680px,100%); max-width:none; }
+.alice-hero-copy { width:min(680px,100%); max-width:none; text-align:center; margin-inline:auto; }
 .alice-hero h1 { margin:.2rem 0 1rem; font-size:clamp(3.2rem,9vw,6.8rem); line-height:.92; letter-spacing:-.055em; }
-.alice-hero .lead { max-width:58ch; color:var(--muted); font-size:clamp(1rem,2vw,1.18rem); }
-.alice-state-quote { width:min(680px,100%); margin:1.35rem 0 0; padding:1rem 1.1rem; border-left:4px solid var(--green); background:rgba(255,79,163,.07); color:#ffe8f4; text-align:left; font:900 clamp(.95rem,2vw,1.1rem)/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
-.alice-hero .hero-actions { justify-content:flex-start; }
+.alice-hero .lead { max-width:58ch; margin-inline:auto; color:var(--muted); font-size:clamp(1rem,2vw,1.18rem); }
+.alice-state-quote { width:min(680px,100%); margin:1.35rem auto 0; padding:1rem 1.1rem; border-left:4px solid var(--green); background:rgba(255,79,163,.07); color:#ffe8f4; text-align:center; font:900 clamp(.95rem,2vw,1.1rem)/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+.alice-hero .hero-actions { justify-content:center; }
 .alice-hero-visual { position:relative; width:min(360px,100%); justify-self:center; display:grid; place-items:center; }
-.alice-wallpaper-frame { position:relative; width:min(360px,78vw); height:min(72svh,720px); overflow:hidden; border:1px solid rgba(255,79,163,.55); border-radius:30px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
+.alice-wallpaper-frame { position:relative; width:min(360px,78vw); aspect-ratio:9/20; height:auto; overflow:hidden; border:1px solid rgba(255,79,163,.55); border-radius:30px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
 .alice-wallpaper-frame img { width:100%; height:100%; object-fit:contain; object-position:center; background:#080008; }
 .alice-wallpaper-frame::after { content:'ALICE // UPPTB'; position:absolute; left:1rem; bottom:1rem; padding:.45rem .65rem; border:1px solid rgba(255,255,255,.22); border-radius:999px; background:rgba(7,0,6,.72); color:#fff; font:900 .65rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; letter-spacing:.08em; }
 
@@ -31,10 +30,9 @@ html[data-page="alice"] .memory-grid { gap:1rem; margin-top:1rem; }
 html[data-page="alice"] .memory-grid article { min-height:auto; }
 .alice-gallery { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.8rem; }
 .alice-gallery figure { margin:0; overflow:hidden; border:1px solid rgba(255,79,163,.28); border-radius:18px; background:#0b0209; box-shadow:0 14px 35px rgba(0,0,0,.30); }
-.alice-gallery img { width:100%; aspect-ratio:9/20; object-fit:cover; object-position:center; background:linear-gradient(145deg,#210a1d,#070006); }
+.alice-gallery img { width:100%; aspect-ratio:9/20; object-fit:contain; object-position:center; background:#080008; }
 .alice-gallery figcaption { min-height:64px; padding:.65rem .7rem .8rem; color:var(--muted); font-size:.78rem; line-height:1.35; }
 
-/* Gato pertence à main e muda de ponto seguro a cada ocorrência. Nunca cola nas bordas. */
 .alice-cat { position:absolute; z-index:70; width:min(180px,22vw); pointer-events:none; filter:drop-shadow(.45rem .45rem 0 rgba(0,0,0,.42)); transition:left .45s ease,top .45s ease; }
 .alice-cat svg { width:100%; height:auto; display:block; }
 .alice-cat-bubble { width:min(270px,calc(100vw - 4rem)); margin:.35rem 0 0; padding:.7rem .8rem; border:1px solid rgba(255,79,163,.58); border-radius:16px; background:rgba(8,0,7,.96); color:#fff2f9; box-shadow:0 10px 30px rgba(0,0,0,.35); font:850 .72rem/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; overflow-wrap:anywhere; }
@@ -48,6 +46,6 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
 .alice-rule { max-width:900px; margin:1rem auto 0; padding:1rem 1.1rem; border:1px solid rgba(255,79,163,.26); border-radius:18px; background:rgba(255,79,163,.055); color:var(--muted); }.alice-rule strong { color:#fff; }.alice-page-footer-note { color:#e9c6da; }
 
 @media(max-width:980px){.alice-gallery{grid-template-columns:repeat(3,minmax(0,1fr));}.alice-cat{width:min(150px,22vw);}}
-@media(max-width:760px){html[data-page="alice"]{scroll-snap-type:y proximity}.alice-page-shell>section{width:min(100% - 1.25rem,1080px);padding:2rem 0}.alice-hero,.alice-hero[data-side="left"]{grid-template-columns:1fr;min-height:auto;text-align:center;gap:2rem;padding-top:3rem!important}.alice-hero[data-side="left"] .alice-hero-visual,.alice-hero[data-side="left"] .alice-hero-copy,.alice-hero-visual,.alice-hero-copy{order:initial}.alice-hero-copy{margin-inline:auto}.alice-hero .lead{margin-inline:auto}.alice-hero .hero-actions{justify-content:center}.alice-state-quote{text-align:left;margin-inline:auto}.alice-hero-visual{width:min(82vw,340px)}.alice-wallpaper-frame{width:min(82vw,340px);height:min(70svh,680px)}.alice-card-grid{grid-template-columns:1fr}.alice-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.alice-cat{width:110px}.alice-cat-bubble{font-size:.64rem;width:min(200px,68vw);padding:.55rem .65rem}.alice-butterfly{width:clamp(20px,6vw,34px);opacity:.68}}
+@media(max-width:760px){html[data-page="alice"]{scroll-snap-type:y proximity}.alice-page-shell>section{width:min(100% - 1.25rem,1080px);padding:2rem 0}.alice-hero,.alice-hero[data-side="left"]{grid-template-columns:1fr;min-height:auto;text-align:center;gap:2rem;padding-top:3rem!important}.alice-hero[data-side="left"] .alice-hero-visual,.alice-hero[data-side="left"] .alice-hero-copy,.alice-hero-visual,.alice-hero-copy{order:initial}.alice-hero-copy{margin-inline:auto}.alice-hero .lead{margin-inline:auto}.alice-hero .hero-actions{justify-content:center}.alice-state-quote{text-align:center;margin-inline:auto}.alice-hero-visual{width:min(82vw,340px)}.alice-wallpaper-frame{width:min(82vw,340px);aspect-ratio:9/20;height:auto}.alice-card-grid{grid-template-columns:1fr}.alice-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.alice-cat{width:110px}.alice-cat-bubble{font-size:.64rem;width:min(200px,68vw);padding:.55rem .65rem}.alice-butterfly{width:clamp(20px,6vw,34px);opacity:.68}}
 @media(max-width:480px){.alice-cat{width:92px}.alice-cat-bubble{width:min(170px,64vw);font-size:.6rem}.alice-gallery{gap:.55rem}.alice-gallery figcaption{min-height:58px;font-size:.72rem}}
 @media(prefers-reduced-motion:reduce){.alice-butterfly,.alice-butterfly .butterfly-wings{animation:none}}
