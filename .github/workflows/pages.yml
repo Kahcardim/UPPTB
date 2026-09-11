@@ -1,9 +1,9 @@
-name: Deploy UPPTB preview to GitHub Pages
+name: Deploy UPPTB to GitHub Pages
 
 on:
   push:
     branches:
-      - feature/home-v1-requirements
+      - main
   workflow_dispatch:
 
 permissions:
@@ -30,7 +30,7 @@ jobs:
         with:
           enablement: true
 
-      - name: Prepare static preview
+      - name: Prepare static site
         run: |
           mkdir -p _site
           cp -R public/. _site/
