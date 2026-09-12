@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Símbolo da Alice</title>
+  <desc id="desc">Borboleta rosa e azul usada como marca da área da Alice.</desc>
+  <defs>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff4fa3"/>
+      <stop offset="1" stop-color="#ff9ccd"/>
+    </linearGradient>
+    <linearGradient id="right" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#45a7ff"/>
+      <stop offset="1" stop-color="#8dd1ff"/>
+    </linearGradient>
+  </defs>
+  <path d="M29 31C22 10 7 7 7 20c0 10 8 16 19 14-8 12-7 23 3 17 6-4 5-12 3-20Z" fill="url(#left)" stroke="#ffd2e8" stroke-width="1.8"/>
+  <path d="M35 31C42 10 57 7 57 20c0 10-8 16-19 14 8 12 7 23-3 17-6-4-5-12-3-20Z" fill="url(#right)" stroke="#d9f1ff" stroke-width="1.8"/>
+  <ellipse cx="32" cy="33" rx="3" ry="15" fill="#080008"/>
+  <path d="M31 19c-4-6-7-7-10-8M33 19c4-6 7-7 10-8" fill="none" stroke="#ff7fbd" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
