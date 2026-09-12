@@ -33,8 +33,8 @@ test('Home V1 é servida com identidade e fóssil fundador preservados', async (
     assert.match(html, /Universidade Pública Peculiar Turtle and Beys/);
     assert.match(html, /Identidade HIGH · Severidade ULTRA TURTLE/);
     assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
-    assert.match(html, /Turtle Drill/);
-    assert.match(html, /Negation and Negation/);
+    assert.match(html, /Desenvolvimento de Inglês/);
+    assert.match(html, /Alice/);
     assert.match(html, /Forbidden Turtle Archive/);
   });
 });
@@ -115,7 +115,7 @@ test('Alice preserva identidade própria e não carrega personagens globais', as
 test('Alice mantém exatamente 15 estados sincronizados e 15 entradas de galeria', async () => {
   const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
   const script = await readFile(new URL('../public/alice-page.js', import.meta.url), 'utf8');
-  const stateWallpapers = script.match(/wallpaper:\s*'assets\/alice-wallpapers\/[^"]*?\.png'|wallpaper:\s*'assets\/alice-wallpapers\/[^']+\.png'/g) ?? [];
+  const stateWallpapers = script.match(/wallpaper:\s*'assets\/alice-wallpapers\/[^']+\.png'/g) ?? [];
   const gallerySlots = html.match(/data-gallery-wallpaper/g) ?? [];
   assert.equal(stateWallpapers.length, 15);
   assert.equal(gallerySlots.length, 15);
