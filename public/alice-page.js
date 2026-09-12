@@ -25,15 +25,8 @@ if (alicePageRoot.dataset.page === 'alice') {
   const quote = document.querySelector('[data-alice-quote]');
   const cta = document.querySelector('[data-alice-cta]');
   const heroImage = document.querySelector('[data-alice-wallpaper]');
-
-  // A Alice é sempre a primeira experiência. F5 nunca restaura uma seção interna.
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  const forceAliceFirst = () => {
-    if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  };
-  forceAliceFirst();
-  window.addEventListener('pageshow', forceAliceFirst, { once: true });
+  const heroVisual = document.querySelector('.alice-hero-visual');
+  const catZone = document.querySelector('[data-alice-cat-zone]');
 
   const side = Math.random() < 0.5 ? 'left' : 'right';
   if (hero) hero.dataset.side = side;
@@ -41,38 +34,42 @@ if (alicePageRoot.dataset.page === 'alice') {
   if (cta) cta.textContent = state.cta;
   if (heroImage) {
     heroImage.src = state.wallpaper;
-    heroImage.alt = `Wallpaper da Alice com a frase: ${state.alice}`;
-    heroImage.addEventListener('error', () => { heroImage.hidden = true; heroImage.parentElement?.setAttribute('data-missing-asset', 'true'); }, { once: true });
+    heroImage.alt = '';
+    heroImage.addEventListener('error', () => {
+      heroImage.hidden = true;
+      heroImage.parentElement?.setAttribute('data-missing-asset', 'true');
+    }, { once: true });
   }
 
   const catSvg = `<svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gato exclusivo da Alice"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M53 73 38 35l42 20c17-10 63-10 84 2l48-23-17 46c14 16 17 44 6 64-16 29-53 38-89 33-41-5-68-28-70-61-1-17 3-31 11-43Z" fill="#0b0209" stroke="#ff4fa3" stroke-width="5"/><path d="M81 101c9-11 22-11 31 0M149 101c9-11 22-11 31 0" fill="none" stroke="#ff8dc6" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/><path d="M126 118l8 0-4 7Z" fill="#ff4fa3"/><path d="M111 132c12 10 28 10 40 0" fill="none" stroke="#d7a2bf" stroke-width="3" stroke-linecap="round"/><text x="130" y="184" text-anchor="middle" fill="#ff8dc6" font-size="13" font-family="monospace" font-weight="800">GATO // ALICE</text></svg>`;
-  const cat = document.createElement('aside');
+  const cat = document.createElement('div');
   cat.className = 'alice-cat';
   cat.setAttribute('aria-live', 'polite');
   cat.innerHTML = `${catSvg}<div class="alice-cat-bubble"></div>`;
   const catBubble = cat.querySelector('.alice-cat-bubble');
   if (catBubble) catBubble.textContent = state.cat;
-  const shell = document.querySelector('.alice-page-shell');
-  shell?.append(cat);
+  catZone?.append(cat);
 
-  // Roaming seguro: o gato muda de posição dentro da main, com margem das bordas.
+  // O gato continua imprevisível, mas só anda dentro do próprio espaço seguro.
   const safeCatPositions = [
-    [8, 18], [72, 16], [12, 36], [70, 40], [9, 58], [73, 62], [14, 78], [68, 82]
+    [3, 12], [36, 7], [68, 13], [18, 22], [54, 20]
   ];
   let lastCatPosition = -1;
   const moveCat = () => {
-    if (!cat || !shell) return;
+    if (!cat || !catZone) return;
     let next = Math.floor(Math.random() * safeCatPositions.length);
     if (safeCatPositions.length > 1 && next === lastCatPosition) next = (next + 1) % safeCatPositions.length;
     lastCatPosition = next;
     const [x, y] = safeCatPositions[next];
     const mobile = window.innerWidth <= 760;
-    cat.style.left = `${mobile ? Math.min(x, 62) : x}%`;
-    cat.style.top = `${y}%`;
+    cat.style.left = `${mobile ? Math.min(x, 52) : x}%`;
+    cat.style.top = `${mobile ? Math.min(y, 14) : y}%`;
+    cat.style.transform = `rotate(${(Math.random() * 4 - 2).toFixed(1)}deg)`;
   };
   moveCat();
   window.setInterval(moveCat, 6500);
 
+  // As 15 borboletas pertencem ao espaço visual da Alice e nunca atravessam o texto.
   const butterflyPlane = document.createElement('div');
   butterflyPlane.className = 'alice-butterfly-plane';
   butterflyPlane.setAttribute('aria-hidden', 'true');
@@ -81,30 +78,33 @@ if (alicePageRoot.dataset.page === 'alice') {
     { wing: '#45a7ff', wing2: '#8dd1ff', edge: '#d9f1ff', glow: 'rgba(69,167,255,.38)' },
     { wing: '#080008', wing2: '#2d1229', edge: '#ff79ba', glow: 'rgba(255,79,163,.24)' }
   ];
-  const zones = [[10,12],[25,8],[73,10],[88,18],[8,34],[22,42],[78,36],[91,48],[12,65],[29,72],[70,68],[87,76],[18,88],[52,84],[80,91]];
+  const zones = [[6,7],[28,2],[72,4],[91,13],[4,29],[88,34],[5,54],[92,58],[7,78],[30,91],[68,90],[91,82],[18,68],[80,69],[49,95]];
   const butterflySvg = (tone, index) => `<svg viewBox="0 0 72 58" xmlns="http://www.w3.org/2000/svg"><g class="butterfly-wings"><path d="M34 29C20 2 3 4 8 22c3 11 14 14 26 11" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M38 29C52 2 69 4 64 22c-3 11-14 14-26 11" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.8"/><path d="M34 33C22 54 8 52 13 39c3-8 11-10 21-7" fill="${tone.wing2}" stroke="${tone.edge}" stroke-width="1.6"/><path d="M38 33c12 21 26 19 21 6-3-8-11-10-21-7" fill="${tone.wing}" stroke="${tone.edge}" stroke-width="1.6"/></g><ellipse cx="36" cy="30" rx="2.7" ry="14" fill="#050005"/><path d="M35 17c-5-7-8-8-11-9M37 17c5-7 8-8 11-9" fill="none" stroke="${tone.edge}" stroke-width="1.2" stroke-linecap="round"/><circle cx="${index % 2 ? 20 : 52}" cy="20" r="2" fill="#fff" opacity=".55"/></svg>`;
   zones.forEach(([x, y], index) => {
     const tone = palette[index % palette.length];
     const butterfly = document.createElement('div');
     butterfly.className = `alice-butterfly alice-butterfly-${index % 3 === 0 ? 'pink' : index % 3 === 1 ? 'blue' : 'black'}`;
     butterfly.innerHTML = butterflySvg(tone, index);
-    butterfly.style.left = `${x + (Math.random() * 4 - 2)}%`;
-    butterfly.style.top = `${y + (Math.random() * 4 - 2)}%`;
-    butterfly.style.setProperty('--float-time', `${8 + Math.random() * 5}s`);
-    butterfly.style.setProperty('--orbit-x', `${18 + Math.random() * 28}px`);
-    butterfly.style.setProperty('--orbit-y', `${12 + Math.random() * 22}px`);
+    butterfly.style.left = `${x + (Math.random() * 2 - 1)}%`;
+    butterfly.style.top = `${y + (Math.random() * 2 - 1)}%`;
+    butterfly.style.setProperty('--float-time', `${9 + Math.random() * 4}s`);
+    butterfly.style.setProperty('--orbit-x', `${8 + Math.random() * 12}px`);
+    butterfly.style.setProperty('--orbit-y', `${8 + Math.random() * 10}px`);
     butterfly.style.setProperty('--glow', tone.glow);
     butterfly.style.animationDelay = `${(-Math.random() * 8).toFixed(2)}s`;
     butterflyPlane.append(butterfly);
   });
-  shell?.prepend(butterflyPlane);
+  heroVisual?.prepend(butterflyPlane);
 
   document.querySelectorAll('[data-gallery-wallpaper]').forEach((image, index) => {
     const entry = aliceStates[index];
     if (!entry) return;
     image.src = entry.wallpaper;
-    image.alt = entry.alice;
-    image.addEventListener('error', () => { image.hidden = true; image.parentElement?.classList.add('missing-wallpaper'); }, { once: true });
+    image.alt = '';
+    image.addEventListener('error', () => {
+      image.hidden = true;
+      image.parentElement?.classList.add('missing-wallpaper');
+    }, { once: true });
   });
 
   const sectionLinks = [...document.querySelectorAll('.nav-panel a[href^="#"]')];
@@ -123,9 +123,10 @@ if (alicePageRoot.dataset.page === 'alice') {
       if (active) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current');
     });
   };
-  const pushToSection = (section) => {
+  const scrollToSection = (section, updateHash = false) => {
     if (!section) return;
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (updateHash && section.id) history.pushState(null, '', `#${section.id}`);
   };
 
   if (sections.length && 'IntersectionObserver' in window) {
@@ -141,26 +142,18 @@ if (alicePageRoot.dataset.page === 'alice') {
     sections.forEach((section) => observer.observe(section));
   }
 
+  if (window.location.hash) {
+    const initialId = window.location.hash.slice(1);
+    if (sections.some((section) => section.id === initialId)) setActiveSection(initialId);
+  }
+
   sectionLinks.forEach((link) => link.addEventListener('click', (event) => {
     event.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     closeAliceMenu();
-    pushToSection(target);
+    scrollToSection(target, true);
   }));
 
-  // Push controlado ao terminar a rolagem: encaixa na seção mais próxima.
-  let scrollTimer;
-  window.addEventListener('scroll', () => {
-    closeAliceMenu();
-    clearTimeout(scrollTimer);
-    scrollTimer = window.setTimeout(() => {
-      if (window.scrollY < 80) return;
-      const headerOffset = 96;
-      const nearest = sections.reduce((best, section) => {
-        const distance = Math.abs(section.getBoundingClientRect().top - headerOffset);
-        return !best || distance < best.distance ? { section, distance } : best;
-      }, null);
-      if (nearest && nearest.distance < window.innerHeight * 0.34) pushToSection(nearest.section);
-    }, 180);
-  }, { passive: true });
+  // O navegador preserva a rolagem natural. Alice não empurra o usuário para outra seção.
+  window.addEventListener('scroll', closeAliceMenu, { passive: true });
 }
