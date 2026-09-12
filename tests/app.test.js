@@ -102,3 +102,39 @@ test('catálogo tem 255 rascunhos únicos em 17 categorias e classes válidas', 
   }
   assert.deepEqual(counts, { public: 102, easter_egg: 68, internal_chaos: 85 });
 });
+
+test('Alice preserva identidade própria e não carrega personagens globais', async () => {
+  const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
+  assert.match(html, /assets\/alice-mark\.svg/);
+  assert.doesNotMatch(html, /src="assets\/turtle-mark\.svg"/);
+  assert.doesNotMatch(html, /<script src="alice\.js" defer><\/script>/);
+  assert.match(html, /data-alice-cat-zone/);
+  assert.match(html, /Rosa e preto, azul como acento/);
+});
+
+test('Alice mantém exatamente 15 estados sincronizados e 15 entradas de galeria', async () => {
+  const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
+  const script = await readFile(new URL('../public/alice-page.js', import.meta.url), 'utf8');
+  const stateWallpapers = script.match(/wallpaper:\s*'assets\/alice-wallpapers\/[^"]*?\.png'|wallpaper:\s*'assets\/alice-wallpapers\/[^']+\.png'/g) ?? [];
+  const gallerySlots = html.match(/data-gallery-wallpaper/g) ?? [];
+  assert.equal(stateWallpapers.length, 15);
+  assert.equal(gallerySlots.length, 15);
+  assert.match(script, /heroVisual\?\.prepend\(butterflyPlane\)/);
+  assert.match(script, /catZone\?\.append\(cat\)/);
+});
+
+test('assets e estados principais da Alice estão acessíveis', async () => {
+  await withServer(async base => {
+    for (const path of [
+      '/alice.html',
+      '/alice-page.css',
+      '/alice-page.js',
+      '/assets/alice-mark.svg',
+      '/assets/alice-wallpapers/01_voce_nao_precisa_controlar_tudo.png',
+      '/assets/alice-wallpapers/15_hoje_voce_so_precisa_existir_nesse_segundo.png'
+    ]) {
+      const response = await fetch(`${base}${path}`);
+      assert.equal(response.status, 200, `asset da Alice indisponível: ${path}`);
+    }
+  });
+});
