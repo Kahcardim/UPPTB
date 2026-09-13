@@ -128,6 +128,9 @@ test('Alice mantém 30 estados, 105 frases e galeria gerada pelo catálogo canô
   assert.match(script, /wallpaperFrame\?\.prepend\(butterflyPlane\)/);
   assert.match(script, /catZone\?\.append\(cat\)/);
   assert.doesNotMatch(script, /setInterval\(moveCat/);
+  assert.doesNotMatch(script, /sessionStorage/);
+  assert.doesNotMatch(script, /chooseDifferentState/);
+  assert.match(script, /statePhraseOrder = shuffledIndexes\(states\[currentStateIndex\]\.frases\.length\)/);
 });
 
 test('assets e estados principais da Alice estão acessíveis', async () => {
