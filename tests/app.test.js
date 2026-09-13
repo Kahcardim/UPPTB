@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { readFile, readdir } from 'node:fs/promises';
 import { createApp } from '../src/app.js';
+import { estadosAlice, totalDeFrasesAlice } from '../public/alice-states.js';
 
 async function withServer(run) {
   const server = createApp().listen(0, '127.0.0.1');
@@ -105,22 +106,28 @@ test('catálogo tem 255 rascunhos únicos em 17 categorias e classes válidas', 
 
 test('Alice preserva identidade própria e não carrega personagens globais', async () => {
   const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
+  const globalScript = await readFile(new URL('../public/app.js', import.meta.url), 'utf8');
   assert.match(html, /assets\/alice-mark\.svg/);
   assert.doesNotMatch(html, /src="assets\/turtle-mark\.svg"/);
   assert.doesNotMatch(html, /<script src="alice\.js" defer><\/script>/);
   assert.match(html, /data-alice-cat-zone/);
   assert.match(html, /Rosa e preto, azul como acento/);
+  assert.doesNotMatch(globalScript, /createHairlessCat/);
+  assert.doesNotMatch(globalScript, /catPage/);
 });
 
-test('Alice mantém exatamente 15 estados sincronizados e 15 entradas de galeria', async () => {
+test('Alice mantém 30 estados, 105 frases e galeria gerada pelo catálogo canônico', async () => {
   const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
   const script = await readFile(new URL('../public/alice-page.js', import.meta.url), 'utf8');
-  const stateWallpapers = script.match(/wallpaper:\s*'assets\/alice-wallpapers\/[^']+\.png'/g) ?? [];
-  const gallerySlots = html.match(/data-gallery-wallpaper/g) ?? [];
-  assert.equal(stateWallpapers.length, 15);
-  assert.equal(gallerySlots.length, 15);
-  assert.match(script, /heroVisual\?\.prepend\(butterflyPlane\)/);
+  const stateImages = await readdir(new URL('../public/assets/alice-states/', import.meta.url));
+  assert.equal(estadosAlice.length, 30);
+  assert.equal(totalDeFrasesAlice, 105);
+  assert.equal(new Set(estadosAlice.flatMap(state => state.frases)).size, 105);
+  assert.equal(stateImages.filter(file => /^alice_\d{2}\.webp$/.test(file)).length, 30);
+  assert.match(html, /data-alice-gallery/);
+  assert.match(script, /wallpaperFrame\?\.prepend\(butterflyPlane\)/);
   assert.match(script, /catZone\?\.append\(cat\)/);
+  assert.doesNotMatch(script, /setInterval\(moveCat/);
 });
 
 test('assets e estados principais da Alice estão acessíveis', async () => {
@@ -129,12 +136,32 @@ test('assets e estados principais da Alice estão acessíveis', async () => {
       '/alice.html',
       '/alice-page.css',
       '/alice-page.js',
+      '/alice-states.js',
       '/assets/alice-mark.svg',
-      '/assets/alice-wallpapers/01_voce_nao_precisa_controlar_tudo.png',
-      '/assets/alice-wallpapers/15_hoje_voce_so_precisa_existir_nesse_segundo.png'
+      '/assets/alice-states/alice_01.webp',
+      '/assets/alice-states/alice_30.webp'
     ]) {
       const response = await fetch(`${base}${path}`);
       assert.equal(response.status, 200, `asset da Alice indisponível: ${path}`);
     }
   });
+});
+
+test('layout da Alice preserva imagem inteira, centralização mobile e borboletas confinadas', async () => {
+  const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../public/alice-page.css', import.meta.url), 'utf8');
+  assert.match(html, /<script type="module" src="alice-page\.js"><\/script>/);
+  assert.match(css, /\.alice-wallpaper-frame img \{[^}]*height:auto;/s);
+  assert.match(css, /\.alice-wallpaper-frame img \{[^}]*object-fit:contain;/s);
+  assert.match(css, /\.alice-butterfly-plane \{[^}]*inset:0;[^}]*overflow:hidden;/s);
+  assert.match(css, /\.alice-card,html\[data-page="alice"\] \.memory-grid article\{[^}]*margin-inline:auto;[^}]*text-align:center;/s);
+  assert.match(css, /\.nav-panel\{[^}]*box-sizing:border-box;[^}]*text-align:center;/s);
+});
+
+test('tartarugas e imagens Bey continuam globais sem entrar no domínio Alice', async () => {
+  const script = await readFile(new URL('../public/app.js', import.meta.url), 'utf8');
+  assert.match(script, /const campusPages = \['home', 'lab', 'english', 'memories'\];/);
+  assert.match(script, /Beyblade_X_-_Ekusu_Kurosu\.webp/);
+  assert.match(script, /multi-nanairo-from-beyblade-x/);
+  assert.doesNotMatch(script, /const campusPages = \[[^\]]*'alice'/);
 });

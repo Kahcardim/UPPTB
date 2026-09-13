@@ -165,7 +165,6 @@ function makeCampusDistribution() {
       ...fixedLargeTurtles
     },
     images: distributeIds(roamingImageIds),
-    catPage: campusPages[Math.floor(Math.random() * campusPages.length)],
     generatedAt: Date.now()
   };
 }
@@ -279,12 +278,11 @@ const randomAssetPlane = document.querySelector('#random-asset-plane');
 const audits = [
   '$ upptb audit\nresultado ............ 0 bugs encontrados\nqa ................... recusou acreditar\nstatus ................ executar novamente',
   '$ upptb audit --deep\nrobinWins ............. 0\nregression ............ consistente\nmetodologia ........... turtle step\nstatus ................ suspeitamente estável',
-  '$ upptb audit --institutional\npaginas ............... 4\ntartarugas pequenas ... migratorias\ntartarugas grandes .... fixas por pagina\nlogos .................. fixas por pagina\nimagens ................ migratorias\ngato pelado ........... migratorio\nproduto ................ caos responsivo'
+  '$ upptb audit --institutional\npaginas ............... 4\ntartarugas pequenas ... migratorias\ntartarugas grandes .... fixas por pagina\nlogos .................. fixas por pagina\nimagens ................ migratorias\nalice .................. dominio isolado\nproduto ................ caos responsivo'
 ];
 let auditIndex = 0;
 let turtlesCreated = false;
 let roamingImagesCreated = false;
-let hairlessCatCreated = false;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -293,22 +291,6 @@ function randomBetween(min, max) {
 function clearLegacyRandomAssets() {
   if (!randomAssetPlane) return;
   randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
-}
-
-function createHairlessCat() {
-  if (!randomAssetPlane || hairlessCatCreated || campusDistribution.catPage !== currentPage) return;
-  const figure = document.createElement('figure');
-  const cat = document.createElement('img');
-  const caption = document.createElement('figcaption');
-  figure.className = 'random-asset random-character random-photo random-hairless-cat';
-  cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
-  cat.alt = '';
-  cat.loading = 'lazy';
-  cat.referrerPolicy = 'no-referrer';
-  caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
-  figure.append(cat, caption);
-  randomAssetPlane.append(figure);
-  hairlessCatCreated = true;
 }
 
 function createRoamingImages() {
@@ -365,7 +347,6 @@ function scatterAssets() {
 }
 
 function reorganizeCampus() {
-  createHairlessCat();
   createRoamingImages();
   createTurtles();
   scatterAssets();
