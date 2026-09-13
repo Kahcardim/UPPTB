@@ -3,6 +3,7 @@ import { estadosAlice } from './alice-states.js';
 const alicePageRoot = document.documentElement;
 
 if (alicePageRoot.dataset.page === 'alice') {
+  const aliceAssetVersion = '3';
   const stateDetails = [
     ['Então por que sua mão ainda está no painel?', 'Soltar uma variável'],
     ['Você entendeu. Agora consegue suportar não mexer?', 'Observar sem tocar'],
@@ -40,7 +41,7 @@ if (alicePageRoot.dataset.page === 'alice') {
     ...state,
     cat: stateDetails[index][0],
     cta: stateDetails[index][1],
-    wallpaper: `assets/alice-states/${state.imagem}`
+    wallpaper: `assets/alice-states/${state.imagem}?v=${aliceAssetVersion}`
   }));
 
   const quote = document.querySelector('[data-alice-quote]');
