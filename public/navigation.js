@@ -1,8 +1,9 @@
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
 const navGroups = [...document.querySelectorAll('.nav-group')];
+const header = document.querySelector('.site-header');
 
-function closeMenus({ closeMobile = true } = {}) {
+function closeMenus({ closeMobile = false } = {}) {
   navGroups.forEach((group) => { group.open = false; });
 
   if (closeMobile && nav && menuButton) {
@@ -11,26 +12,9 @@ function closeMenus({ closeMobile = true } = {}) {
   }
 }
 
-function openMobileMenu() {
-  if (!nav || !menuButton) return;
-  nav.dataset.open = 'true';
-  menuButton.setAttribute('aria-expanded', 'true');
-}
-
-function toggleMobileMenu() {
-  if (!nav || !menuButton) return;
-  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  if (isOpen) closeMenus();
-  else openMobileMenu();
-}
-
-/* Estado inicial sempre fechado, inclusive se alguma página antiga vier com <details open>. */
+/* O app.js continua responsável por abrir/fechar o menu mobile.
+   Este arquivo só complementa o comportamento dos submenus. */
 closeMenus();
-
-menuButton?.addEventListener('click', (event) => {
-  event.stopPropagation();
-  toggleMobileMenu();
-});
 
 navGroups.forEach((group) => {
   group.addEventListener('toggle', () => {
@@ -41,26 +25,22 @@ navGroups.forEach((group) => {
   });
 });
 
-nav?.addEventListener('click', (event) => {
-  const link = event.target.closest('a');
-  if (!link) return;
-  closeMenus();
-});
-
 document.addEventListener('pointerdown', (event) => {
-  const header = document.querySelector('.site-header');
-  if (!header?.contains(event.target)) closeMenus({ closeMobile: false });
+  if (!header?.contains(event.target)) closeMenus();
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
-  closeMenus();
+  closeMenus({ closeMobile: true });
   menuButton?.focus();
 });
 
-window.addEventListener('pageshow', closeMenus);
-window.addEventListener('hashchange', closeMenus);
+window.addEventListener('pageshow', () => closeMenus({ closeMobile: true }));
+window.addEventListener('hashchange', () => closeMenus({ closeMobile: true }));
+window.addEventListener('pagehide', () => closeMenus({ closeMobile: true }));
 
 window.addEventListener('resize', () => {
-  if (window.matchMedia('(min-width: 701px)').matches) closeMenus();
+  if (window.matchMedia('(min-width: 701px)').matches) {
+    closeMenus({ closeMobile: true });
+  }
 });
