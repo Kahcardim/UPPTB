@@ -3,6 +3,7 @@ import { estadosAlice } from './alice-states.js';
 const alicePageRoot = document.documentElement;
 
 if (alicePageRoot.dataset.page === 'alice') {
+  const aliceAssetVersion = '3';
   const stateDetails = [
     ['Então por que sua mão ainda está no painel?', 'Soltar uma variável'],
     ['Você entendeu. Agora consegue suportar não mexer?', 'Observar sem tocar'],
@@ -40,7 +41,7 @@ if (alicePageRoot.dataset.page === 'alice') {
     ...state,
     cat: stateDetails[index][0],
     cta: stateDetails[index][1],
-    wallpaper: `assets/alice-states/${state.imagem}`
+    wallpaper: `assets/alice-states/${state.imagem}?v=${aliceAssetVersion}`
   }));
 
   const quote = document.querySelector('[data-alice-quote]');
@@ -50,7 +51,6 @@ if (alicePageRoot.dataset.page === 'alice') {
   const catZone = document.querySelector('[data-alice-cat-zone]');
   const gallery = document.querySelector('[data-alice-gallery]');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const stateStorageKey = 'upptb-alice-state-v2';
   const recentPhraseKeys = [];
   let currentStateIndex = -1;
   let currentPhraseIndex = -1;
@@ -66,23 +66,9 @@ if (alicePageRoot.dataset.page === 'alice') {
     return indexes;
   };
 
-  const readInitialState = () => {
-    try {
-      const stored = Number.parseInt(sessionStorage.getItem(stateStorageKey), 10);
-      if (Number.isInteger(stored) && stored >= 0 && stored < states.length) return stored;
-    } catch {
-      // A experiência continua mesmo quando o armazenamento está indisponível.
-    }
-    return Math.floor(Math.random() * states.length);
-  };
-
-  const rememberState = (index) => {
-    try {
-      sessionStorage.setItem(stateStorageKey, String(index));
-    } catch {
-      // Persistência é melhoria, não dependência da interface.
-    }
-  };
+  // Cada carregamento da página escolhe um estado visual. Depois disso, o
+  // wallpaper permanece fixo até o próximo F5 ou uma seleção manual na galeria.
+  const readInitialState = () => Math.floor(Math.random() * states.length);
 
   const announcePhrase = (text) => {
     if (!quote) return;
@@ -144,22 +130,11 @@ if (alicePageRoot.dataset.page === 'alice') {
     if (catBubble) catBubble.textContent = state.cat;
 
     wallpaperFrame?.removeAttribute('data-missing-asset');
-    rememberState(index);
     updateSelectedCard();
   };
 
-  const chooseDifferentState = () => {
-    if (states.length < 2) return currentStateIndex;
-    let next = Math.floor(Math.random() * states.length);
-    if (next === currentStateIndex) next = (next + 1) % states.length;
-    return next;
-  };
-
   const rotatePhrase = () => {
-    if (statePhraseOrder.length === 0) {
-      renderState(chooseDifferentState(), true);
-      return;
-    }
+    if (statePhraseOrder.length === 0) statePhraseOrder = shuffledIndexes(states[currentStateIndex].frases.length);
     announcePhrase(nextPhraseForState(currentStateIndex));
   };
 
