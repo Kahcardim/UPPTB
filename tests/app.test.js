@@ -153,7 +153,9 @@ test('assets e estados principais da Alice estão acessíveis', async () => {
 test('layout da Alice preserva imagem inteira, centralização mobile e borboletas confinadas', async () => {
   const html = await readFile(new URL('../public/alice.html', import.meta.url), 'utf8');
   const css = await readFile(new URL('../public/alice-page.css', import.meta.url), 'utf8');
-  assert.match(html, /<script type="module" src="alice-page\.js"><\/script>/);
+  assert.match(html, /<script type="module" src="alice-page\.js\?v=3"><\/script>/);
+  assert.match(html, /alice-page\.css\?v=3/);
+  assert.match(await readFile(new URL('../public/alice-page.js', import.meta.url), 'utf8'), /alice-states\/\$\{state\.imagem\}\?v=\$\{aliceAssetVersion\}/);
   assert.match(css, /\.alice-wallpaper-frame img \{[^}]*height:auto;/s);
   assert.match(css, /\.alice-wallpaper-frame img \{[^}]*object-fit:contain;/s);
   assert.match(css, /\.alice-butterfly-plane \{[^}]*inset:0;[^}]*overflow:hidden;/s);
