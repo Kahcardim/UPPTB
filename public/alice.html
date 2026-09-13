@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="alice-page.css" />
   <script src="app.js" defer></script>
-  <script src="alice-page.js" defer></script>
+  <script type="module" src="alice-page.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -60,13 +60,13 @@
       <div class="alice-section-head">
         <p class="eyebrow">Efeito Alice</p>
         <h2 id="efeito-title">A página explica Alice executando Alice.</h2>
-        <p class="lead small">Posição, frase, CTA, gato e composição podem mudar entre ocorrências. O conteúdo crítico continua legível e as regras continuam valendo.</p>
+        <p class="lead small">Imagem, frase e CTA podem mudar entre ocorrências. O gato permanece no próprio espaço e o conteúdo crítico continua legível.</p>
       </div>
 
       <div class="alice-card-grid">
         <article class="alice-card"><span class="memory-tag">Definição</span><h3>Composição não determinística</h3><p>O Efeito Alice é um sistema de randomização e composição dinâmica da interface que gera estados visuais diferentes a cada ocorrência, mantendo regras estruturais definidas pelo produto.</p></article>
         <article class="alice-card"><span class="memory-tag">Seleção</span><h3>O sistema escolhe um estado</h3><p>Alice não sorteia cada frase isoladamente. Um estado agrupa <code>frase + resposta do gato + CTA + imagem</code>. Isso evita combinações semanticamente quebradas.</p></article>
-        <article class="alice-card"><span class="memory-tag">Posição</span><h3>Esquerda ou direita</h3><p>A composição principal pode inverter de lado. A mudança visual é esperada e não altera a hierarquia nem a compreensão do conteúdo.</p></article>
+        <article class="alice-card"><span class="memory-tag">Âncora</span><h3>Estado visual estável</h3><p>A composição mantém a mesma hierarquia em desktop e mobile. A imagem muda, mas não empurra o texto nem desloca os controles.</p></article>
         <article class="alice-card"><span class="memory-tag">Domínio</span><h3>Elementos exclusivos</h3><p>As borboletas e o gato desta página pertencem a Alice. Eles não migram para o restante da UPPTB. Em contrapartida, as tartarugas globais não entram aqui.</p></article>
         <article class="alice-card"><span class="memory-tag">QA</span><h3>Aleatório não significa sem regra</h3><p>O teste não procura uma única ordem correta. Ele verifica se a ocorrência observada pertence ao conjunto de comportamentos permitidos pelo produto.</p></article>
         <article class="alice-card"><span class="memory-tag">UX Gate</span><h3>Caos abaixo do conteúdo</h3><p>Elementos decorativos podem se mover e mudar. Conteúdo crítico, controles, navegação e leitura continuam acima do caos e utilizáveis.</p></article>
@@ -84,8 +84,8 @@
       </div>
       <div class="memory-grid">
         <article><span class="memory-tag">RN-A01</span><h3>Sem tartarugas globais</h3><p>A página Alice não faz parte do conjunto de destinos da distribuição de tartarugas da UPPTB.</p></article>
-        <article><span class="memory-tag">RN-A02</span><h3>15 borboletas exclusivas</h3><p>As borboletas nascem e permanecem neste domínio. Nenhuma ocorrência válida deve enviá-las a outra página.</p></article>
-        <article><span class="memory-tag">RN-A03</span><h3>Gato exclusivo</h3><p>O gato da Alice só existe aqui e provoca exatamente o estado semântico escolhido para aquela ocorrência.</p></article>
+        <article><span class="memory-tag">RN-A02</span><h3>15 borboletas exclusivas</h3><p>As borboletas nascem e permanecem dentro da área visual da Alice. Nenhuma ocorrência válida pode cobrir textos ou enviá-las a outra página.</p></article>
+        <article><span class="memory-tag">RN-A03</span><h3>Gato exclusivo e persistente</h3><p>O gato da Alice só existe aqui, permanece visível no próprio espaço e responde ao estado semântico escolhido.</p></article>
         <article><span class="memory-tag">RN-A04</span><h3>Frases sincronizadas</h3><p>Frase da Alice, provocação do gato, CTA e wallpaper pertencem ao mesmo registro de estado.</p></article>
         <article><span class="memory-tag">RN-A05</span><h3>Rosa e preto, azul como acento</h3><p>A página preserva a base estrutural da UPPTB, mas possui identidade cromática própria em rosa e preto. Azul aparece apenas como acento visual nas borboletas e brilhos secundários.</p></article>
         <article><span class="memory-tag">RN-A06</span><h3>Leitura preservada</h3><p>Nenhuma borboleta, gato ou mudança de lado pode impedir navegação, leitura ou interação com controles importantes.</p></article>
@@ -96,26 +96,10 @@
     <section id="wallpapers" class="chaos-cluster" aria-labelledby="wallpapers-title">
       <div class="alice-section-head">
         <p class="eyebrow">Estados visuais</p>
-        <h2 id="wallpapers-title">As 15 Alic(es) do pacote.</h2>
-        <p class="lead small">O mesmo conjunto criado para wallpaper também serve como repertório visual da personagem dentro da página.</p>
+        <h2 id="wallpapers-title">Os 30 estados atuais da Alice.</h2>
+        <p class="lead small">Cada imagem possui um estado, um tom e frases próprias. Selecionar uma imagem atualiza a composição principal sem quebrar o significado.</p>
       </div>
-      <div class="alice-gallery">
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Você não precisa controlar tudo.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Entender não obriga você a interferir.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Nem toda variável é sua.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Aceitar não significa gostar.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Tudo talvez.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>O segundo mudou.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Sai da sala de controle.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Eu cuido disso daqui.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Você consegue prever. Não precisa dominar.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Erro não é identidade.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Vai viver também, caralho.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Eu sei que é chato. Por isso eu existo.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Alice está administrando o caos.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Kauan, larga o painel.</figcaption></figure>
-        <figure><img data-gallery-wallpaper alt="" /><figcaption>Hoje você só precisa existir nesse segundo.</figcaption></figure>
-      </div>
+      <div class="alice-gallery" data-alice-gallery aria-label="Seleção dos 30 estados visuais da Alice"></div>
     </section>
   </main>
 

@@ -4,10 +4,10 @@ Status: requisito de produto preservado para V2.
 
 ## V2-CHAOS-01 - Gato pelado migratorio
 
-O gato Sphynx com notebook/computador deve participar do sistema de caos visual entre todas as paginas institucionais da UPPTB.
+O gato pertence exclusivamente ao dominio da Alice e nao participa da distribuicao visual das outras paginas da UPPTB.
 
 Criterios:
-- o gato nao pertence permanentemente a uma unica pagina;
+- o gato permanece exclusivamente na pagina Alice;
 - em um novo reload/F5, a pagina onde ele aparece pode mudar;
 - ao navegar entre paginas sem novo reload, a distribuicao sorteada deve ser preservada;
 - o comportamento nao pode comprometer navegacao, leitura minima ou responsividade.
@@ -19,7 +19,7 @@ O efeito Alice continua distribuindo elementos decorativos pelo campus inteiro, 
 Criterios:
 - imagens comuns, personagens, Beyblade, Multi e arquivos visuais continuam podendo migrar entre Home, Laboratorio Beyblade, Desenvolvimento de Ingles e Memorias;
 - as tartarugas pequenas continuam migratorias;
-- o gato pelado continua migratorio;
+- o gato deixa de ser migratorio e passa a obedecer as regras locais da Alice;
 - cada novo reload/F5 pode gerar nova distribuicao para os elementos migratorios;
 - a navegacao entre paginas preserva a distribuicao atual ate o proximo reload;
 - o caos visual e requisito de identidade, mas nao justifica quebra de viewport, overflow horizontal ou perda de legibilidade basica.
