@@ -10,7 +10,7 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
     const html = await read(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.match(html, /<script type="module" src="app\\.js(?:\\?v=\\d+)?"><\\/script>/);
+    assert.match(html, /<script type="module" src="app\\.js(?:\\?v=\\d+)?"><\/script>/);
     assert.doesNotMatch(html, /navigation\.js/);
   }
 });
