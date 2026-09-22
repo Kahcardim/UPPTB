@@ -137,9 +137,23 @@ export function initRandomizer() {
 
   function overlapsContent(asset) {
     const rect = asset.getBoundingClientRect();
-    const probes = [[rect.left+rect.width*.2,rect.top+rect.height*.2],[rect.left+rect.width*.5,rect.top+rect.height*.5],[rect.right-rect.width*.2,rect.bottom-rect.height*.2]];
-    return probes.some(([x,y]) => document.elementsFromPoint(x,y).some((element) =>
-      element.closest('main > section, article, pre, .hero-copy, .hero-actions, .nav-panel') && !element.closest('.random-asset-plane')));
+    const protectedElements = [...document.querySelectorAll(
+      'h1, h2, h3, p, a, button, article, pre, code, .hero-copy, .hero-actions, .nav-panel, .timeline, .mode-grid, .code-grid, .memory-grid, .archive, .downloads, .fossil, .warning, .classified, .error-board'
+    )].filter((element) => !element.closest('.random-asset-plane'));
+
+    // A tartaruga pode ocupar o espaço caótico entre componentes, mas sua caixa
+    // visual não pode cruzar a caixa de leitura/interação de nenhum deles.
+    const margin = 14;
+    return protectedElements.some((element) => {
+      const target = element.getBoundingClientRect();
+      if (!target.width || !target.height) return false;
+      return !(
+        rect.right + margin <= target.left ||
+        rect.left - margin >= target.right ||
+        rect.bottom + margin <= target.top ||
+        rect.top - margin >= target.bottom
+      );
+    });
   }
 
   function scatterAssets() {
@@ -154,8 +168,11 @@ export function initRandomizer() {
         asset.style.left = randomBetween(0, isLarge ? 78 : 88).toFixed(1) + '%';
         asset.style.transform = 'rotate(' + randomBetween(-20, 20).toFixed(1) + 'deg)';
         attempts += 1;
-      } while (overlapsContent(asset) && attempts < 24);
-      if (overlapsContent(asset)) asset.style.opacity = '.18';
+      } while (overlapsContent(asset) && attempts < 80);
+
+      // Se não houver posição segura, não mostramos uma ocorrência inválida.
+      // Na próxima ocorrência/F5 ela terá nova chance de posicionamento.
+      asset.hidden = overlapsContent(asset);
       asset.style.zIndex = String(index % 2);
     });
   }
