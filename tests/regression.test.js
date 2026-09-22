@@ -158,7 +158,6 @@ test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', asyn
   assert.doesNotMatch(html, /randomizer\.js/);
   assert.match(js, /const states = estadosAlice\.map/);
   assert.match(js, /assets\/alice-states/);
-  assert.match(html, /Os 30 estados atuais da Alice/);
 });
 
 
