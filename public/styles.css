@@ -421,3 +421,45 @@ main>section{isolation:isolate;}
   .site-footer-brand{align-items:flex-start;}
   .site-footer-alice,.site-footer-note{grid-column:1;}
 }
+
+
+/* V6 mobile asset safety: caos sem estouro horizontal. */
+@media(max-width:700px){
+  .random-asset{
+    width:auto;
+    max-width:min(9rem,32vw) !important;
+  }
+  .random-character{
+    width:min(8rem,28vw) !important;
+    max-width:28vw !important;
+  }
+  .random-identity{
+    width:min(9rem,30vw) !important;
+    max-width:30vw !important;
+  }
+  .random-turtle{
+    width:min(5.25rem,18vw) !important;
+    max-width:18vw !important;
+  }
+  .random-turtle.large-turtle{
+    width:min(7.5rem,24vw) !important;
+    max-width:24vw !important;
+  }
+  .random-asset img{
+    display:block;
+    width:100%;
+    height:auto;
+    max-width:100%;
+    max-height:10rem;
+  }
+  .random-asset figcaption{
+    width:auto;
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+}
+@media(max-width:420px){
+  .random-character,.random-identity{max-width:26vw !important;}
+  .random-turtle{max-width:17vw !important;}
+  .random-turtle.large-turtle{max-width:22vw !important;}
+}
