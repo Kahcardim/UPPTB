@@ -379,3 +379,11 @@ main>section{isolation:isolate;}
   .random-turtle{max-width:18vw;}
   .random-turtle.large-turtle{max-width:22vw;}
 }
+
+/* V5: tartarugas permanecem parte visível da identidade sem competir com leitura. */
+.random-turtle{opacity:.9 !important;filter:drop-shadow(.45rem .45rem 0 rgba(0,0,0,.62));}
+.random-turtle.large-turtle{opacity:.86 !important;}
+@media(max-width:700px){
+  .random-turtle{opacity:.88 !important;}
+  .random-turtle.large-turtle{opacity:.82 !important;}
+}
