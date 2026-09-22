@@ -186,7 +186,7 @@ test('randomizer protege caixas de leitura contra colisão visual', async () => 
   assert.match(js, /protectedElements/);
   assert.match(js, /const margin = 14/);
   assert.match(js, /attempts < 80/);
-  assert.match(js, /asset\.hidden = overlapsContent\(asset\)/);
+  assert.match(js, /asset\.hidden = !foundSafeSlot/);
   assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
 });
 
