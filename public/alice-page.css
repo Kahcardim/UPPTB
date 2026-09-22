@@ -1,4 +1,4 @@
-html[data-page="alice"] { --bg:#080008; --panel:#150713; --panel-2:#210a1d; --text:#fff7fb; --muted:#d8b7cc; --green:#ff4fa3; --green-2:#ff7fbd; --line:#5a2046; --warning:#ffb5d8; scroll-snap-type:y proximity; scroll-padding-top:5.5rem; }
+html[data-page="alice"] { --bg:#080008; --panel:#150713; --panel-2:#210a1d; --text:#fff7fb; --muted:#d8b7cc; --green:#ff4fa3; --green-2:#ff7fbd; --line:#5a2046; --warning:#ffb5d8; scroll-padding-top:5.5rem; }
 html[data-page="alice"] body { background:radial-gradient(circle at 16% 4%,rgba(255,79,163,.20),transparent 26rem),radial-gradient(circle at 84% 18%,rgba(69,167,255,.10),transparent 22rem),linear-gradient(180deg,#070006 0%,#0b0209 54%,#12040f 100%); }
 html[data-page="alice"] .site-header { border-bottom-color:rgba(255,79,163,.30); background:rgba(9,0,8,.92); }
 html[data-page="alice"] .site-header nav a:hover,html[data-page="alice"] .site-header nav a:focus-visible,html[data-page="alice"] .site-page-link:hover,html[data-page="alice"] .site-page-link:focus-visible,html[data-page="alice"] .nav-group[open]>summary,html[data-page="alice"] .nav-group>summary:hover,html[data-page="alice"] .nav-group>summary:focus-visible { background:rgba(255,79,163,.12); }
@@ -18,8 +18,8 @@ html[data-page="alice"] .nav-panel a[aria-current="true"] { color:#fff; backgrou
 .alice-state-quote { position:relative; z-index:3; width:100%; margin:0 auto; padding:1rem 1.1rem; border-left:4px solid var(--green); background:rgba(255,79,163,.07); color:#ffe8f4; text-align:center; font:900 clamp(.95rem,2vw,1.1rem)/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; box-sizing:border-box; }
 .alice-hero .hero-actions { justify-content:center; }
 .alice-hero-visual { position:relative; z-index:1; width:min(460px,100%); justify-self:center; display:grid; place-items:center; isolation:isolate; }
-.alice-wallpaper-frame { position:relative; z-index:1; width:min(460px,86vw); aspect-ratio:4/5; min-height:0; overflow:hidden; border:1px solid rgba(255,79,163,.42); border-radius:34px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
-.alice-wallpaper-frame img { position:absolute; inset:0; z-index:2; display:block; width:100%; height:100%; max-height:none; object-fit:cover; object-position:center 18%; background:#080008; }
+.alice-wallpaper-frame { position:relative; z-index:1; width:min(430px,84vw); aspect-ratio:9/16; min-height:0; overflow:hidden; border:1px solid rgba(255,79,163,.42); border-radius:34px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
+.alice-wallpaper-frame img { position:absolute; inset:0; z-index:2; display:block; width:100%; height:100%; max-height:none; object-fit:cover; object-position:center top; background:#080008; }
 .alice-wallpaper-frame::after { content:'ALICE // UPPTB'; position:absolute; z-index:5; left:1rem; bottom:1rem; padding:.45rem .65rem; border:1px solid rgba(255,255,255,.22); border-radius:999px; background:rgba(7,0,6,.72); color:#fff; font:900 .65rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; letter-spacing:.08em; }
 .alice-wallpaper-frame[data-missing-asset="true"]::before { content:'Estado visual indisponível'; display:grid; min-height:24rem; place-items:center; padding:2rem; color:var(--muted); text-align:center; }
 .alice-state-quote.is-changing { animation:aliceQuoteIn .42s ease both; }
@@ -66,7 +66,7 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
   .alice-cat{width:min(135px,24vw);}
 }
 @media(max-width:760px){
-  html[data-page="alice"]{scroll-snap-type:y proximity;}
+  html[data-page="alice"]{scroll-snap-type:none;}
   .alice-page-shell>section{width:min(100% - 1.25rem,1080px);padding:2rem 0;}
   .alice-hero,.alice-hero[data-side="left"]{grid-template-columns:1fr;min-height:auto;text-align:center;gap:2rem;padding-top:3rem!important;}
   .alice-hero[data-side="left"] .alice-hero-visual,.alice-hero[data-side="left"] .alice-hero-copy,.alice-hero-visual,.alice-hero-copy{order:initial;}
@@ -75,8 +75,8 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
   .alice-hero .hero-actions{justify-content:center;}
   .alice-dialogue-stage{min-height:15rem;padding-bottom:7.75rem;}
   .alice-state-quote{text-align:center;margin-inline:auto;}
-  .alice-hero-visual{width:min(82vw,340px);}
-  .alice-wallpaper-frame{width:min(82vw,340px);min-height:0;}
+  .alice-hero-visual{width:min(88vw,360px);}
+  .alice-wallpaper-frame{width:min(88vw,360px);min-height:0;aspect-ratio:9/16;}
   .alice-wallpaper-frame img{max-height:none;}
   .alice-card-grid{grid-template-columns:1fr;}
   .alice-card-grid,.memory-grid{width:100%;justify-items:center;}
