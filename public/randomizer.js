@@ -159,10 +159,18 @@ export function initRandomizer() {
   function scatterAssets() {
     const main = document.querySelector('main');
     const pageHeight = Math.max(main?.scrollHeight ?? 2400, 2400);
-    randomAssetPlane.querySelectorAll('.random-asset').forEach((asset, index) => {
+    const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
+
+    // O teste de colisão precisa acontecer com a geometria final da imagem.
+    // Antes de carregar, <img> pode medir 0px e produzir falso negativo.
+    assets.forEach((asset) => { asset.hidden = true; });
+
+    assets.forEach((asset, index) => {
       const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
       const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
       let attempts = 0;
+      asset.hidden = false;
+
       do {
         asset.style.top = randomBetween(90, topLimit).toFixed(0) + 'px';
         asset.style.left = randomBetween(0, isLarge ? 78 : 88).toFixed(1) + '%';
@@ -170,8 +178,6 @@ export function initRandomizer() {
         attempts += 1;
       } while (overlapsContent(asset) && attempts < 80);
 
-      // Se não houver posição segura, não mostramos uma ocorrência inválida.
-      // Na próxima ocorrência/F5 ela terá nova chance de posicionamento.
       asset.hidden = overlapsContent(asset);
       asset.style.zIndex = String(index % 2);
     });
@@ -180,7 +186,17 @@ export function initRandomizer() {
   clearLegacyRandomAssets();
   createHairlessCat(); createRoamingImages(); createTurtles();
   randomAssetPlane.dataset.randomizerReady = 'true';
+  // O primeiro passe é apenas fallback. O passe autoritativo ocorre depois que
+  // as imagens possuem dimensões reais. Assim a colisão usa a caixa renderizada.
   scatterAssets();
+  const images = [...randomAssetPlane.querySelectorAll('img')];
+  Promise.all(images.map((image) => image.complete
+    ? Promise.resolve()
+    : new Promise((resolve) => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', resolve, { once: true });
+      })
+  )).then(scatterAssets);
   window.addEventListener('load', scatterAssets, { once: true });
   return { scatterAssets };
 }
