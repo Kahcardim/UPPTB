@@ -44,3 +44,31 @@ window.addEventListener('resize', () => {
     closeMenus({ closeMobile: true });
   }
 });
+
+
+function normalizePageEntry() {
+  if (window.location.hash) return;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
+normalizePageEntry();
+window.addEventListener('pageshow', (event) => {
+  closeMenus({ closeMobile: true });
+  if (!window.location.hash) {
+    requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
+  }
+});
+
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href]');
+  if (!link) return;
+  const url = new URL(link.href, window.location.href);
+  if (url.origin !== window.location.origin) return;
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  const targetFile = url.pathname.split('/').pop() || 'index.html';
+  if (currentFile !== targetFile && !link.dataset.preserveHash) {
+    url.hash = '';
+    link.href = url.href;
+  }
+});
