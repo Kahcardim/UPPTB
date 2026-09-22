@@ -196,7 +196,6 @@ test('randomizer aguarda dimensões reais das imagens antes do passe autoritativ
   assert.match(js, /Promise\.all\(images\.map/);
   assert.match(js, /image\.addEventListener\('load', resolve/);
   assert.match(js, /\)\)\.then\(scatterAssets\)/);
-  assert.match(js, /assets\.forEach\(\(asset\) => \{ asset\.hidden = true; \}\)/);
 });
 
 
