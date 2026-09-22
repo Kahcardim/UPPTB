@@ -5,11 +5,21 @@
   "description": "Fundação do laboratório UPPTB em JavaScript e Node.js",
   "type": "module",
   "packageManager": "pnpm@11.19.0",
-  "engines": { "node": ">=24 <25" },
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
-    "test": "node --test"
+    "dev": "vite --host 127.0.0.1",
+    "test": "node --test",
+    "dev:api": "node --watch src/server.js",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1"
   },
-  "dependencies": { "express": "^5.1.0" }
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
 }
