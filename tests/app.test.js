@@ -33,8 +33,8 @@ test('Home V1 é servida com identidade e fóssil fundador preservados', async (
     assert.match(html, /Universidade Pública Peculiar Turtle and Beys/);
     assert.match(html, /Identidade HIGH · Severidade ULTRA TURTLE/);
     assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
-    assert.match(html, /Turtle Drill/);
-    assert.match(html, /Negation and Negation/);
+    assert.match(html, /Desenvolvimento de Inglês/);
+    assert.match(html, /href="ingles\.html"/);
     assert.match(html, /Forbidden Turtle Archive/);
   });
 });
