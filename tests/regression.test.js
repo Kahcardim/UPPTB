@@ -10,8 +10,8 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
     const html = await read(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.match(html, /<script src="app\.js" defer><\/script>/);
-    assert.match(html, /<script src="navigation\.js" defer><\/script>/);
+    assert.match(html, /<script type="module" src="app\.js"><\/script>/);
+    assert.doesNotMatch(html, /navigation\.js/);
   }
 });
 
@@ -74,7 +74,7 @@ test('regressão: fóssil fundador permanece intacto', async () => {
 
 
 test('regressão: resíduos de bladers são removidos fora do laboratório', async () => {
-  const js = await read('app.js');
+  const js = await read('randomizer.js');
   assert.match(js, /if \(currentPage !== 'lab'\)/);
   assert.match(js, /image\.closest\('figure'\)\?\.remove\(\)/);
 });
