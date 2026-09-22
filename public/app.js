@@ -293,6 +293,17 @@ function randomBetween(min, max) {
 function clearLegacyRandomAssets() {
   if (!randomAssetPlane) return;
   randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
+  if (currentPage !== 'lab') {
+    const beybladeAssets = [
+      'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
+      'ekusu-remade.webp',
+      'Beyblade_X_-_Ekusu_Kurosu.webp',
+      'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
+    ];
+    document.querySelectorAll('img').forEach((image) => {
+      if (beybladeAssets.some((asset) => image.src.includes(asset))) image.closest('figure')?.remove();
+    });
+  }
 }
 
 function createHairlessCat() {
