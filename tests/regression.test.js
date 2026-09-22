@@ -82,7 +82,7 @@ test('regressão: resíduos de bladers são removidos fora do laboratório', asy
 test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async () => {
   const js = await read('alice.js');
   assert.match(js, /function characterOverlapsContent\(/);
-  assert.match(js, /attempts < 36/);
+  assert.match(js, /attempts < 24/);
   assert.match(js, /caption\.textContent = config\.phrase/);
   assert.match(js, /display: block !important/);
   assert.match(js, /visibility: visible !important/);
