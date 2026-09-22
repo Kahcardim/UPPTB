@@ -127,9 +127,11 @@ test('Sprint 2: app orquestra módulos router e randomizer', async () => {
   assert.match(js, /initRandomizer\(\)/);
 });
 
-test('Sprint 2: cada carregamento gera uma nova ocorrência do mapa aleatório', async () => {
+test('Sprint 2: mapa persiste na navegação e só renova em reload/F5', async () => {
   const js = await read('randomizer.js');
-  assert.match(js, /const fresh = makeCampusDistribution\(\)/);
+  assert.match(js, /navigationEntry\?\.type === 'reload'/);
+  assert.match(js, /if \(!stored \|\| isReload\)/);
+  assert.match(js, /if \(valid\) return parsed/);
   assert.match(js, /localStorage\.setItem\(campusStorageKey/);
   assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
   assert.match(js, /attempts < 24/);
