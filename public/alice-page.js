@@ -167,32 +167,34 @@ if (alicePageRoot.dataset.page === 'alice') {
   });
   wallpaperFrame?.prepend(butterflyPlane);
 
-  states.forEach((state, index) => {
-    const figure = document.createElement('figure');
-    const button = document.createElement('button');
-    const image = document.createElement('img');
-    const caption = document.createElement('figcaption');
+  if (gallery) {
+    states.forEach((state, index) => {
+      const figure = document.createElement('figure');
+      const button = document.createElement('button');
+      const image = document.createElement('img');
+      const caption = document.createElement('figcaption');
 
-    button.type = 'button';
-    button.className = 'alice-state-card';
-    button.dataset.aliceStateIndex = String(index);
-    button.setAttribute('aria-pressed', 'false');
-    button.setAttribute('aria-label', `Selecionar estado ${state.estado.replaceAll('-', ' ')}`);
-    image.src = state.wallpaper;
-    image.alt = '';
-    image.loading = 'lazy';
-    caption.textContent = state.frases[0];
-    button.append(image, caption);
-    figure.append(button);
-    gallery?.append(figure);
+      button.type = 'button';
+      button.className = 'alice-state-card';
+      button.dataset.aliceStateIndex = String(index);
+      button.setAttribute('aria-pressed', 'false');
+      button.setAttribute('aria-label', `Selecionar estado ${state.estado.replaceAll('-', ' ')}`);
+      image.src = state.wallpaper;
+      image.alt = '';
+      image.loading = 'lazy';
+      caption.textContent = state.frases[0];
+      button.append(image, caption);
+      figure.append(button);
+      gallery.append(figure);
 
-    button.addEventListener('click', () => {
-      renderState(index, true);
-      document.querySelector('#alice-topo')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      button.addEventListener('click', () => {
+        renderState(index, true);
+        document.querySelector('#alice-topo')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+
+      image.addEventListener('error', () => figure.classList.add('missing-wallpaper'), { once: true });
     });
-
-    image.addEventListener('error', () => figure.classList.add('missing-wallpaper'), { once: true });
-  });
+  }
 
   heroImage?.addEventListener('error', () => {
     heroImage.hidden = true;
