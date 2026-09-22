@@ -106,3 +106,14 @@ test('regressão: tartarugas mantêm presença visual', async () => {
   const css = await read('styles.css');
   assert.match(css, /\.random-turtle\{opacity:\.9 !important/);
 });
+
+
+test('regressão: terminal interativo mantém comandos MVP', async () => {
+  const html = await read('index.html');
+  const js = await read('terminal.js');
+  assert.match(html, /data-terminal-form/);
+  assert.match(html, /terminal\.js/);
+  for (const command of ['help', 'status', 'lore', 'clear']) {
+    assert.match(js, new RegExp("command === '" + command + "'"));
+  }
+});
