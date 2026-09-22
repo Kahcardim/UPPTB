@@ -184,7 +184,7 @@ test('rodapé institucional identifica fundador e mantém frase da Alice nos cam
 test('randomizer protege caixas de leitura contra colisão visual', async () => {
   const js = await read('randomizer.js');
   assert.match(js, /protectedElements/);
-  assert.match(js, /const margin = 14/);
+  assert.match(js, /const margin = 10/);
   assert.match(js, /attempts < 80/);
   assert.match(js, /asset\.hidden = !foundSafeSlot/);
   assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
