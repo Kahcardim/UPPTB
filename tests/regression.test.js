@@ -216,3 +216,11 @@ test('randomizer preserva tartarugas procurando slot livre após tentativas alea
   assert.match(js, /for \(let left = 0; left <= maxLeft/);
   assert.match(js, /asset\.hidden = !foundSafeSlot/);
 });
+
+
+test('randomizer nunca zera geometria ocultando todos os assets antes da colisão', async () => {
+  const js = await read('randomizer.js');
+  assert.doesNotMatch(js, /assets\.forEach\(\(asset\) => \{ asset\.hidden = true; \}\)/);
+  assert.match(js, /function placeAsset\(asset, index, pageHeight\)/);
+  assert.match(js, /asset\.hidden = false/);
+});
