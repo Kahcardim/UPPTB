@@ -18,8 +18,8 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
 test('regressão UX: Alice permanece isolada do plano aleatório global', async () => {
   const html = await read('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /alice-page\.css\?v=4/);
-  assert.match(html, /alice-page\.js\?v=4/);
+  assert.match(html, /alice-page\.css\?v=5/);
+  assert.match(html, /alice-page\.js\?v=5/);
 });
 
 test('regressão Alice: estado não possui rotação automática por timer', async () => {
@@ -86,4 +86,23 @@ test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async ()
   assert.match(js, /caption\.textContent = config\.phrase/);
   assert.match(js, /display: block !important/);
   assert.match(js, /visibility: visible !important/);
+});
+
+
+test('regressão: navegação normaliza entrada de página no topo', async () => {
+  const js = await read('navigation.js');
+  assert.match(js, /scrollRestoration = 'manual'/);
+  assert.match(js, /window\.scrollTo\(\{ top: 0, left: 0/);
+  assert.match(js, /currentFile !== targetFile/);
+});
+
+test('regressão: Alice usa fluxo sem scroll snap e wallpaper vertical', async () => {
+  const css = await read('alice-page.css');
+  assert.match(css, /scroll-snap-type:none/);
+  assert.match(css, /aspect-ratio:9\/16/);
+});
+
+test('regressão: tartarugas mantêm presença visual', async () => {
+  const css = await read('styles.css');
+  assert.match(css, /\.random-turtle\{opacity:\.9 !important/);
 });
