@@ -1,6 +1,6 @@
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v5';
+const campusStorageKey = 'upptb-campus-distribution-v6';
 
 const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
@@ -137,6 +137,12 @@ export function initRandomizer() {
 
   function overlapsContent(asset) {
     const rect = asset.getBoundingClientRect();
+    const viewportPadding = window.innerWidth <= 700 ? 8 : 4;
+    if (
+      rect.left < viewportPadding ||
+      rect.right > window.innerWidth - viewportPadding ||
+      rect.top < 0
+    ) return true;
     const protectedElements = [...document.querySelectorAll(
       'h1, h2, h3, p, a, button, article, pre, code, .hero-copy, .hero-actions, .nav-panel, .timeline, .mode-grid, .code-grid, .memory-grid, .archive, .downloads, .fossil, .warning, .classified, .error-board'
     )].filter((element) => !element.closest('.random-asset-plane'));
@@ -156,19 +162,21 @@ export function initRandomizer() {
 
   function placeAsset(asset, index, pageHeight) {
     const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
+    const isMobile = window.innerWidth <= 700;
     const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
+    const maxRandomLeft = isMobile ? (isLarge ? 58 : 72) : (isLarge ? 78 : 88);
     let attempts = 0;
     asset.hidden = false;
 
     do {
       asset.style.top = randomBetween(90, topLimit).toFixed(0) + 'px';
-      asset.style.left = randomBetween(0, isLarge ? 78 : 88).toFixed(1) + '%';
+      asset.style.left = randomBetween(0, maxRandomLeft).toFixed(1) + '%';
       asset.style.transform = 'rotate(' + randomBetween(-20, 20).toFixed(1) + 'deg)';
       attempts += 1;
     } while (overlapsContent(asset) && attempts < 80);
 
     if (overlapsContent(asset)) {
-      const maxLeft = isLarge ? 78 : 88;
+      const maxLeft = maxRandomLeft;
       const yStep = isLarge ? 96 : 56;
       const xStep = isLarge ? 8 : 4;
       let foundSafeSlot = false;
