@@ -18,8 +18,8 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
 test('regressão UX: Alice permanece isolada do plano aleatório global', async () => {
   const html = await read('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /alice-page\.css\?v=5/);
-  assert.match(html, /alice-page\.js\?v=5/);
+  assert.match(html, /alice-page\.css\?v=6/);
+  assert.match(html, /alice-page\.js\?v=6/);
 });
 
 test('regressão Alice: estado não possui rotação automática por timer', async () => {
