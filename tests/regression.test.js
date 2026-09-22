@@ -71,3 +71,19 @@ test('regressão: fóssil fundador permanece intacto', async () => {
   const html = await read('index.html');
   assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
 });
+
+
+test('regressão: resíduos de bladers são removidos fora do laboratório', async () => {
+  const js = await read('app.js');
+  assert.match(js, /if \(currentPage !== 'lab'\)/);
+  assert.match(js, /image\.closest\('figure'\)\?\.remove\(\)/);
+});
+
+test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async () => {
+  const js = await read('alice.js');
+  assert.match(js, /function characterOverlapsContent\(/);
+  assert.match(js, /attempts < 24/);
+  assert.match(js, /caption\.textContent = config\.phrase/);
+  assert.match(js, /display: block !important/);
+  assert.match(js, /visibility: visible !important/);
+});
