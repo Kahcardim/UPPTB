@@ -387,3 +387,37 @@ main>section{isolation:isolate;}
   .random-turtle{opacity:.88 !important;}
   .random-turtle.large-turtle{opacity:.82 !important;}
 }
+
+
+/* Rodapé institucional: assinatura do fundador + freio da Alice. */
+.site-footer{
+  width:min(calc(100% - 2rem),var(--max));
+  margin:0 auto;
+  padding:2rem 0 2.4rem;
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(18rem,.7fr);
+  gap:1rem 2rem;
+  align-items:center;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+.site-footer-brand{display:flex;align-items:center;gap:.9rem;min-width:0;}
+.site-footer-brand img{flex:0 0 auto;}
+.site-footer-brand strong{display:block;color:var(--text);font-size:.95rem;}
+.site-footer-brand p{margin:.3rem 0 0;line-height:1.55;}
+.site-footer-alice{
+  margin:0;
+  padding:.9rem 1rem;
+  border-left:3px solid var(--green);
+  background:rgba(53,255,102,.045);
+  color:var(--text);
+  font-size:.86rem;
+  line-height:1.5;
+}
+.site-footer-alice strong{color:var(--green);}
+.site-footer-note{grid-column:1/-1;margin:0;padding-top:.8rem;border-top:1px solid rgba(53,255,102,.08);}
+@media(max-width:700px){
+  .site-footer{width:calc(100% - 1rem);grid-template-columns:1fr;padding:1.5rem 0 5rem;}
+  .site-footer-brand{align-items:flex-start;}
+  .site-footer-alice,.site-footer-note{grid-column:1;}
+}
