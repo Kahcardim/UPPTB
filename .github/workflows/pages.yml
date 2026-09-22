@@ -36,6 +36,8 @@ jobs:
         run: pnpm install --no-frozen-lockfile --allow-build=esbuild
       - name: Run full regression suite
         run: pnpm test
+      - name: Validate production build
+        run: pnpm build
 
   deploy:
     needs: regression
@@ -46,6 +48,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+          run_install: false
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile --allow-build=esbuild
+      - name: Build production bundle
+        run: pnpm build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -55,7 +71,7 @@ jobs:
       - name: Prepare static preview
         run: |
           mkdir -p _site
-          cp -R public/. _site/
+          cp -R dist/. _site/
           mkdir -p _site/docs
           cp docs/UPPTB-Arquivo-Proibido-Turtle.md _site/docs/
           cp docs/benchmark-gate-1.md _site/docs/
