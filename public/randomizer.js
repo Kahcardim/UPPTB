@@ -198,5 +198,23 @@ export function initRandomizer() {
       })
   )).then(scatterAssets);
   window.addEventListener('load', scatterAssets, { once: true });
+
+  // Fontes e responsividade podem deslocar texto depois do load. Revalidamos
+  // sem mudar a ocorrência do campus: só as coordenadas visuais são recalculadas.
+  document.fonts?.ready?.then(scatterAssets);
+
+  let resizeTimer;
+  const scheduleCollisionRecheck = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(scatterAssets, 120);
+  };
+  window.addEventListener('resize', scheduleCollisionRecheck, { passive: true });
+
+  const main = document.querySelector('main');
+  const layoutObserver = typeof ResizeObserver === 'function' && main
+    ? new ResizeObserver(scheduleCollisionRecheck)
+    : null;
+  layoutObserver?.observe(main);
+
   return { scatterAssets };
 }
