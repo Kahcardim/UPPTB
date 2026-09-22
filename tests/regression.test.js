@@ -198,3 +198,12 @@ test('randomizer aguarda dimensões reais das imagens antes do passe autoritativ
   assert.match(js, /\)\)\.then\(scatterAssets\)/);
   assert.match(js, /assets\.forEach\(\(asset\) => \{ asset\.hidden = true; \}\)/);
 });
+
+
+test('randomizer revalida colisões após fontes e mudanças de layout', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /document\.fonts\?\.ready\?\.then\(scatterAssets\)/);
+  assert.match(js, /window\.addEventListener\('resize', scheduleCollisionRecheck/);
+  assert.match(js, /new ResizeObserver\(scheduleCollisionRecheck\)/);
+  assert.match(js, /layoutObserver\?\.observe\(main\)/);
+});
