@@ -35,7 +35,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile --allow-build=esbuild
+        run: pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
       - name: Run full regression suite
         run: pnpm test
       - name: Validate production build
