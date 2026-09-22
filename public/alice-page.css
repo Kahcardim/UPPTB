@@ -109,3 +109,126 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
   .alice-hero{grid-template-columns:minmax(0,1fr) minmax(340px,460px);}
   .alice-hero-copy{z-index:5;}
 }
+
+
+/* V6 Alice UX: enquadramento integral, gato sem recorte e navegação de estados visível. */
+.alice-dialogue-stage{overflow:visible;}
+.alice-companion-zone{overflow:visible;padding-inline:.5rem;box-sizing:border-box;}
+.alice-cat{max-width:calc(100% - 1rem);}
+.alice-cat svg{overflow:visible;}
+
+.alice-wallpaper-frame img{
+  object-fit:contain;
+  object-position:center center;
+  background:#080008;
+}
+
+.alice-gallery{
+  position:relative;
+  z-index:6;
+}
+.alice-gallery figure,.alice-state-card{
+  position:relative;
+  z-index:1;
+}
+.alice-state-card{
+  min-height:100%;
+  border:1px solid transparent;
+}
+.alice-state-card:hover,.alice-state-card:focus-visible{
+  border-color:rgba(255,127,189,.72);
+}
+
+@media(max-width:760px){
+  .alice-hero{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    min-height:clamp(680px,100svh,860px);
+    display:flex;
+    align-items:flex-end;
+    padding:4.5rem .75rem 2rem!important;
+  }
+  .alice-hero-visual{
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    width:100%!important;
+    height:100%!important;
+    display:block!important;
+  }
+  .alice-wallpaper-frame{
+    width:100%!important;
+    height:100%!important;
+    aspect-ratio:auto!important;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    background:#080008;
+  }
+  .alice-wallpaper-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+    opacity:.72;
+  }
+  .alice-wallpaper-frame::after{display:none;}
+  .alice-wallpaper-frame::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:3;
+    display:block;
+    background:linear-gradient(180deg,rgba(8,0,8,.10) 0%,rgba(8,0,8,.34) 42%,rgba(8,0,8,.94) 82%,#080008 100%);
+    pointer-events:none;
+  }
+  .alice-hero-copy{
+    position:relative;
+    z-index:7;
+    width:100%;
+    padding:1rem .35rem 0;
+    text-shadow:0 2px 16px rgba(0,0,0,.85);
+  }
+  .alice-dialogue-stage{
+    min-height:15.5rem;
+    padding-bottom:8rem;
+    overflow:visible;
+  }
+  .alice-companion-zone{
+    inset:5.5rem .25rem 0;
+    overflow:visible;
+  }
+  .alice-cat{
+    width:min(92px,24vw);
+    max-width:none;
+  }
+  .alice-cat-bubble{
+    width:min(170px,48vw);
+  }
+  .alice-gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.65rem;
+  }
+  .alice-gallery figure{
+    overflow:visible;
+  }
+  .alice-gallery img{
+    aspect-ratio:9/16;
+    object-fit:cover;
+    object-position:center top;
+    border-radius:17px 17px 0 0;
+  }
+  .alice-gallery figcaption{
+    display:block;
+    min-height:4.5rem;
+    background:#0b0209;
+    border-radius:0 0 17px 17px;
+  }
+}
+@media(max-width:420px){
+  .alice-hero{min-height:720px;padding-inline:.45rem!important;}
+  .alice-gallery{grid-template-columns:1fr;}
+  .alice-gallery figure{width:min(100%,22rem);margin-inline:auto;}
+  .alice-gallery img{aspect-ratio:9/14;}
+}
