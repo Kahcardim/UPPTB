@@ -178,7 +178,27 @@ export function initRandomizer() {
         attempts += 1;
       } while (overlapsContent(asset) && attempts < 80);
 
-      asset.hidden = overlapsContent(asset);
+      if (overlapsContent(asset)) {
+        const maxLeft = isLarge ? 78 : 88;
+        const yStep = isLarge ? 120 : 72;
+        const xStep = isLarge ? 10 : 6;
+        let foundSafeSlot = false;
+
+        for (let top = 90; top <= topLimit && !foundSafeSlot; top += yStep) {
+          for (let left = 0; left <= maxLeft; left += xStep) {
+            asset.style.top = top + 'px';
+            asset.style.left = left + '%';
+            asset.style.transform = 'rotate(0deg)';
+            if (!overlapsContent(asset)) {
+              foundSafeSlot = true;
+              break;
+            }
+          }
+        }
+        asset.hidden = !foundSafeSlot;
+      } else {
+        asset.hidden = false;
+      }
       asset.style.zIndex = String(index % 2);
     });
   }
