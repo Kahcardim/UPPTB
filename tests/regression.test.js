@@ -189,3 +189,12 @@ test('randomizer protege caixas de leitura contra colisão visual', async () => 
   assert.match(js, /asset\.hidden = overlapsContent\(asset\)/);
   assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
 });
+
+
+test('randomizer aguarda dimensões reais das imagens antes do passe autoritativo', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /Promise\.all\(images\.map/);
+  assert.match(js, /image\.addEventListener\('load', resolve/);
+  assert.match(js, /\)\)\.then\(scatterAssets\)/);
+  assert.match(js, /assets\.forEach\(\(asset\) => \{ asset\.hidden = true; \}\)/);
+});
