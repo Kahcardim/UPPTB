@@ -239,3 +239,17 @@ test('mobile mantém assets dentro do viewport e invalida distribuição/cache a
     assert.match(html, /app\.js\?v=6/);
   }
 });
+
+
+test('Alice V6 preserva imagem inteira no web e vira background no mobile', async () => {
+  const html = await read('alice.html');
+  const css = await read('alice-page.css');
+  assert.match(html, /alice-page\.css\?v=6/);
+  assert.match(html, /alice-page\.js\?v=6/);
+  assert.match(css, /object-fit:contain/);
+  assert.match(css, /\.alice-dialogue-stage\{overflow:visible;\}/);
+  assert.match(css, /@media\(max-width:760px\)/);
+  assert.match(css, /\.alice-hero-visual\{[\s\S]*position:absolute!important/);
+  assert.match(css, /object-fit:cover/);
+  assert.match(css, /\.alice-gallery\{[\s\S]*z-index:6/);
+});
