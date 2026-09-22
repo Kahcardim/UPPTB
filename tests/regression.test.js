@@ -168,3 +168,14 @@ test('build contract: Vite preserva assets escolhidos dinamicamente em runtime',
   assert.match(config, /public\/assets/);
   assert.match(config, /dist\/assets/);
 });
+
+
+test('rodapé institucional identifica fundador e mantém frase da Alice nos campi', async () => {
+  for (const page of ['index.html', 'laboratorio-beyblade.html', 'ingles.html', 'memorias.html']) {
+    const html = await read(page);
+    assert.match(html, /class="site-footer"/);
+    assert.match(html, /Kauan Cardim · Fundador · PO · QA · estudante de programação/);
+    assert.match(html, /class="site-footer-alice"/);
+    assert.match(html, /<strong>Alice:<\/strong>/);
+  }
+});
