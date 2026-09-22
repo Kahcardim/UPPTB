@@ -207,3 +207,12 @@ test('randomizer revalida colisões após fontes e mudanças de layout', async (
   assert.match(js, /new ResizeObserver\(scheduleCollisionRecheck\)/);
   assert.match(js, /layoutObserver\?\.observe\(main\)/);
 });
+
+
+test('randomizer preserva tartarugas procurando slot livre após tentativas aleatórias', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /let foundSafeSlot = false/);
+  assert.match(js, /for \(let top = 90; top <= topLimit/);
+  assert.match(js, /for \(let left = 0; left <= maxLeft/);
+  assert.match(js, /asset\.hidden = !foundSafeSlot/);
+});
