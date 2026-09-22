@@ -45,16 +45,18 @@ export function makeCampusDistribution() {
 }
 
 function loadCampusDistribution() {
-  const navigation = performance.getEntriesByType('navigation')[0];
-  const isReload = navigation?.type === 'reload';
+  // Cada documento carregado é uma nova ocorrência do Efeito Alice global.
+  // Isso inclui F5 e navegação entre páginas: mapa novo, localização desconhecida.
   try {
     const stored = localStorage.getItem(campusStorageKey);
-    if (!stored || isReload) {
+    if (!stored) {
       const fresh = makeCampusDistribution();
       localStorage.setItem(campusStorageKey, JSON.stringify(fresh));
       return fresh;
     }
-    return JSON.parse(stored);
+    const fresh = makeCampusDistribution();
+    localStorage.setItem(campusStorageKey, JSON.stringify(fresh));
+    return fresh;
   } catch {
     return makeCampusDistribution();
   }
@@ -73,6 +75,8 @@ export function initRandomizer() {
   let hairlessCatCreated = false;
 
   function clearLegacyRandomAssets() {
+    // O HTML possui fallbacks visuais. A engine assume o controle apenas depois
+    // de estar carregada, evitando tela vazia caso módulos falhem.
     randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
     if (currentPage !== 'lab') {
       const beybladeAssets = ['pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp','ekusu-remade.webp','Beyblade_X_-_Ekusu_Kurosu.webp','multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'];
@@ -148,7 +152,9 @@ export function initRandomizer() {
   }
 
   clearLegacyRandomAssets();
-  createHairlessCat(); createRoamingImages(); createTurtles(); scatterAssets();
+  createHairlessCat(); createRoamingImages(); createTurtles();
+  randomAssetPlane.dataset.randomizerReady = 'true';
+  scatterAssets();
   window.addEventListener('load', scatterAssets, { once: true });
   return { scatterAssets };
 }
