@@ -38,3 +38,5 @@ jobs:
         run: pnpm install --no-frozen-lockfile --allow-build=esbuild
       - name: Run full regression suite
         run: pnpm test
+      - name: Validate production build
+        run: pnpm build
