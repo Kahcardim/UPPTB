@@ -463,3 +463,13 @@ main>section{isolation:isolate;}
   .random-turtle{max-width:17vw !important;}
   .random-turtle.large-turtle{max-width:22vw !important;}
 }
+
+
+/* Alice footer signature: identidade rosa, legível no campus escuro. */
+.site-footer-alice{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(255,105,180,.22),rgba(255,192,203,.10));
+  border:1px solid rgba(255,105,180,.55);
+  box-shadow:0 0 24px rgba(255,105,180,.08);
+}
+.site-footer-alice strong{color:#ff7fbd;}
