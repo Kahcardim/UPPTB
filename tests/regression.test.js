@@ -147,7 +147,12 @@ test('runtime contract: engine cria tartarugas e sinaliza plano pronto', async (
 test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', async () => {
   const html = await read('alice.html');
   const js = await read('alice-page.js');
-  assert.doesNotMatch(html, /src="app\.js"/);
+  // Alice mantém o app legado por compatibilidade, mas o próprio app encerra
+  // antes de inicializar o randomizer quando data-page=alice.
+  assert.match(html, /src="app\.js"/);
+  const app = await read('app.js');
+  const randomizer = await read('randomizer.js');
+  assert.match(randomizer, /currentPage === 'alice'/);
   assert.doesNotMatch(html, /randomizer\.js/);
   assert.match(js, /const states = estadosAlice\.map/);
   assert.match(js, /assets\/alice-states/);
