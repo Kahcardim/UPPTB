@@ -127,10 +127,29 @@ test('Sprint 2: app orquestra módulos router e randomizer', async () => {
   assert.match(js, /initRandomizer\(\)/);
 });
 
-test('Sprint 2: motor F5 mantém distribuição entre páginas e renova no reload', async () => {
+test('Sprint 2: cada carregamento gera uma nova ocorrência do mapa aleatório', async () => {
   const js = await read('randomizer.js');
-  assert.match(js, /navigation\?\.type === 'reload'/);
+  assert.match(js, /const fresh = makeCampusDistribution\(\)/);
   assert.match(js, /localStorage\.setItem\(campusStorageKey/);
   assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
   assert.match(js, /attempts < 24/);
+});
+
+
+test('runtime contract: engine cria tartarugas e sinaliza plano pronto', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /for \(let index = 1; index <= turtleCount; index \+= 1\)/);
+  assert.match(js, /turtle\.src = 'assets\/turtles\/turtle-'/);
+  assert.match(js, /randomAssetPlane\.dataset\.randomizerReady = 'true'/);
+  assert.match(js, /createTurtles\(\)/);
+});
+
+test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', async () => {
+  const html = await read('alice.html');
+  const js = await read('alice-page.js');
+  assert.doesNotMatch(html, /src="app\.js"/);
+  assert.doesNotMatch(html, /randomizer\.js/);
+  assert.match(js, /const states = estadosAlice\.map/);
+  assert.match(js, /assets\/alice-states/);
+  assert.match(html, /Os 30 estados atuais da Alice/);
 });
