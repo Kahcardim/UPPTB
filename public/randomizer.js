@@ -45,15 +45,24 @@ export function makeCampusDistribution() {
 }
 
 function loadCampusDistribution() {
-  // Cada documento carregado é uma nova ocorrência do Efeito Alice global.
-  // Isso inclui F5 e navegação entre páginas: mapa novo, localização desconhecida.
+  // Regra de negócio: uma ocorrência nasce no carregamento inicial/F5 e
+  // permanece consistente durante a navegação entre os campi.
+  // Só um reload real cria um novo mapa.
   try {
+    const navigationEntry = performance.getEntriesByType?.('navigation')?.[0];
+    const isReload = navigationEntry?.type === 'reload';
     const stored = localStorage.getItem(campusStorageKey);
-    if (!stored) {
+
+    if (!stored || isReload) {
       const fresh = makeCampusDistribution();
       localStorage.setItem(campusStorageKey, JSON.stringify(fresh));
       return fresh;
     }
+
+    const parsed = JSON.parse(stored);
+    const valid = parsed?.turtles && parsed?.images && campusPages.includes(parsed?.catPage);
+    if (valid) return parsed;
+
     const fresh = makeCampusDistribution();
     localStorage.setItem(campusStorageKey, JSON.stringify(fresh));
     return fresh;
