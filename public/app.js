@@ -125,10 +125,10 @@ const fixedLargeTurtles = {
 const roamingImages = [
   { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity', fixedPage: 'home' },
   { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity', fixedPage: 'memories' },
-  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '' },
-  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '' },
-  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '' },
-  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '' },
+  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '', fixedPage: 'lab' },
+  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '', fixedPage: 'lab' },
+  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '', fixedPage: 'lab' },
+  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '', fixedPage: 'lab' },
   { src: 'assets/images-2-.jpg', caption: 'DEPARTAMENTO DESCONHECIDO', classes: 'random-photo' },
   { src: 'assets/images-1-.jpg', caption: 'ARQUIVO LEGADO', classes: 'random-photo' },
   { src: 'assets/images.jpg', caption: 'A MESMA FOTO MENOR', classes: 'random-photo tiny-evidence' }
@@ -350,17 +350,44 @@ function createTurtles() {
   turtlesCreated = true;
 }
 
+function overlapsContent(asset, mainRect) {
+  const rect = asset.getBoundingClientRect();
+  const probes = [
+    [rect.left + rect.width * .2, rect.top + rect.height * .2],
+    [rect.left + rect.width * .5, rect.top + rect.height * .5],
+    [rect.right - rect.width * .2, rect.bottom - rect.height * .2]
+  ];
+  return probes.some(([x, y]) => {
+    const elements = document.elementsFromPoint(x, y);
+    return elements.some((element) =>
+      element.closest('main > section, article, pre, .hero-copy, .hero-actions, .nav-panel') &&
+      !element.closest('.random-asset-plane')
+    );
+  });
+}
+
 function scatterAssets() {
-  if (!randomAssetPlane) return;
-  const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 2400, 2400);
+  if (!randomAssetPlane || currentPage === 'alice') return;
+  const main = document.querySelector('main');
+  const mainRect = main?.getBoundingClientRect();
+  const pageHeight = Math.max(main?.scrollHeight ?? 2400, 2400);
 
   randomAssetPlane.querySelectorAll('.random-asset').forEach((asset, index) => {
     const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
     const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
-    asset.style.top = `${randomBetween(100, topLimit).toFixed(0)}px`;
-    asset.style.left = `${randomBetween(-3, isLarge ? 80 : 90).toFixed(1)}%`;
-    asset.style.transform = `rotate(${randomBetween(-26, 26).toFixed(1)}deg)`;
-    asset.style.zIndex = `${index % 4}`;
+    let attempts = 0;
+
+    do {
+      asset.style.top = `${randomBetween(90, topLimit).toFixed(0)}px`;
+      asset.style.left = `${randomBetween(0, isLarge ? 78 : 88).toFixed(1)}%`;
+      asset.style.transform = `rotate(${randomBetween(-20, 20).toFixed(1)}deg)`;
+      attempts += 1;
+    } while (mainRect && overlapsContent(asset, mainRect) && attempts < 24);
+
+    if (mainRect && overlapsContent(asset, mainRect)) {
+      asset.style.opacity = '.18';
+    }
+    asset.style.zIndex = `${index % 2}`;
   });
 }
 
