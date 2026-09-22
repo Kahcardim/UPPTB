@@ -141,9 +141,7 @@ export function initRandomizer() {
       'h1, h2, h3, p, a, button, article, pre, code, .hero-copy, .hero-actions, .nav-panel, .timeline, .mode-grid, .code-grid, .memory-grid, .archive, .downloads, .fossil, .warning, .classified, .error-board'
     )].filter((element) => !element.closest('.random-asset-plane'));
 
-    // A tartaruga pode ocupar o espaço caótico entre componentes, mas sua caixa
-    // visual não pode cruzar a caixa de leitura/interação de nenhum deles.
-    const margin = 14;
+    const margin = 10;
     return protectedElements.some((element) => {
       const target = element.getBoundingClientRect();
       if (!target.width || !target.height) return false;
@@ -156,51 +154,51 @@ export function initRandomizer() {
     });
   }
 
+  function placeAsset(asset, index, pageHeight) {
+    const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
+    const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
+    let attempts = 0;
+    asset.hidden = false;
+
+    do {
+      asset.style.top = randomBetween(90, topLimit).toFixed(0) + 'px';
+      asset.style.left = randomBetween(0, isLarge ? 78 : 88).toFixed(1) + '%';
+      asset.style.transform = 'rotate(' + randomBetween(-20, 20).toFixed(1) + 'deg)';
+      attempts += 1;
+    } while (overlapsContent(asset) && attempts < 80);
+
+    if (overlapsContent(asset)) {
+      const maxLeft = isLarge ? 78 : 88;
+      const yStep = isLarge ? 96 : 56;
+      const xStep = isLarge ? 8 : 4;
+      let foundSafeSlot = false;
+
+      for (let top = 90; top <= topLimit && !foundSafeSlot; top += yStep) {
+        for (let left = 0; left <= maxLeft; left += xStep) {
+          asset.style.top = top + 'px';
+          asset.style.left = left + '%';
+          asset.style.transform = 'rotate(0deg)';
+          if (!overlapsContent(asset)) {
+            foundSafeSlot = true;
+            break;
+          }
+        }
+      }
+      asset.hidden = !foundSafeSlot;
+    } else {
+      asset.hidden = false;
+    }
+    asset.style.zIndex = String(index % 2);
+  }
+
   function scatterAssets() {
     const main = document.querySelector('main');
     const pageHeight = Math.max(main?.scrollHeight ?? 2400, 2400);
     const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
 
-    // O teste de colisão precisa acontecer com a geometria final da imagem.
-    // Antes de carregar, <img> pode medir 0px e produzir falso negativo.
-    assets.forEach((asset) => { asset.hidden = true; });
-
-    assets.forEach((asset, index) => {
-      const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
-      const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
-      let attempts = 0;
-      asset.hidden = false;
-
-      do {
-        asset.style.top = randomBetween(90, topLimit).toFixed(0) + 'px';
-        asset.style.left = randomBetween(0, isLarge ? 78 : 88).toFixed(1) + '%';
-        asset.style.transform = 'rotate(' + randomBetween(-20, 20).toFixed(1) + 'deg)';
-        attempts += 1;
-      } while (overlapsContent(asset) && attempts < 80);
-
-      if (overlapsContent(asset)) {
-        const maxLeft = isLarge ? 78 : 88;
-        const yStep = isLarge ? 120 : 72;
-        const xStep = isLarge ? 10 : 6;
-        let foundSafeSlot = false;
-
-        for (let top = 90; top <= topLimit && !foundSafeSlot; top += yStep) {
-          for (let left = 0; left <= maxLeft; left += xStep) {
-            asset.style.top = top + 'px';
-            asset.style.left = left + '%';
-            asset.style.transform = 'rotate(0deg)';
-            if (!overlapsContent(asset)) {
-              foundSafeSlot = true;
-              break;
-            }
-          }
-        }
-        asset.hidden = !foundSafeSlot;
-      } else {
-        asset.hidden = false;
-      }
-      asset.style.zIndex = String(index % 2);
-    });
+    // Nunca esconda tudo antes de medir: hidden zera a geometria e fazia a
+    // própria validação concluir que não existia espaço para as tartarugas.
+    assets.forEach((asset, index) => placeAsset(asset, index, pageHeight));
   }
 
   clearLegacyRandomAssets();
