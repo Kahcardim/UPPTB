@@ -1,51 +1,69 @@
 # UPPTB
 
-Laboratório de tecnologia, QA, Turtle Step, Beyblade e lore. Universidade imaginária, curiosidade de verdade.
+**Universidade Pública Peculiar Turtle and Beys**
 
-## Estado do projeto
+Laboratório autoral de QA, programação, inglês, Turtle Step, Beyblade e caos controlado. A universidade é fictícia. A engenharia, os testes e o aprendizado são reais.
 
-Fundação em **JavaScript + Node.js + Express**, com backend e framework desde a V1. **Frontend não iniciado.** Não há site publicado, banco remoto, login ou painel administrativo nesta etapa.
+## Stack atual
 
-O **Gate 1 — Benchmark** foi aprovado pelo PO/QA. As correções aprovadas estabelecem que recrutadores não governam a experiência da UPPTB e que a dimensão acadêmica informal faz parte real do produto. Turtle Step V1/V2/V3, Turtle Drill, Turtle Talk, Negation and Negation, Turtle Suicide e os laboratórios precisam caber na arquitetura futura sem virar automaticamente itens do menu principal.
+- Node.js 24 LTS
+- pnpm 11.19.0
+- Vite 7
+- Express 5
+- HTML5, CSS e JavaScript
+- node:test
+- GitHub Actions + GitHub Pages
 
-## Executar localmente
-
-Requer Node.js 24 LTS e pnpm 11.19.0.
+## Desenvolvimento local
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm test
-pnpm start
+pnpm install
+pnpm dev
 ```
 
-Acesse `http://127.0.0.1:3000/api/v1/health`. O servidor retorna JSON com `status: ok`.
+O Vite serve o frontend em desenvolvimento. Para a API Express:
 
-`pnpm dev` reinicia o servidor ao editar arquivos. `PORT` e `HOST` podem ser definidos no ambiente. `.env.example` é uma referência; o arquivo não é carregado automaticamente. Para carregar um `.env` local com Node, use `node --env-file=.env src/server.js`. O padrão limita o acesso à máquina local. Nunca envie segredos ao Git.
+```sh
+pnpm dev:api
+```
 
-## Estrutura
+Para validar antes de publicar:
+
+```sh
+pnpm test
+pnpm build
+pnpm preview
+```
+
+## Arquitetura
 
 ```text
-src/       aplicação e inicialização do servidor
-tests/     testes de contrato e integridade do catálogo
-content/   255 frases candidatas em JSON
-docs/      escopo, arquitetura, benchmarks e documentos editáveis
+public/    páginas, scripts, estilos e assets do frontend
+src/       aplicação Node.js / Express
+tests/     contratos e regressão automatizada
+content/   catálogo editorial
+docs/      arquitetura, gates, escopo e documentação QA
+dist/      build de produção gerado pelo Vite
 ```
+
+O frontend é multipage: Home, Laboratório Beyblade, Desenvolvimento de Inglês, Memórias e Alice. O motor F5 distribui elementos do caos entre páginas normais. Alice permanece um domínio isolado.
+
+## CI/CD
+
+O pipeline executa instalação, regressão e build Vite. O deploy para GitHub Pages fica bloqueado quando o gate falha. O artefato publicado é gerado em `dist/`, não uma cópia manual de `public/`.
+
+## Requisitos protegidos
+
+O fóssil fundador da Home não deve ser corrigido:
+
+> Let's rip, dude. Turtle Step. Robin loses. Multi reborn. Site created.
+
+O Efeito Alice mantém a composição não determinística por F5 nas páginas do campus. Alice possui regras próprias e não recebe as tartarugas globais.
 
 ## Documentação
 
-- [Documento editável em DOCX](docs/UPPTB-escopo-e-banco-de-frases.docx)
-- [Escopo e banco de frases em Markdown](docs/escopo-e-frases.md)
-- [Arquitetura e limites da base](docs/architecture.md)
-- [Gate 1 — Benchmark aprovado](docs/benchmark-gate-1.md)
+A pasta `docs/` contém os gates, arquitetura, escopo de regressão e o Forbidden Turtle Archive.
 
-O catálogo tem 17 categorias: Home, Turtle Step, Robin, Multi, Army Turtle, QA, DEV, universidade/lore, erros/404, loading, easter eggs, rodapé, commits, mensagens internas, frases de impacto, Beyblade e New Tamar World.
+## Estado
 
-As 102 candidatas públicas, 68 easter eggs e 85 frases de caos interno continuam como rascunhos. “Público” é uma indicação editorial, não seleção automática para a interface. As piadas são propostas criativas e não estabelecem fatos canônicos.
-
-## Processo por gates
-
-Gate 1 — Benchmark: **aprovado**.  
-Próximo gate permitido: **Gate 2 — Escopo V1**.  
-Frontend/Home: **bloqueado até os gates anteriores serem concluídos e aprovados**.
-
-A escolha de hospedagem e a publicação do site permanecem para etapas posteriores.
+Projeto em evolução contínua na branch de implementação. Mudanças relevantes passam pelo gate automatizado antes do deploy.
