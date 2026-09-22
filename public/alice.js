@@ -45,7 +45,15 @@ aliceStyle.textContent = `
     height: auto;
     object-fit: contain;
   }
+  .alice-character {
+    overflow: visible !important;
+  }
   .alice-character figcaption {
+    display: block !important;
+    position: relative !important;
+    z-index: 12 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     width: min(15rem, 42vw) !important;
     max-width: 15rem !important;
     margin-top: .25rem !important;
@@ -125,6 +133,19 @@ function loadAliceState() {
   }
 }
 
+function characterOverlapsContent(figure) {
+  const rect = figure.getBoundingClientRect();
+  const probes = [
+    [rect.left + rect.width * .25, rect.top + rect.height * .25],
+    [rect.left + rect.width * .5, rect.top + rect.height * .5],
+    [rect.right - rect.width * .2, rect.bottom - rect.height * .2]
+  ];
+  return probes.some(([x, y]) => document.elementsFromPoint(x, y).some((element) =>
+    element.closest('main > section, article, pre, .hero-copy, .hero-actions') &&
+    !element.closest('.random-asset-plane')
+  ));
+}
+
 function placeAliceCharacter(config) {
   if (!alicePlane || !config.visible || config.page !== alicePage) return;
 
@@ -143,10 +164,18 @@ function placeAliceCharacter(config) {
   const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 2400, 2400);
   const mobile = window.matchMedia('(max-width: 700px)').matches;
   const maxTop = Math.max(pageHeight - (mobile ? 260 : 420), 700);
-  figure.style.top = `${Math.floor(120 + Math.random() * (maxTop - 120))}px`;
-  figure.style.left = `${(Math.random() * (mobile ? 72 : 82)).toFixed(1)}%`;
-  figure.style.transform = `rotate(${(Math.random() * 20 - 10).toFixed(1)}deg)`;
-  figure.style.zIndex = '7';
+  let attempts = 0;
+  do {
+    figure.style.top = `${Math.floor(120 + Math.random() * (maxTop - 120))}px`;
+    figure.style.left = `${(Math.random() * (mobile ? 70 : 80)).toFixed(1)}%`;
+    figure.style.transform = `rotate(${(Math.random() * 16 - 8).toFixed(1)}deg)`;
+    attempts += 1;
+  } while (characterOverlapsContent(figure) && attempts < 24);
+
+  if (characterOverlapsContent(figure)) {
+    figure.style.left = mobile ? '2%' : '1.5%';
+  }
+  figure.style.zIndex = '8';
 }
 
 const aliceState = loadAliceState();
