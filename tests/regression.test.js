@@ -158,3 +158,11 @@ test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', asyn
   assert.match(js, /assets\/alice-states/);
   assert.match(html, /Os 30 estados atuais da Alice/);
 });
+
+
+test('build contract: Vite preserva assets escolhidos dinamicamente em runtime', async () => {
+  const config = await read('../vite.config.js');
+  assert.match(config, /cpSync\(source, target, \{ recursive: true, force: true \}\)/);
+  assert.match(config, /public\/assets/);
+  assert.match(config, /dist\/assets/);
+});
