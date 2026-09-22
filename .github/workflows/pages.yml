@@ -59,7 +59,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile --allow-build=esbuild
+        run: pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
       - name: Build production bundle
         run: pnpm build
 
