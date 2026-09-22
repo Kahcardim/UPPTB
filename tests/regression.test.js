@@ -223,3 +223,19 @@ test('randomizer nunca zera geometria ocultando todos os assets antes da colisã
   assert.match(js, /function placeAsset\(asset, index, pageHeight\)/);
   assert.match(js, /asset\.hidden = false/);
 });
+
+
+test('mobile mantém assets dentro do viewport e invalida distribuição/cache antigo', async () => {
+  const js = await read('randomizer.js');
+  const css = await read('styles.css');
+  assert.match(js, /upptb-campus-distribution-v6/);
+  assert.match(js, /rect\.right > window\.innerWidth - viewportPadding/);
+  assert.match(js, /const maxRandomLeft = isMobile/);
+  assert.match(css, /V6 mobile asset safety/);
+  assert.match(css, /max-width:min\(9rem,32vw\) !important/);
+  for (const page of ['index.html','laboratorio-beyblade.html','ingles.html','memorias.html']) {
+    const html = await read(page);
+    assert.match(html, /styles\.css\?v=6/);
+    assert.match(html, /app\.js\?v=6/);
+  }
+});
