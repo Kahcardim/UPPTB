@@ -57,7 +57,7 @@ test('regressão UX: tartarugas não entram na Alice e posicionamento protege co
   const js = await read('randomizer.js');
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
   assert.match(js, /function overlapsContent\(/);
-  assert.match(js, /attempts < 24/);
+  assert.match(js, /attempts < 80/);
 });
 
 test('regressão: gato pelado continua migratório nas páginas do campus', async () => {
@@ -82,7 +82,7 @@ test('regressão: resíduos de bladers são removidos fora do laboratório', asy
 test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async () => {
   const js = await read('alice.js');
   assert.match(js, /function characterOverlapsContent\(/);
-  assert.match(js, /attempts < 24/);
+  assert.match(js, /attempts < 80/);
   assert.match(js, /caption\.textContent = config\.phrase/);
   assert.match(js, /display: block !important/);
   assert.match(js, /visibility: visible !important/);
@@ -134,7 +134,7 @@ test('Sprint 2: mapa persiste na navegação e só renova em reload/F5', async (
   assert.match(js, /if \(valid\) return parsed/);
   assert.match(js, /localStorage\.setItem\(campusStorageKey/);
   assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
-  assert.match(js, /attempts < 24/);
+  assert.match(js, /attempts < 80/);
 });
 
 
@@ -178,4 +178,14 @@ test('rodapé institucional identifica fundador e mantém frase da Alice nos cam
     assert.match(html, /class="site-footer-alice"/);
     assert.match(html, /<strong>Alice:<\/strong>/);
   }
+});
+
+
+test('randomizer protege caixas de leitura contra colisão visual', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /protectedElements/);
+  assert.match(js, /const margin = 14/);
+  assert.match(js, /attempts < 80/);
+  assert.match(js, /asset\.hidden = overlapsContent\(asset\)/);
+  assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
 });
