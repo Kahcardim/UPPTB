@@ -151,7 +151,7 @@ test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', asyn
   const js = await read('alice-page.js');
   // Alice mantém o app legado por compatibilidade, mas o próprio app encerra
   // antes de inicializar o randomizer quando data-page=alice.
-  assert.match(html, /src="app\.js"/);
+  assert.match(html, /src="app\.js(?:\?v=\d+)?"/);
   const app = await read('app.js');
   const randomizer = await read('randomizer.js');
   assert.match(randomizer, /currentPage === 'alice'/);
