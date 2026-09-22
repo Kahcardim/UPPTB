@@ -17,9 +17,9 @@ html[data-page="alice"] .nav-panel a[aria-current="true"] { color:#fff; backgrou
 .alice-dialogue-stage { position:relative; width:min(680px,100%); min-height:16.5rem; margin:1.35rem auto 0; padding-bottom:8.5rem; overflow:hidden; border-radius:22px; }
 .alice-state-quote { position:relative; z-index:3; width:100%; margin:0 auto; padding:1rem 1.1rem; border-left:4px solid var(--green); background:rgba(255,79,163,.07); color:#ffe8f4; text-align:center; font:900 clamp(.95rem,2vw,1.1rem)/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; box-sizing:border-box; }
 .alice-hero .hero-actions { justify-content:center; }
-.alice-hero-visual { position:relative; z-index:2; width:min(360px,100%); justify-self:center; display:grid; place-items:center; isolation:isolate; }
-.alice-wallpaper-frame { position:relative; z-index:3; width:min(360px,78vw); min-height:24rem; overflow:hidden; border:1px solid rgba(255,79,163,.55); border-radius:30px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
-.alice-wallpaper-frame img { position:relative; z-index:2; display:block; width:100%; height:auto; max-height:72svh; object-fit:contain; object-position:center; background:#080008; }
+.alice-hero-visual { position:relative; z-index:1; width:min(460px,100%); justify-self:center; display:grid; place-items:center; isolation:isolate; }
+.alice-wallpaper-frame { position:relative; z-index:1; width:min(460px,86vw); aspect-ratio:4/5; min-height:0; overflow:hidden; border:1px solid rgba(255,79,163,.42); border-radius:34px; background:radial-gradient(circle at 50% 18%,rgba(255,79,163,.30),transparent 35%),linear-gradient(160deg,#1f0c1d,#050005 70%); box-shadow:0 28px 80px rgba(0,0,0,.48),0 0 0 8px rgba(255,79,163,.04); }
+.alice-wallpaper-frame img { position:absolute; inset:0; z-index:2; display:block; width:100%; height:100%; max-height:none; object-fit:cover; object-position:center 18%; background:#080008; }
 .alice-wallpaper-frame::after { content:'ALICE // UPPTB'; position:absolute; z-index:5; left:1rem; bottom:1rem; padding:.45rem .65rem; border:1px solid rgba(255,255,255,.22); border-radius:999px; background:rgba(7,0,6,.72); color:#fff; font:900 .65rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; letter-spacing:.08em; }
 .alice-wallpaper-frame[data-missing-asset="true"]::before { content:'Estado visual indisponível'; display:grid; min-height:24rem; place-items:center; padding:2rem; color:var(--muted); text-align:center; }
 .alice-state-quote.is-changing { animation:aliceQuoteIn .42s ease both; }
@@ -43,10 +43,10 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
 .alice-gallery figcaption { min-height:64px; padding:.65rem .7rem .8rem; color:var(--muted); font-size:.78rem; line-height:1.35; }
 
 .alice-companion-zone { position:absolute; z-index:4; inset:5.3rem 0 0; display:flex; align-items:flex-end; justify-content:flex-start; overflow:hidden; pointer-events:none; }
-.alice-cat { position:absolute; left:1rem; bottom:.25rem; z-index:4; display:grid; width:min(150px,30vw); justify-items:center; pointer-events:none; filter:drop-shadow(.45rem .45rem 0 rgba(0,0,0,.42)); animation:aliceCatRoute 12s ease-in-out infinite alternate; }
+.alice-cat { position:absolute; left:1rem; bottom:.75rem; z-index:4; display:grid; width:min(128px,26vw); justify-items:center; pointer-events:none; filter:drop-shadow(.45rem .45rem 0 rgba(0,0,0,.42)); animation:aliceCatRoute 12s ease-in-out infinite alternate; }
 .alice-cat svg { width:100%; height:auto; display:block; }
 .alice-cat-bubble { width:min(250px,calc(100vw - 4rem)); margin:.35rem 0 0; padding:.7rem .8rem; border:1px solid rgba(255,79,163,.58); border-radius:16px; background:rgba(8,0,7,.96); color:#fff2f9; box-shadow:0 10px 30px rgba(0,0,0,.35); font:850 .72rem/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; overflow-wrap:anywhere; }
-@keyframes aliceCatRoute { 0%{left:1rem;transform:translateY(0) rotate(-2deg)} 35%{left:32%;transform:translateY(-.45rem) rotate(1deg)} 70%{left:58%;transform:translateY(.25rem) rotate(2deg)} 100%{left:calc(100% - 11rem);transform:translateY(-.2rem) rotate(-1deg)} }
+@keyframes aliceCatRoute { 0%{left:1rem;transform:translateY(0) rotate(-2deg)} 35%{left:30%;transform:translateY(-.35rem) rotate(1deg)} 70%{left:56%;transform:translateY(.15rem) rotate(2deg)} 100%{left:calc(100% - 9.5rem);transform:translateY(-.15rem) rotate(-1deg)} }
 
 .alice-butterfly-plane { position:absolute; inset:0; z-index:4; overflow:hidden; border-radius:inherit; pointer-events:none; }
 .alice-butterfly { position:absolute; width:clamp(22px,2.5vw,40px); opacity:.78; filter:drop-shadow(0 0 .5rem var(--glow,rgba(255,79,163,.28))); transform-origin:center; }
@@ -102,4 +102,10 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
 @media(prefers-reduced-motion:reduce){
   .alice-butterfly .butterfly-wings{animation:none;}
   .alice-cat{animation:none;left:50%;transform:translateX(-50%);}
+}
+
+/* V4 UX: Alice vira composição editorial em background sem invadir o conteúdo. */
+@media(min-width:761px){
+  .alice-hero{grid-template-columns:minmax(0,1fr) minmax(340px,460px);}
+  .alice-hero-copy{z-index:5;}
 }
