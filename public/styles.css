@@ -366,3 +366,16 @@ footer img { margin-bottom: .7rem; }
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .hero-mark { transform: none; }
 }
+
+/* V4 UX safety: o caos continua visual, nunca funcional. */
+.random-asset-plane{pointer-events:none;}
+.random-asset{max-width:min(22rem,34vw);}
+.random-turtle{max-width:min(8rem,16vw);}
+.random-turtle.large-turtle{max-width:min(12rem,20vw);}
+.random-character img,.random-turtle img{object-fit:contain;object-position:center;}
+main>section{isolation:isolate;}
+@media(max-width:700px){
+  .random-asset{max-width:28vw;}
+  .random-turtle{max-width:18vw;}
+  .random-turtle.large-turtle{max-width:22vw;}
+}
