@@ -39,7 +39,7 @@ test('regressão Alice: borboletas pertencem ao frame da foto e gato ao diálogo
 });
 
 test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laboratório', async () => {
-  const js = await read('app.js');
+  const js = await read('randomizer.js');
   const assets = [
     'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
     'ekusu-remade.webp',
@@ -54,14 +54,14 @@ test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laborat
 });
 
 test('regressão UX: tartarugas não entram na Alice e posicionamento protege conteúdo', async () => {
-  const js = await read('app.js');
+  const js = await read('randomizer.js');
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
   assert.match(js, /function overlapsContent\(/);
   assert.match(js, /attempts < 24/);
 });
 
 test('regressão: gato pelado continua migratório nas páginas do campus', async () => {
-  const js = await read('app.js');
+  const js = await read('randomizer.js');
   assert.match(js, /Sphynx_kitten\.JPG/);
   assert.match(js, /catPage: campusPages\[Math\.floor\(Math\.random\(\) \* campusPages\.length\)\]/);
   assert.match(js, /campusDistribution\.catPage !== currentPage/);
@@ -90,7 +90,7 @@ test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async ()
 
 
 test('regressão: navegação normaliza entrada de página no topo', async () => {
-  const js = await read('navigation.js');
+  const js = await read('router.js');
   assert.match(js, /scrollRestoration = 'manual'/);
   assert.match(js, /window\.scrollTo\(\{ top: 0, left: 0/);
   assert.match(js, /currentFile !== targetFile/);
@@ -116,4 +116,21 @@ test('regressão: terminal interativo mantém comandos MVP', async () => {
   for (const command of ['help', 'status', 'lore', 'clear']) {
     assert.match(js, new RegExp("command === '" + command + "'"));
   }
+});
+
+
+test('Sprint 2: app orquestra módulos router e randomizer', async () => {
+  const js = await read('app.js');
+  assert.match(js, /import \{ initRouter \} from '\.\/router\.js'/);
+  assert.match(js, /import \{ initRandomizer \} from '\.\/randomizer\.js'/);
+  assert.match(js, /initRouter\(\)/);
+  assert.match(js, /initRandomizer\(\)/);
+});
+
+test('Sprint 2: motor F5 mantém distribuição entre páginas e renova no reload', async () => {
+  const js = await read('randomizer.js');
+  assert.match(js, /navigation\?\.type === 'reload'/);
+  assert.match(js, /localStorage\.setItem\(campusStorageKey/);
+  assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
+  assert.match(js, /attempts < 24/);
 });
