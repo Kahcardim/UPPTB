@@ -1,6 +1,26 @@
 import { initRouter } from './router.js';
 import { initRandomizer } from './randomizer.js';
 
+const activeStorageKeys = new Set([
+  'upptb-campus-distribution-v9',
+  'upptb-alice-characters-v2'
+]);
+
+function pruneLegacyStorage() {
+  try {
+    for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+      const key = localStorage.key(index);
+      const isUpptbRuntimeRecord = key?.startsWith('upptb-campus-distribution-') ||
+        key?.startsWith('upptb-alice-characters-');
+      if (isUpptbRuntimeRecord && !activeStorageKeys.has(key)) localStorage.removeItem(key);
+    }
+  } catch {
+    // Storage indisponível não pode bloquear a interface.
+  }
+}
+
+pruneLegacyStorage();
+
 const uiPatch = document.createElement('style');
 uiPatch.textContent = `
   .site-header nav { overflow: visible; }
@@ -119,7 +139,7 @@ const heroCopy = document.querySelector('.hero-copy');
 const heroMark = document.querySelector('.hero-mark');
 const heroTitle = document.querySelector('#hero-title');
 
-if (hero && heroCopy) {
+if (hero && heroCopy && document.documentElement.dataset.page !== 'home') {
   hero.style.gridTemplateColumns = 'minmax(0, 1fr) minmax(280px, 420px)';
   hero.style.justifyItems = 'stretch';
   hero.style.alignItems = 'center';

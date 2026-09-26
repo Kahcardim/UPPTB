@@ -32,18 +32,21 @@ Para validar antes de publicar:
 ```sh
 pnpm test
 pnpm build
-pnpm preview
+pnpm smoke
 ```
+
+A regressão está dividida em dois níveis: `tests/` protege contratos estáveis do produto e `scripts/smoke-dist.mjs` valida o build real em navegador. Testes antigos que apenas congelavam números de versão ou detalhes internos não fazem parte do gate atual.
 
 ## Arquitetura
 
 ```text
 public/    páginas, scripts, estilos e assets do frontend
 src/       aplicação Node.js / Express
-tests/     contratos e regressão automatizada
+tests/     contratos atuais de API e produto
+scripts/   gates de build e smoke cross-browser
 content/   catálogo editorial
-docs/      arquitetura, gates, escopo e documentação QA
-dist/      build de produção gerado pelo Vite
+docs/      arquitetura, requisitos atuais e histórico de gates
+dist/      build de produção gerado pelo Vite, nunca versionado
 ```
 
 O frontend é multipage: Home, Laboratório Beyblade, Desenvolvimento de Inglês, Memórias e Alice. O motor F5 distribui elementos do caos entre páginas normais. Alice permanece um domínio isolado.
@@ -67,3 +70,10 @@ A pasta `docs/` contém os gates, arquitetura, escopo de regressão e o Forbidde
 ## Estado
 
 Projeto em evolução contínua na branch de implementação. Mudanças relevantes passam pelo gate automatizado antes do deploy.
+
+
+## Cache e estado local
+
+Assets estáticos usam revisão explícita na URL para evitar CSS/JS antigo em navegador. Os registros locais de randomização também possuem schema versionado; quando o schema muda, chaves antigas da UPPTB são podadas automaticamente.
+
+O cache de dependências do GitHub Actions usa `.github/cache-version` como parte da chave lógica. Alterar esse arquivo força uma nova geração sem precisar manter lixo de cache dentro do repositório.
