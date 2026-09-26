@@ -277,7 +277,41 @@ try {
             if (!output?.includes('help · status · lore · clear')) failures.push(`${browserName} ${viewport.width} terminal não respondeu help`);
           }
 
+          if (path === 'index.html') {
+            await page.locator('[data-terminal-input]').fill('status');
+            await page.locator('#chaos-button').click();
+            if (!(await page.locator('#terminal-output').textContent()).includes('reitoria')) failures.push(`${browserName} CT16: audit não executou comando`);
+          }
+          if (path === 'laboratorio-beyblade.html') {
+            if (await page.locator('.lab-levels article').count() !== 10) failures.push('LAB: níveis incompletos');
+          }
           if (path === 'alice.html') {
+            await page.evaluate(() => window.scrollTo({top:0,behavior:'instant'}));
+            const y = await page.evaluate(() => window.scrollY);
+            await page.waitForTimeout(5500);
+            if (Math.abs((await page.evaluate(() => window.scrollY)) - y) > 2) failures.push(`${browserName} CT14: autoavanço moveu página`);
+            if (viewport.width <= 700) {
+              await page.locator('.menu-toggle').click();
+              const nav = await page.locator('#main-nav').evaluate(el => ({height:el.getBoundingClientRect().height,visible:el.getBoundingClientRect().height>0,position:getComputedStyle(el).position}));
+              if (!nav.visible || nav.position !== 'fixed' || nav.height > viewport.height - 60) failures.push(`${browserName} CT13: menu inválido ${JSON.stringify(nav)}`);
+              await page.keyboard.press('Escape');
+            }
+            for (const selector of ['.alice-card-grid','#regras .memory-grid']) {
+              const track = page.locator(selector);
+              await track.evaluate(el => window.scrollTo({top:el.getBoundingClientRect().top + window.scrollY - 100,behavior:'instant'}));
+              await page.waitForTimeout(200);
+              await track.focus();
+              const initialY = await page.evaluate(() => window.scrollY);
+              await track.press('End'); await page.waitForTimeout(650);
+              const end = await track.evaluate(el => el.scrollLeft);
+              await track.press('Home'); await page.waitForTimeout(650);
+              const home = await track.evaluate(el => el.scrollLeft);
+              if (end <= home + 20) failures.push(`${browserName} CT15: teclado não moveu carrossel`);
+              if (Math.abs((await page.evaluate(() => window.scrollY)) - initialY)>2) failures.push(`${browserName} CT14: teclado moveu página`);
+              const padding = await track.evaluate(el => parseFloat(getComputedStyle(el).paddingLeft));
+              if (padding < 12) failures.push(`${browserName} CT15: margem insuficiente`);
+            }
+
             const mural = await page.locator('.alice-do-not-feed').count();
             if (mural !== 1) failures.push(`${browserName} ${viewport.width} mural Alice ausente: ${mural}`);
 
@@ -405,3 +439,4 @@ if (failures.length) {
 }
 
 console.log(`Runtime smoke: OK (${selected.join(', ')} · conteúdo protegido · Alice canônica · gato pelado local)`);
+

@@ -8,12 +8,6 @@
   <title>Laboratório Beyblade | UPPTB</title>
   <link rel="icon" href="assets/turtle-mark.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    @media (max-width: 700px) {
-      .hero-actions { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: .5rem; flex-wrap: wrap; }
-      .hero-actions .button { flex: 0 0 auto !important; width: auto !important; max-width: none !important; min-width: 0 !important; padding: .68rem .9rem; font-size: .8rem; line-height: 1.1; white-space: nowrap; }
-    }
-  </style>
   <script type="module" src="app.js"></script>
   <script type="module" src="alice.js"></script>
 </head>
@@ -28,7 +22,7 @@
         <summary>Laboratório Beyblade</summary>
         <div class="nav-panel">
           <a href="#visao">Visão geral</a>
-          <a href="#tgb">TGB</a>
+          <a href="#tgb">Turtle Step</a><a href="#trilha">Trilha NV1–NV10</a>
           <a href="#javascript">JavaScript</a>
           <a href="#qa">QA com Beyblade</a>
         </div>
@@ -46,16 +40,15 @@
       <figure class="random-asset random-character"><img src="assets/Beyblade_X_-_Ekusu_Kurosu.webp" alt="" /><figcaption>CAPACETE REMOVIDO EM PRODUÇÃO</figcaption></figure>
       <figure class="random-asset random-character"><img src="assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp" alt="" /><figcaption>MULTI REBORN // REITORIA</figcaption></figure>
     </div>
-    <p class="do-not-feed" aria-hidden="true">FAVOR NÃO ALIMENTAR AS TARTARUGAS. ELAS JÁ ESTÃO BEM ALIMENTADAS.</p>
 
     <section class="hero" id="visao" aria-labelledby="lab-title">
       <div class="hero-copy">
         <p class="eyebrow">Faculdade sem MEC · laboratório com requisito</p>
         <h1 id="lab-title">Laboratório Beyblade</h1>
-        <p class="lead">Onde lógica, JavaScript e QA deixam de ser exemplos genéricos e passam a usar bladers, times, rotações, condições e derrotas estatisticamente preocupantes do Robin.</p>
-        <div class="hero-actions"><a class="button" href="#javascript">Abrir código</a><a class="button secondary" href="ingles.html">Ir para Inglês</a></div>
+        <p class="lead">Um Beyblade. Dez níveis. O mesmo sistema cresce de variáveis a estados, testes, interface, integração e IA. JavaScript continua no centro; Robin continua fornecendo massa de teste.</p>
+        <div class="hero-actions"><a class="button" href="#javascript">Entrar na arena do código</a><a class="button secondary" href="ingles.html">Treinar o inglês do blader</a></div>
       </div>
-      <div class="hero-mark"><img src="assets/upptb-collage.webp" alt="Identidade caótica da UPPTB" /></div>
+      <div class="hero-mark"><img src="assets/bey-lab-mark.svg" alt="Bey Lab: arena de código, testes e evolução Turtle Step" /></div>
     </section>
 
     <section class="chaos-cluster" id="tgb" aria-labelledby="tgb-title">
@@ -68,33 +61,61 @@
       </div>
     </section>
 
+    <section id="trilha" aria-labelledby="trilha-title">
+      <p class="eyebrow">Sistema contínuo · NV1 ao NV10</p>
+      <h2 id="trilha-title">O conceito evolui. O Beyblade continua.</h2>
+      <p class="lead">Cada nível amplia o mesmo produto e preserva suas regras, dados e testes. Não reinicie o domínio a cada assunto.</p>
+      <ol class="lab-levels">
+        <li><article id="nv1"><span class="memory-tag">NV1</span><h3>Fundamentos</h3><p><strong>Aprender:</strong> Variáveis, tipos, operadores e condicionais.</p><p><strong>Ampliar o sistema:</strong> Representar stamina, velocidade e equilíbrio; aceitar somente stats entre 0 e 100.</p><p><strong>Verificar:</strong> Testar 0, 100, valores fora do intervalo e tipo inválido.</p></article></li>
+        <li><article id="nv2"><span class="memory-tag">NV2</span><h3>Comportamento</h3><p><strong>Aprender:</strong> Loops, funções e arrays.</p><p><strong>Ampliar o sistema:</strong> Simular três lançamentos e guardar durações no mesmo histórico.</p><p><strong>Verificar:</strong> Calcular média sem perder registros; tratar histórico vazio.</p></article></li>
+        <li><article id="nv3"><span class="memory-tag">NV3</span><h3>Modelagem</h3><p><strong>Aprender:</strong> Objetos, propriedades, escopo e composição.</p><p><strong>Ampliar o sistema:</strong> Representar Beyblade, Layer, Ratchet, Bit e stats; definir a regra de repetição de componentes antes do builder.</p><p><strong>Verificar:</strong> Validar composição completa e componente ausente; manter o histórico anterior.</p></article></li>
+        <li><article id="nv4"><span class="memory-tag">NV4</span><h3>Sistema de batalha</h3><p><strong>Aprender:</strong> Estados, eventos, callbacks e regras.</p><p><strong>Ampliar o sistema:</strong> Evoluir preparado → lançado → girando → desequilibrado → parado; definir vitória e empate.</p><p><strong>Verificar:</strong> Rejeitar lançamento fora do estado preparado e registrar transições válidas.</p></article></li>
+        <li><article id="nv5"><span class="memory-tag">NV5</span><h3>QA Lab</h3><p><strong>Aprender:</strong> Requisitos, casos de teste, bugs e evidências.</p><p><strong>Ampliar o sistema:</strong> Transformar as regras da batalha em cenários reproduzíveis e executar regressão.</p><p><strong>Verificar:</strong> Informar pré-condição, entrada, esperado, obtido e evidência; preservar defeitos aceitos pelo PO.</p></article></li>
+        <li><article id="nv6"><span class="memory-tag">NV6</span><h3>Frontend</h3><p><strong>Aprender:</strong> DOM, eventos, builder, responsividade e UX.</p><p><strong>Ampliar o sistema:</strong> Montar a composição e mostrar estado e resultado na interface.</p><p><strong>Verificar:</strong> Completar a jornada em mobile e desktop, teclado e toque; verificar alinhamento, rolagem e feedback.</p></article></li>
+        <li><article id="nv7"><span class="memory-tag">NV7</span><h3>Integração</h3><p><strong>Aprender:</strong> JSON, APIs, persistência, async/await e erros.</p><p><strong>Ampliar o sistema:</strong> Salvar o mesmo sistema e consumir uma fonte externa ou simulada.</p><p><strong>Verificar:</strong> Recuperar dados salvos; mostrar falha de rede, dado inválido e estado de carregamento.</p></article></li>
+        <li><article id="nv8"><span class="memory-tag">NV8</span><h3>Arquitetura</h3><p><strong>Aprender:</strong> Módulos e separação de responsabilidades.</p><p><strong>Ampliar o sistema:</strong> Separar interface, domínio, estado, persistência e integração.</p><p><strong>Verificar:</strong> Refatorar preservando os resultados dos testes dos níveis anteriores.</p></article></li>
+        <li><article id="nv9"><span class="memory-tag">NV9</span><h3>Automação</h3><p><strong>Aprender:</strong> Testes automatizados, massa de dados e regressão.</p><p><strong>Ampliar o sistema:</strong> Automatizar cenários que já foram executados e compreendidos manualmente.</p><p><strong>Verificar:</strong> Cobrir casos válidos e inválidos com dados e resultados reproduzíveis.</p></article></li>
+        <li><article id="nv10"><span class="memory-tag">NV10</span><h3>IA Lab</h3><p><strong>Aprender:</strong> Agentes, guardrails, validação e governança.</p><p><strong>Ampliar o sistema:</strong> Delegar uma tarefa delimitada do sistema, com escopo e critérios explícitos.</p><p><strong>Verificar:</strong> Comparar com a validação manual, revisar evidências e rejeitar saída fora do escopo.</p></article></li>
+      </ol>
+      <p class="lab-step"><strong>Turtle Step:</strong> aprender → aplicar → testar → quebrar → corrigir → documentar → avançar. Só avance quando conseguir explicar o conceito e apresentar evidência de que o comportamento esperado foi atendido.</p>
+    </section>
     <section id="javascript" class="lab" aria-labelledby="js-title">
-      <p class="eyebrow">JavaScript</p>
-      <h2 id="js-title">Fundamentos com Beyblade</h2>
+      <p class="eyebrow">JavaScript primeiro</p><h2 id="js-title">Fundamentos que sustentam a arena</h2>
+      <p>Tipos e variáveis; operadores; if/else; loops; funções; arrays; objetos; escopo; callbacks; eventos; DOM; módulos; gerenciamento de estado; async e await; APIs; tratamento de erros.</p>
       <div class="code-grid">
-        <article><h3>const</h3><p>Algo que não deve ser reatribuído.</p><pre><code>const game = "Beyblade X";
-console.log(game);</code></pre></article>
-        <article><h3>let</h3><p>Algo que pode variar.</p><pre><code>let blader = "Robin";
-blader = "Multi";</code></pre></article>
-        <article><h3>if / else</h3><p>Decisão baseada em condição.</p><pre><code>if (robinWins &gt; 0) {
-  console.log("Evento histórico");
-} else {
-  console.log("Robin perdeu de novo");
-}</code></pre></article>
-        <article><h3>console.log()</h3><p>Saída visível para entender o fluxo.</p><pre><code>const team = "Persona";
-console.log(team);</code></pre></article>
+        <article><h3>NV1 · Comece pequeno</h3><pre><code>const limiteMinimo = 60; // exemplo didático
+let stamina = 100;
+if (stamina &gt;= limiteMinimo) {
+  console.log("Pronto para testar");
+}</code></pre><p>Defina a regra antes de executar. Teste o limite, abaixo e acima dele. Este limite é do exercício, não uma regra oficial do esporte.</p></article>
+        <article><h3>NV3 · O mesmo Beyblade ganha forma</h3><pre><code>const beyblade = {
+  stamina: 100,
+  velocidade: 80,
+  equilibrio: 65,
+  estado: "girando"
+};</code></pre><p>Depois acrescente composição, histórico e transições. Objetos organizam o domínio que começou em variáveis.</p></article>
+      </div>
+      <p>React, Node, 3D, WebSockets e agentes complexos podem chegar depois. Não substituem o domínio de JavaScript, DOM, estado, testes e arquitetura básica.</p>
+    </section>
+    <section id="qa" class="chaos-cluster" aria-labelledby="qa-title">
+      <p class="eyebrow">QA desde a primeira regra testável</p><h2 id="qa-title">Plausível não basta. Mostre o resultado.</h2>
+      <p>Pedido, requisito, regra de negócio e critério de aceite são coisas diferentes. Antes da batalha, esclareça vitória, empate, repetição de componentes, arena, launcher, duração e condições de teste.</p>
+      <article class="lab-step"><h3>CT-BEY-01 · Stamina mínima em arena padrão</h3>
+        <p><strong>Pré-condição:</strong> arena e launcher definidos e registrados; três lançamentos nas mesmas condições. Defina e registre o limite de duração antes da execução.</p>
+        <p><strong>Entrada:</strong> composição X, com Layer, Ratchet e Bit identificados.</p>
+        <p><strong>Esperado:</strong> média das três durações maior ou igual ao limite definido.</p>
+        <p><strong>Obtido e evidência:</strong> registrar t1, t2, t3, média, limite e identificação do vídeo ou medição. Resultado inicial: NÃO EXECUTADO. Após medir: PASS ou FAIL. Não inventar tempos nem evidências.</p>
+      </article>
+      <h3>Contrato de cada exercício</h3>
+      <ol><li>Conceito técnico.</li><li>Regra do domínio que usa o conceito.</li><li>Implementação.</li><li>Requisito e comportamento esperado verificável.</li><li>Caso de teste.</li><li>Execução, resultado obtido e evidência.</li><li>Correção quando houver falha.</li><li>Regressão antes de avançar.</li></ol>
+      <div class="memory-grid">
+        <article><span class="memory-tag">Status</span><h3>Feito não significa validado</h3><p>IMPLEMENTADO não significa TESTADO. TESTADO não significa PASS. PASS não significa ausência total de risco. Aprovação do PO é registrada separadamente, preservando o histórico de defeitos aceitos.</p></article>
+        <article><span class="memory-tag">Entrega</span><h3>Portfólio com evidência</h3><p>Projetos maiores entregam código, requisito, teste e registro de resultado. Use branch, commits e histórico para acompanhar feature, correção, teste e refatoração. Git faz parte da engenharia.</p></article>
+        <article><span class="memory-tag">Risco</span><h3>Uma jornada inteira</h3><p>Priorize riscos antes de alterar produção e valide o fluxo de ponta a ponta. QA começa nos fundamentos, ganha estrutura no NV5 e chega à automação no NV9. IA só entra depois da validação manual estar consolidada.</p></article>
       </div>
     </section>
 
-    <section id="qa" class="chaos-cluster" aria-labelledby="qa-title">
-      <p class="eyebrow">QA Lab</p>
-      <h2 id="qa-title">Beyblade também virou massa de teste</h2>
-      <div class="memory-grid">
-        <article><span class="memory-tag">Requisito</span><h3>Matchup não é achismo</h3><p>Primeiro entende regra, depois cenário. O requisito vem antes da execução.</p></article>
-        <article><span class="memory-tag">Regressão</span><h3>Robin perdeu de novo</h3><p>Quando o mesmo comportamento reaparece, pode ser bug, regra aceita ou simplesmente regressão consistente. O PO decide o esperado.</p></article>
-        <article><span class="memory-tag">Evidência</span><h3>Plausível não basta</h3><p>“Uma evidência plausível não é necessariamente uma evidência válida.” O laboratório preserva essa regra.</p></article>
-      </div>
-    </section>
+    <p class="do-not-feed" aria-hidden="true">FAVOR NÃO ALIMENTAR AS TARTARUGAS. ELAS JÁ ESTÃO BEM ALIMENTADAS.</p>
   </main>
 
   <footer class="site-footer">

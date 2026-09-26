@@ -79,3 +79,4 @@ export function initRouter() {
   previous?.addEventListener('click', () => carousel?.scrollBy({ left: -carouselStep(), behavior: 'smooth' }));
   next?.addEventListener('click', () => carousel?.scrollBy({ left: carouselStep(), behavior: 'smooth' }));
 }
+

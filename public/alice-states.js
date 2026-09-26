@@ -385,3 +385,4 @@ export function escolherFalaAlice(idOuNomeDaImagem, indiceAnterior = -1) {
     indiceDaFrase: escolha.indice
   };
 }
+

@@ -1,24 +1,15 @@
+import { campusPages, turtleCount, fixedLargeTurtles, labOnlyImages, labOnlyAssets, storageKeys } from './runtime-config.js';
 import { collectProtectedRects, placeDecorativeAsset } from './decorative-safety.js';
 
-const campusPages = ['home', 'lab', 'english', 'memories'];
-const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v10';
 
-const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
-const beybladeAssets = [
-  'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
-  'ekusu-remade.webp',
-  'Beyblade_X_-_Ekusu_Kurosu.webp',
-  'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
-];
+const campusStorageKey = storageKeys.campus;
 
-const labOnlyImages = [
-  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '' },
-  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '' },
-  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '' },
-  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '' }
-];
+
+
+const beybladeAssets = labOnlyAssets;
+
+
 
 const roamingImages = [
   { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity', fixedPage: 'memories' },
@@ -172,7 +163,7 @@ export function initRandomizer() {
     turtlesCreated = true;
   }
 
-  function scatterAssets() {
+  function performLayout() {
     const main = document.querySelector('main');
     const pageHeight = Math.max(main?.scrollHeight ?? 2200, 2200);
     const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
@@ -199,27 +190,20 @@ export function initRandomizer() {
   purgeBeybladeOutsideLab();
   randomAssetPlane.dataset.randomizerReady = 'true';
 
+  let frame = null;
+  function scatterAssets() {
+    if (frame !== null) return;
+    frame = requestAnimationFrame(() => { frame = null; performLayout(); });
+  }
   randomAssetPlane.querySelectorAll('.random-asset img').forEach((image) => {
-    image.addEventListener('load', () => requestAnimationFrame(scatterAssets), { once: true });
+    image.addEventListener('load', scatterAssets, { once: true });
   });
-  const mainObserver = new ResizeObserver(() => requestAnimationFrame(scatterAssets));
+  const mainObserver = new ResizeObserver(scatterAssets);
   const mainElement = document.querySelector('main');
   if (mainElement) mainObserver.observe(mainElement);
-
   scatterAssets();
-  requestAnimationFrame(scatterAssets);
-  window.addEventListener('load', () => {
-    purgeBeybladeOutsideLab();
-    scatterAssets();
-  }, { once: true });
+  window.addEventListener('load', scatterAssets, { once: true });
   document.fonts?.ready?.then(scatterAssets).catch(() => {});
-
-  let resizeTimer;
-  const scheduleLayout = () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(scatterAssets, 180);
-  };
-  window.addEventListener('resize', scheduleLayout, { passive: true });
-
+  window.addEventListener('resize', scatterAssets, { passive: true });
   return { scatterAssets };
 }

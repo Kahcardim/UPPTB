@@ -71,7 +71,8 @@ test('randomizer mantém Beyblade só no Lab, blader legado em Memórias e gato 
     'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
   ];
 
-  assert.ok(js.includes('const labOnlyImages = ['));
+  assert.match(js, /import.*labOnlyImages.*runtime-config/);
+  assert.match(await readPublic('runtime-config.js'), /export const labOnlyImages = \[/);
   assert.ok(js.includes("if (currentPage === 'lab') labOnlyImages.forEach(appendRoamingImage);"));
 
   const roamingSection = js.split('const roamingImages = [')[1]?.split('];')[0] ?? '';
@@ -102,7 +103,7 @@ test('AUD-04/24: decoração usa política única de prioridade do conteúdo', a
 
 test('mapa aleatório usa schema atual, persiste navegação e renova em F5', async () => {
   const js = await readPublic('randomizer.js');
-  assert.match(js, /upptb-campus-distribution-v10/);
+  assert.match(await readPublic('runtime-config.js'), /upptb-campus-distribution-v10/);
   assert.match(js, /navigationEntry\?\.type === 'reload'/);
   assert.match(js, /if \(!stored \|\| isReload\)/);
   assert.match(js, /if \(valid\) return parsed/);
@@ -111,15 +112,15 @@ test('mapa aleatório usa schema atual, persiste navegação e renova em F5', as
 
 test('registros antigos do runtime são podados sem apagar schemas atuais', async () => {
   const app = await readPublic('app.js');
-  assert.match(app, /upptb-campus-distribution-v10/);
-  assert.match(app, /upptb-alice-characters-v3/);
+  assert.match(await readPublic('runtime-config.js'), /upptb-campus-distribution-v10/);
+  assert.match(await readPublic('runtime-config.js'), /upptb-alice-characters-v3/);
   assert.match(app, /function pruneLegacyStorage\(/);
   assert.match(app, /localStorage\.removeItem\(key\)/);
 });
 
 test('AUD-21: Efeito Alice é módulo canônico e usa gato + Chapeleiro locais', async () => {
   const js = await readPublic('alice.js');
-  assert.match(js, /upptb-alice-characters-v3/);
+  assert.match(await readPublic('runtime-config.js'), /upptb-alice-characters-v3/);
   assert.match(js, /from '\.\/decorative-safety\.js'/);
   assert.match(js, /caption\.textContent = config\.phrase/);
   assert.match(js, /src: 'assets\/gato\.png'/);
@@ -214,9 +215,26 @@ test('AUD-20: pipeline possui smoke pós-deploy por SHA publicado', async () => 
 
 test('build preserva assets dinâmicos e publica identidade rastreável por SHA', async () => {
   const config = await readRoot('vite.config.js');
-  assert.match(config, /cpSync\(source, target, \{ recursive: true, force: true \}\)/);
-  assert.match(config, /public\/assets/);
-  assert.match(config, /dist\/assets/);
+  assert.match(config, /runtime-assets\.json/);
+  assert.match(config, /this\.emitFile/);
+  const manifest = JSON.parse(await readRoot('config/runtime-assets.json'));
+  assert.ok(manifest.includes('assets/turtles/turtle-31.webp'));
+  assert.ok(manifest.includes('assets/bey-lab-mark.svg'));
   assert.match(config, /upptb-build-sha/);
   assert.match(config, /dist\/build\.json/);
+});
+
+
+
+test('V3: apresentação não é injetada pelo app nem duplicada nos HTMLs', async () => {
+ const app = await readPublic('app.js');
+ assert.doesNotMatch(app, /createElement\(['"]style['"]\)|hero\w*\.style/);
+ for (const page of ['index.html','ingles.html','laboratorio-beyblade.html']) assert.doesNotMatch(await readPublic(page), /<style>/);
+});
+test('LAB-CT03/09: progressão contínua e critérios de QA explícitos', async () => {
+ const html = await readPublic('laboratorio-beyblade.html');
+ for (let i=1;i<=10;i++) assert.ok(html.includes('id="nv'+i+'"'));
+ for (const term of ['CT-BEY-01','NÃO EXECUTADO','IMPLEMENTADO não significa TESTADO','Layer','Ratchet','Bit','async','guardrails']) assert.ok(html.includes(term),term);
+ assert.doesNotMatch(html,/upptb-collage/);
+ assert.doesNotMatch(await readPublic('ingles.html'),/upptb-collage/);
 });
