@@ -547,3 +547,16 @@ main > section { isolation: isolate; }
 @media (prefers-reduced-motion:reduce) {
   .random-asset { transition:none !important; animation:none !important; }
 }
+
+
+/* EPIC performance V10: decoração não pode disputar frame com navegação. */
+.random-asset {
+  filter: none !important;
+  transition: none !important;
+}
+.random-asset-plane {
+  contain: strict;
+}
+@media (min-width:701px) {
+  .site-header { backdrop-filter: blur(8px); }
+}
