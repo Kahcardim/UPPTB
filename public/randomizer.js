@@ -1,6 +1,6 @@
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v8';
+const campusStorageKey = 'upptb-campus-distribution-v9';
 
 const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
@@ -11,12 +11,15 @@ const beybladeAssets = [
   'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
 ];
 
+const labOnlyImages = [
+  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '' },
+  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '' },
+  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '' },
+  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '' }
+];
+
 const roamingImages = [
   { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity', fixedPage: 'memories' },
-  { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '', fixedPage: 'lab' },
-  { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '', fixedPage: 'lab' },
-  { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '', fixedPage: 'lab' },
-  { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '', fixedPage: 'lab' },
   { src: 'assets/images-2-.jpg', caption: 'DEPARTAMENTO DESCONHECIDO', classes: 'random-photo', fixedPage: 'memories' },
   { src: 'assets/images-1-.jpg', caption: 'ARQUIVO LEGADO', classes: 'random-photo', fixedPage: 'memories' },
   { src: 'assets/images.jpg', caption: 'A MESMA FOTO MENOR', classes: 'random-photo tiny-evidence', fixedPage: 'memories' }
@@ -116,19 +119,28 @@ export function initRandomizer() {
     figure.append(cat, caption); randomAssetPlane.append(figure); hairlessCatCreated = true;
   }
 
+  function appendRoamingImage(asset) {
+    const figure = document.createElement('figure');
+    const image = document.createElement('img');
+    const caption = document.createElement('figcaption');
+    figure.className = ('random-asset random-character ' + asset.classes).trim();
+    image.src = asset.src; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
+    caption.textContent = asset.caption; figure.append(image, caption); randomAssetPlane.append(figure);
+  }
+
   function createRoamingImages() {
     if (roamingImagesCreated) return;
+
     roamingImages.forEach((asset, index) => {
       const targetPage = asset.fixedPage || campusDistribution.images?.[index];
       if (targetPage !== currentPage) return;
-      if (currentPage !== 'lab' && beybladeAssets.some((name) => asset.src.includes(name))) return;
-      const figure = document.createElement('figure');
-      const image = document.createElement('img');
-      const caption = document.createElement('figcaption');
-      figure.className = ('random-asset random-character ' + asset.classes).trim();
-      image.src = asset.src; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
-      caption.textContent = asset.caption; figure.append(image, caption); randomAssetPlane.append(figure);
+      appendRoamingImage(asset);
     });
+
+    if (currentPage === 'lab') {
+      labOnlyImages.forEach(appendRoamingImage);
+    }
+
     roamingImagesCreated = true;
   }
 
