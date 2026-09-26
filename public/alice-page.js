@@ -262,13 +262,16 @@ if (alicePageRoot.dataset.page === 'alice') {
       cards[(current + 1) % cards.length].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     };
 
-    const start = () => {
+    const schedule = () => {
       if (prefersReducedMotion) return;
-      clearInterval(timer);
-      timer = setInterval(advance, 5200 + trackIndex * 600);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        advance();
+        schedule();
+      }, 5200 + trackIndex * 600);
     };
-    const pause = () => { paused = true; };
-    const resume = () => { paused = false; start(); };
+    const pause = () => { paused = true; clearTimeout(timer); };
+    const resume = () => { paused = false; schedule(); };
 
     track.classList.add('is-auto-scrolling');
     track.addEventListener('pointerenter', pause);
@@ -277,7 +280,7 @@ if (alicePageRoot.dataset.page === 'alice') {
     track.addEventListener('focusout', resume);
     track.addEventListener('touchstart', pause, { passive: true });
     track.addEventListener('touchend', () => setTimeout(resume, 1800), { passive: true });
-    start();
+    schedule();
   });
 
   sectionLinks.forEach((link) => link.addEventListener('click', (event) => {
