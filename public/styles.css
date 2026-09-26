@@ -526,8 +526,7 @@ body { min-width:0; }
   pointer-events: none;
 }
 .random-asset {
-  content-visibility: auto;
-  contain-intrinsic-size: 180px 180px;
+  content-visibility: visible;
   will-change: auto !important;
 }
 main > section { isolation: isolate; }
@@ -881,3 +880,6 @@ html[data-page="lab"] .hero-copy,html[data-page="english"] .hero-copy {text-alig
 .lab-levels h3 {margin:.6rem 0}.lab-levels p {color:var(--muted)}
 .lab-step {padding:1rem;border-left:3px solid var(--green);background:rgba(53,255,102,.06)}
 @media(max-width:700px){.lab-levels{grid-template-columns:1fr}}
+
+/* Só revelar decoração após medir e validar sua posição real. */
+.random-asset:not([data-positioned="true"]) { visibility:hidden; }
