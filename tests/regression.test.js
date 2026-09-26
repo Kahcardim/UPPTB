@@ -18,8 +18,8 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
 test('regressão UX: Alice permanece isolada do plano aleatório global', async () => {
   const html = await read('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /alice-page\\.css\\?v=8/);
-  assert.match(html, /alice-page\\.js\\?v=8/);
+  assert.match(html, /alice-page\.css\?v=8/);
+  assert.match(html, /alice-page\.js\?v=8/);
 });
 
 test('regressão Alice: estado não possui rotação automática por timer', async () => {
@@ -243,8 +243,8 @@ test('mobile mantém assets dentro do viewport e invalida distribuição/cache a
 test('Alice V6 preserva imagem inteira no web e vira background no mobile', async () => {
   const html = await read('alice.html');
   const css = await read('alice-page.css');
-  assert.match(html, /alice-page\\.css\\?v=8/);
-  assert.match(html, /alice-page\\.js\\?v=8/);
+  assert.match(html, /alice-page\.css\?v=8/);
+  assert.match(html, /alice-page\.js\?v=8/);
   assert.match(css, /object-fit:contain/);
   assert.match(css, /\.alice-dialogue-stage\{overflow:visible;\}/);
   assert.match(css, /@media\(max-width:760px\)/);
