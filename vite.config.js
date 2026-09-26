@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { execFileSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const publishedDocs = [
@@ -28,14 +28,16 @@ const buildSha = resolveBuildSha();
 function preserveRuntimeAssets() {
   return {
     name: 'upptb-preserve-runtime-assets',
+    buildStart() {
+      const files = JSON.parse(readFileSync(resolve(process.cwd(), 'config/runtime-assets.json'), 'utf8'));
+      for (const fileName of files) {
+        const source = resolve(process.cwd(), 'public', fileName);
+        this.addWatchFile(source);
+        this.emitFile({ type: 'asset', fileName, source: readFileSync(source) });
+      }
+      this.emitFile({type:'asset',fileName:'runtime-assets.json',source:JSON.stringify(files)});
+    },
     closeBundle() {
-      // Tartarugas e estados da Alice são escolhidos em runtime. Como seus nomes
-      // não aparecem como imports estáticos, o Rollup não consegue descobri-los.
-      // Copiamos a árvore de assets explicitamente para o artefato final.
-      const source = resolve(process.cwd(), 'public/assets');
-      const target = resolve(process.cwd(), 'dist/assets');
-      if (existsSync(source)) cpSync(source, target, { recursive: true, force: true });
-
       // Os documentos publicados passam a fazer parte do próprio artefato
       // validado. Assim o deploy não cria arquivos que o gate nunca viu.
       const docsTarget = resolve(process.cwd(), 'dist/docs');
@@ -89,3 +91,4 @@ export default defineConfig({
     }
   }
 });
+

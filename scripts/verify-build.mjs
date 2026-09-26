@@ -111,3 +111,4 @@ if (missing.length) {
 }
 
 console.log(`Build reference gate: OK (${htmlPaths.length} HTMLs validados · ${auditDebt.size} dívidas ativas)`);
+

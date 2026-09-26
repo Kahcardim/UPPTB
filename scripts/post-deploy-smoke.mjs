@@ -44,3 +44,4 @@ for (let attempt = 1; attempt <= 12; attempt += 1) {
 console.error('Post-deploy smoke: FAIL');
 console.error(lastError?.stack || lastError);
 process.exit(1);
+

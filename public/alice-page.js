@@ -246,39 +246,46 @@ if (alicePageRoot.dataset.page === 'alice') {
     const cards = [...track.children].filter((node) => node.matches('article'));
     if (cards.length < 2) return;
 
+    track.tabIndex = 0;
+    track.setAttribute('role', 'region');
+    track.setAttribute('aria-label', trackIndex === 0 ? 'Carrossel Efeito Alice' : 'Carrossel Regras da Alice');
+    const currentIndex = () => {
+      const left = track.getBoundingClientRect().left + 16;
+      return cards.reduce((best, card, i) => Math.abs(card.getBoundingClientRect().left - left) < Math.abs(cards[best].getBoundingClientRect().left - left) ? i : best, 0);
+    };
+    const moveTo = (index) => {
+      const card = cards[Math.max(0, Math.min(cards.length - 1, index))];
+      const left = track.scrollLeft + card.getBoundingClientRect().left - track.getBoundingClientRect().left - 16;
+      track.scrollTo({ left: Math.max(0, Math.min(left, track.scrollWidth - track.clientWidth)), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    };
     const advance = () => {
       if (paused || prefersReducedMotion || document.hidden) return;
-      const trackRect = track.getBoundingClientRect();
-      const center = trackRect.left + trackRect.width / 2;
-      let current = 0;
-      let distance = Infinity;
-      cards.forEach((card, index) => {
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
-        const nextDistance = Math.abs(cardCenter - center);
-        if (nextDistance < distance) { distance = nextDistance; current = index; }
-      });
-      cards[(current + 1) % cards.length].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      const rect = track.getBoundingClientRect();
+      if (rect.top < 80 || rect.bottom > window.innerHeight) return;
+      // A lista é finita, sem clones; ao final um novo ciclo começa no primeiro card.
+      moveTo(track.scrollLeft >= track.scrollWidth - track.clientWidth - 2 ? 0 : currentIndex() + 1);
     };
-
     const schedule = () => {
       if (prefersReducedMotion) return;
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        advance();
-        schedule();
-      }, 5200 + trackIndex * 600);
+      timer = setTimeout(() => { advance(); schedule(); }, 5000);
     };
     const pause = () => { paused = true; clearTimeout(timer); };
     const resume = () => { paused = false; schedule(); };
-
-    track.classList.add('is-auto-scrolling');
     track.addEventListener('pointerenter', pause);
     track.addEventListener('pointerleave', resume);
     track.addEventListener('focusin', pause);
     track.addEventListener('focusout', resume);
     track.addEventListener('touchstart', pause, { passive: true });
-    track.addEventListener('touchend', () => setTimeout(resume, 1800), { passive: true });
+    track.addEventListener('touchend', resume, { passive: true });
+    track.addEventListener('touchcancel', resume, { passive: true });
+    track.addEventListener('wheel', schedule, { passive: true });
+    track.addEventListener('keydown', (event) => {
+      if (event.target !== track || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      pause();
+      moveTo(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : currentIndex() + (event.key === 'ArrowRight' ? 1 : -1));
+    });
     schedule();
   });
 
@@ -290,3 +297,4 @@ if (alicePageRoot.dataset.page === 'alice') {
     if (target?.id) history.pushState(null, '', `#${target.id}`);
   }));
 }
+

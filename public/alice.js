@@ -1,7 +1,8 @@
+import { campusPages, storageKeys } from './runtime-config.js';
 import { collectProtectedRects, placeDecorativeAsset } from './decorative-safety.js';
 
-const alicePages = ['home', 'lab', 'english', 'memories'];
-const aliceStorageKey = 'upptb-alice-characters-v3';
+const alicePages = campusPages;
+const aliceStorageKey = storageKeys.alice;
 const alicePlane = document.querySelector('#random-asset-plane');
 const alicePage = document.documentElement.dataset.page || 'home';
 
@@ -202,3 +203,6 @@ window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(scatterAliceCharacters, 180);
 }, { passive: true });
+
+
+document.addEventListener('upptb:content-layout', scatterAliceCharacters);
