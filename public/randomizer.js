@@ -1,6 +1,6 @@
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v7';
+const campusStorageKey = 'upptb-campus-distribution-v8';
 
 const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
