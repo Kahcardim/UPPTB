@@ -1,3 +1,5 @@
+import { placeDecorationSafely } from './safe-layout.js';
+
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
 const campusStorageKey = 'upptb-campus-distribution-v9';
@@ -113,8 +115,8 @@ export function initRandomizer() {
     const cat = document.createElement('img');
     const caption = document.createElement('figcaption');
     figure.className = 'random-asset random-character random-hairless-cat';
-    cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
-    cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
+    cat.src = 'assets/sphynx-cat.svg';
+    cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async';
     caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
     figure.append(cat, caption); randomAssetPlane.append(figure); hairlessCatCreated = true;
   }
@@ -157,32 +159,11 @@ export function initRandomizer() {
     turtlesCreated = true;
   }
 
-  // EPIC performance: assets decorativos ficam abaixo do conteúdo, portanto não
-  // precisam executar dezenas de medições de layout por item. O posicionamento
-  // usa faixas seguras e nunca oculta uma ocorrência válida.
+  // Regra canônica AUD-04: conteúdo/interação sempre vence decoração.
+  // O asset tenta gutters, reduz de escala e, sem espaço seguro, não aparece.
   function placeAsset(asset, index, pageHeight) {
-    const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
-    const isMobile = window.innerWidth <= 700;
-    const assetHeight = isLarge ? (isMobile ? 150 : 320) : (isMobile ? 96 : 180);
-    const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
-    const safeTop = hero ? Math.ceil(hero.offsetTop + hero.offsetHeight + 48) : 120;
-    const topLimit = Math.max(pageHeight - assetHeight, safeTop + 140);
-    const isCat = asset.classList.contains('random-hairless-cat');
-    const homeLanes = isMobile ? [1, 75] : [.5, 89];
-    const defaultLanes = isMobile ? [1, 73] : [1.5, 12, 76, 86];
-    const lanes = currentPage === 'home' ? homeLanes : defaultLanes;
-    const lane = isCat ? lanes[index % lanes.length] : lanes[index % lanes.length];
-    const usableHeight = Math.max(topLimit - safeTop, 140);
-    const bandCount = Math.max(1, Math.floor(usableHeight / (isLarge ? 340 : 220)));
-    const band = index % bandCount;
-    const bandSize = usableHeight / bandCount;
-    const jitter = Math.min(bandSize * .55, isMobile ? 90 : 150);
-
-    asset.hidden = false;
-    asset.style.top = Math.round(safeTop + band * bandSize + randomBetween(0, Math.max(12, jitter))) + 'px';
-    asset.style.left = lane + '%';
-    asset.style.transform = 'rotate(' + randomBetween(-12, 12).toFixed(1) + 'deg)';
-    asset.style.zIndex = String(index % 2);
+    const placed = placeDecorationSafely(asset, { pageHeight, minTop: 96, index });
+    asset.dataset.safePlacement = placed ? 'true' : 'hidden';
   }
 
   function scatterAssets() {
@@ -195,7 +176,7 @@ export function initRandomizer() {
   clearLegacyRandomAssets();
   createHairlessCat(); createRoamingImages(); createTurtles();
   purgeBeybladeOutsideLab();
-  window.addEventListener('load', purgeBeybladeOutsideLab, { once: true });
+  window.addEventListener('load', () => { purgeBeybladeOutsideLab(); scatterAssets(); }, { once: true });
   randomAssetPlane.dataset.randomizerReady = 'true';
   // Um passe imediato mantém o efeito Alice instantâneo. Um segundo passe no
   // próximo frame absorve dimensões já conhecidas sem bloquear navegação.

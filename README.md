@@ -1,6 +1,6 @@
 # UPPTB
 
-**Universidade Pública Peculiar Turtle and Beys**
+**Universidade publica turtles and bleys**
 
 Laboratório autoral de QA, programação, inglês, Turtle Step, Beyblade e caos controlado. A universidade é fictícia. A engenharia, os testes e o aprendizado são reais.
 
@@ -74,6 +74,6 @@ Projeto em evolução contínua na branch de implementação. Mudanças relevant
 
 ## Cache e estado local
 
-Assets estáticos usam revisão explícita na URL para evitar CSS/JS antigo em navegador. Os registros locais de randomização também possuem schema versionado; quando o schema muda, chaves antigas da UPPTB são podadas automaticamente.
+Assets estáticos são versionados pelo próprio build Vite, sem números manuais nas URLs. Os registros locais de randomização também possuem schema versionado; quando o schema muda, chaves antigas da UPPTB são podadas automaticamente.
 
 O cache de dependências do GitHub Actions usa `.github/cache-version` como parte da chave lógica. Alterar esse arquivo força uma nova geração sem precisar manter lixo de cache dentro do repositório.

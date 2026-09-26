@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="t d">
+  <title id="t">Gato pelado Sphynx da UPPTB</title>
+  <desc id="d">Ilustração vetorial local de um gato Sphynx em frente a um notebook.</desc>
+  <rect width="320" height="220" rx="24" fill="#07120a"/>
+  <path d="M75 92 50 48l40 20c16-14 35-20 57-20s41 6 57 20l40-20-25 44c14 16 21 35 21 57 0 37-34 62-93 62s-93-25-93-62c0-22 7-41 21-57Z" fill="#a68a78" stroke="#35ff66" stroke-width="5"/>
+  <path d="M96 126c10-10 22-15 37-15m54 15c-10-10-22-15-37-15" fill="none" stroke="#2b201c" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="112" cy="101" rx="10" ry="14" fill="#07120a"/><ellipse cx="192" cy="101" rx="10" ry="14" fill="#07120a"/>
+  <path d="M152 109c-5 7-5 14 0 21 5-7 5-14 0-21Z" fill="#7b5a50"/>
+  <path d="M118 151c22 12 46 12 68 0" fill="none" stroke="#2b201c" stroke-width="5" stroke-linecap="round"/>
+  <rect x="82" y="165" width="140" height="36" rx="7" fill="#102718" stroke="#35ff66" stroke-width="4"/>
+  <path d="M102 188h100" stroke="#35ff66" stroke-width="3" stroke-linecap="round"/>
+  <text x="152" y="190" text-anchor="middle" fill="#f4fff6" font-family="monospace" font-size="13" font-weight="700">GATO PELADO DO TI</text>
+</svg>
