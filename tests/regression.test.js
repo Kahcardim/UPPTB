@@ -7,37 +7,64 @@ const readRoot = (path) => readFile(new URL('../' + path, import.meta.url), 'utf
 
 const campusPages = ['index.html', 'laboratorio-beyblade.html', 'ingles.html', 'memorias.html'];
 
-test('campi essenciais usam a mesma revisão de assets e não carregam arquivos legados', async () => {
+test('campi essenciais usam módulos atuais sem cache bust manual', async () => {
   for (const page of campusPages) {
     const html = await readPublic(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.match(html, /styles\.css\?v=13/);
-    assert.match(html, /app\.js\?v=12/);
+    assert.match(html, /href="styles\.css"/);
+    assert.match(html, /type="module" src="app\.js"/);
+    assert.match(html, /type="module" src="alice\.js"/);
+    assert.doesNotMatch(html, /(?:styles\.css|app\.js|alice\.js|terminal\.js)\?v=/);
     assert.doesNotMatch(html, /navigation\.js|ux-safety\.css/);
   }
 });
 
-test('Alice permanece isolada do plano aleatório global e usa revisão própria atual', async () => {
+test('Alice permanece isolada do plano aleatório global e sem versionamento manual', async () => {
   const html = await readPublic('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /styles\.css\?v=13/);
-  assert.match(html, /app\.js\?v=12/);
-  assert.match(html, /alice-page\.css\?v=9/);
-  assert.match(html, /alice-page\.js\?v=9/);
+  assert.match(html, /href="styles\.css"/);
+  assert.match(html, /type="module" src="app\.js"/);
+  assert.match(html, /href="alice-page\.css"/);
+  assert.match(html, /type="module" src="alice-page\.js"/);
+  assert.doesNotMatch(html, /(?:styles\.css|app\.js|alice-page\.css|alice-page\.js)\?v=/);
 });
 
-test('engine da Alice mantém estado sem rotação automática e assets versionados', async () => {
+test('engine da Alice mantém estado sem rotação automática e assets sem query manual', async () => {
   const js = await readPublic('alice-page.js');
   assert.doesNotMatch(js, /setInterval\s*\(/);
   assert.doesNotMatch(js, /restartRotation|rotatePhrase/);
-  assert.match(js, /from '\.\/alice-states\.js\?v=9'/);
-  assert.match(js, /const aliceAssetVersion = '4'/);
+  assert.match(js, /from '\.\/alice-states\.js'/);
+  assert.doesNotMatch(js, /aliceAssetVersion|\?v=/);
   assert.match(js, /wallpaperFrame\?\.prepend\(butterflyPlane\)/);
   assert.match(js, /catZone\?\.append\(cat\)/);
 });
 
-test('randomizer mantém domínios atuais: Beyblade só nasce no Lab e fotos legadas ficam em Memórias', async () => {
+test('AL-CT01: Alice mantém 15 borboletas e as quatro famílias visuais', async () => {
+  const js = await readPublic('alice-page.js');
+  assert.equal((js.match(/safeButterflyZones = \[/g) ?? []).length, 1);
+  const zoneBlock = js.split('const safeButterflyZones = [')[1]?.split('];')[0] ?? '';
+  assert.equal((zoneBlock.match(/\[[0-9]+,[0-9]+\]/g) ?? []).length, 15);
+  for (const family of ['pink', 'blue', 'white', 'black']) {
+    assert.ok(js.includes(`alice-butterfly-${family}`), 'família ausente: ' + family);
+  }
+});
+
+test('AL-CT02/03: carrosséis da Alice respeitam reduced-motion', async () => {
+  const js = await readPublic('alice-page.js');
+  assert.match(js, /prefersReducedMotion/);
+  assert.match(js, /if \(paused \|\| prefersReducedMotion \|\| document\.hidden\) return/);
+  assert.match(js, /if \(prefersReducedMotion\) return/);
+  assert.match(js, /\.alice-card-grid, #regras \.memory-grid/);
+});
+
+test('AL-CT05: mural não alimentar permanece na Alice', async () => {
+  const html = await readPublic('alice.html');
+  assert.match(html, /class="do-not-feed alice-do-not-feed"/);
+  assert.match(html, /FAVOR NÃO ALIMENTAR AS TARTARUGAS/);
+});
+
+test('randomizer mantém Beyblade só no Lab, blader legado em Memórias e gato pelado local', async () => {
   const js = await readPublic('randomizer.js');
   const labAssets = [
     'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
@@ -47,7 +74,7 @@ test('randomizer mantém domínios atuais: Beyblade só nasce no Lab e fotos leg
   ];
 
   assert.ok(js.includes('const labOnlyImages = ['));
-  assert.ok(js.includes("if (currentPage === 'lab') {\n      labOnlyImages.forEach(appendRoamingImage);"));
+  assert.ok(js.includes("if (currentPage === 'lab') labOnlyImages.forEach(appendRoamingImage);"));
 
   const roamingSection = js.split('const roamingImages = [')[1]?.split('];')[0] ?? '';
   for (const asset of labAssets) {
@@ -59,34 +86,47 @@ test('randomizer mantém domínios atuais: Beyblade só nasce no Lab e fotos leg
     assert.ok(line, 'foto legada fora de Memórias ou ausente: ' + asset);
   }
 
-  assert.match(js, /function purgeBeybladeOutsideLab\(/);
+  assert.match(js, /assets\/sphynx-cat\.svg/);
+  assert.doesNotMatch(js, /upload\.wikimedia\.org/);
 });
+
+test('AUD-04/24: decoração usa política única de prioridade do conteúdo', async () => {
+  const randomizer = await readPublic('randomizer.js');
+  const alice = await readPublic('alice.js');
+  const safety = await readPublic('decorative-safety.js');
+
+  assert.match(randomizer, /placeDecorativeAsset/);
+  assert.match(alice, /placeDecorativeAsset/);
+  assert.match(safety, /decorativeOverlapsContent/);
+  assert.match(safety, /data-suppressed/);
+  assert.match(safety, /element\.hidden = true/);
+});
+
 test('mapa aleatório usa schema atual, persiste navegação e renova em F5', async () => {
   const js = await readPublic('randomizer.js');
-  assert.match(js, /upptb-campus-distribution-v9/);
+  assert.match(js, /upptb-campus-distribution-v10/);
   assert.match(js, /navigationEntry\?\.type === 'reload'/);
   assert.match(js, /if \(!stored \|\| isReload\)/);
   assert.match(js, /if \(valid\) return parsed/);
   assert.match(js, /localStorage\.setItem\(campusStorageKey/);
-  assert.match(js, /const safeTop = hero \? Math\.ceil\(hero\.offsetTop \+ hero\.offsetHeight \+ 48\) : 120/);
 });
 
-test('registros antigos do runtime são podados sem apagar o schema atual', async () => {
+test('registros antigos do runtime são podados sem apagar schemas atuais', async () => {
   const app = await readPublic('app.js');
-  assert.match(app, /upptb-campus-distribution-v9/);
-  assert.match(app, /upptb-alice-characters-v2/);
+  assert.match(app, /upptb-campus-distribution-v10/);
+  assert.match(app, /upptb-alice-characters-v3/);
   assert.match(app, /function pruneLegacyStorage\(/);
   assert.match(app, /localStorage\.removeItem\(key\)/);
 });
 
-test('gato e Chapeleiro continuam migratórios com proteção de conteúdo', async () => {
+test('AUD-21: Efeito Alice é módulo canônico e usa gato + Chapeleiro locais', async () => {
   const js = await readPublic('alice.js');
-  assert.match(js, /upptb-alice-characters-v2/);
-  assert.match(js, /function characterOverlapsContent\(/);
-  assert.match(js, /attempts < 24/);
+  assert.match(js, /upptb-alice-characters-v3/);
+  assert.match(js, /from '\.\/decorative-safety\.js'/);
   assert.match(js, /caption\.textContent = config\.phrase/);
   assert.match(js, /src: 'assets\/gato\.png'/);
   assert.match(js, /src: 'assets\/chapeleiro\.png'/);
+  assert.match(js, /scatterAliceCharacters/);
 });
 
 test('fóssil fundador permanece intacto', async () => {
@@ -103,10 +143,11 @@ test('navegação atual controla topo, histórico e menu mobile', async () => {
   assert.match(css, /html\.menu-open, html\.menu-open body/);
 });
 
-test('terminal institucional preserva os comandos MVP e cache bust atual', async () => {
+test('terminal institucional preserva os comandos MVP sem cache bust manual', async () => {
   const html = await readPublic('index.html');
   const js = await readPublic('terminal.js');
-  assert.match(html, /terminal\.js\?v=12/);
+  assert.match(html, /type="module" src="terminal\.js"/);
+  assert.doesNotMatch(html, /terminal\.js\?v=/);
   assert.match(html, /data-terminal-form/);
   for (const command of ['help', 'status', 'lore', 'clear']) {
     assert.match(js, new RegExp("command === '" + command + "'"));
@@ -136,13 +177,41 @@ test('CSS atual protege composição da Home em desktop e mobile', async () => {
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.english-preview-grid \{[\s\S]*grid-template-columns: 1fr/);
 });
 
-test('rodapé institucional permanece consistente nos campi', async () => {
+test('AUD-15: nome canônico está aplicado na Home e rodapés', async () => {
   for (const page of campusPages) {
     const html = await readPublic(page);
-    assert.match(html, /class="site-footer"/);
-    assert.match(html, /Kauan Cardim · Fundador · PO · QA · estudante de programação/);
-    assert.match(html, /class="site-footer-alice"/);
+    assert.match(html, /Universidade publica turtles and bleys/);
+    assert.doesNotMatch(html, /Universidade Pública Peculiar Turtle and Beys/);
   }
+});
+
+test('AUD-07: Alice mantém botão e PDF dos 30 estados no contrato de build', async () => {
+  const html = await readPublic('alice.html');
+  const config = await readRoot('vite.config.js');
+  assert.match(html, /href="docs\/alice-30-estados\.pdf"/);
+  assert.match(config, /alice-30-estados\.pdf/);
+});
+
+test('AUD-26: build e smoke usam a mesma fonte de dívida', async () => {
+  const debt = JSON.parse(await readRoot('config/audit-debt.json'));
+  const verify = await readRoot('scripts/verify-build.mjs');
+  const smoke = await readRoot('scripts/smoke-dist.mjs');
+
+  assert.equal(debt.schemaVersion, 1);
+  assert.ok(Array.isArray(debt.items));
+  assert.match(verify, /config\/audit-debt\.json/);
+  assert.match(smoke, /config\/audit-debt\.json/);
+  assert.doesNotMatch(verify, /knownAuditDebt = new Set\(\[/);
+  assert.doesNotMatch(smoke, /knownAuditDebt = new Set\(\[/);
+});
+
+test('AUD-20: pipeline possui smoke pós-deploy por SHA publicado', async () => {
+  const workflow = await readRoot('.github/workflows/pages.yml');
+  const script = await readRoot('scripts/post-deploy-smoke.mjs');
+  assert.match(workflow, /post-deploy-smoke/);
+  assert.match(workflow, /EXPECTED_SHA/);
+  assert.match(script, /build\.json/);
+  assert.match(script, /docs\/alice-30-estados\.pdf/);
 });
 
 test('build preserva assets dinâmicos e publica identidade rastreável por SHA', async () => {
