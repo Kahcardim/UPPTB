@@ -45,9 +45,7 @@ test('AL-CT01: Alice mantém 15 borboletas e as quatro famílias visuais', async
   assert.equal((js.match(/safeButterflyZones = \[/g) ?? []).length, 1);
   const zoneBlock = js.split('const safeButterflyZones = [')[1]?.split('];')[0] ?? '';
   assert.equal((zoneBlock.match(/\[[0-9]+,[0-9]+\]/g) ?? []).length, 15);
-  for (const family of ['pink', 'blue', 'white', 'black']) {
-    assert.ok(js.includes(`alice-butterfly-${family}`), 'família ausente: ' + family);
-  }
+  assert.match(js, /alice-butterfly alice-butterfly-\$\{index % 4 === 0 \? 'pink' : index % 4 === 1 \? 'blue' : index % 4 === 2 \? 'white' : 'black'\}/);
 });
 
 test('AL-CT02/03: carrosséis da Alice respeitam reduced-motion', async () => {
