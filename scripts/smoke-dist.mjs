@@ -199,20 +199,16 @@ try {
 
             const turtleButtons = await pageLinks.evaluateAll((elements) => elements.map((element) => {
               const rect = element.getBoundingClientRect();
-              const before = getComputedStyle(element, '::before');
-              return {
-                width: rect.width,
-                height: rect.height,
-                turtleIcon: before.backgroundImage
-              };
+              return { width: rect.width, height: rect.height };
             }));
             for (const button of turtleButtons) {
               if (button.height < 44) {
                 failures.push(`${browserName} ${viewport.width} CTA Turtle baixo demais: ${button.height}`);
               }
-              if (!button.turtleIcon.includes('turtle-mark.svg')) {
-                failures.push(`${browserName} ${viewport.width} CTA sem identidade Turtle`);
-              }
+            }
+            const turtleIconCount = await page.locator('.home-page-links .button img[src*="turtle-mark"]').count();
+            if (turtleIconCount !== 4) {
+              failures.push(`${browserName} ${viewport.width} ícones Turtle nos CTAs != 4: ${turtleIconCount}`);
             }
 
             const titleSize = await page.locator('#hero-title').evaluate(
