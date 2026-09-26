@@ -157,8 +157,16 @@ if (hero && heroCopy) {
 }
 
 
+// Navegação é funcionalidade crítica: inicializa antes de qualquer caos visual.
 initRouter();
-const { scatterAssets } = initRandomizer();
+
+let randomizer = { scatterAssets() {} };
+const bootRandomizer = () => { randomizer = initRandomizer(); };
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(bootRandomizer, { timeout: 450 });
+} else {
+  window.setTimeout(bootRandomizer, 60);
+}
 
 const chaosButton = document.querySelector('#chaos-button');
 const terminalOutput = document.querySelector('#terminal-output');
@@ -173,5 +181,5 @@ chaosButton?.addEventListener('click', () => {
   if (!terminalOutput) return;
   terminalOutput.textContent = audits[auditIndex % audits.length];
   auditIndex += 1;
-  scatterAssets();
+  randomizer.scatterAssets();
 });
