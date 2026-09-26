@@ -193,6 +193,7 @@ export function initRandomizer() {
 
   let frame = null;
   function scatterAssets() {
+    randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)').forEach(asset => { asset.hidden = true; });
     if (frame !== null) return;
     frame = requestAnimationFrame(() => { frame = null; performLayout(); });
   }
@@ -206,5 +207,6 @@ export function initRandomizer() {
   window.addEventListener('load', scatterAssets, { once: true });
   document.fonts?.ready?.then(scatterAssets).catch(() => {});
   window.addEventListener('resize', scatterAssets, { passive: true });
+  document.addEventListener('upptb:content-layout', scatterAssets);
   return { scatterAssets };
 }
