@@ -250,16 +250,16 @@ test('EPIC: Multi permanece exclusiva do laboratório e Alice fora do campus glo
 
 test('AUD-01: gate deriva referências do dist e mantém dívidas humanas explícitas', async () => {
   const gate = await read('../scripts/verify-build.mjs');
-  assert.match(gate, /matchAll\(\/\\b\(\?:src\|href\)/);
-  assert.match(gate, /knownAuditDebt/);
-  assert.match(gate, /alice\\.js/);
-  assert.match(gate, /alice-30-estados\\.pdf/);
-  assert.match(gate, /process\\.exit\(1\)/);
+  assert.ok(gate.includes('matchAll(/\\b(?:src|href)='));
+  assert.ok(gate.includes('knownAuditDebt'));
+  assert.ok(gate.includes("'alice.js'"));
+  assert.ok(gate.includes("'docs/alice-30-estados.pdf'"));
+  assert.ok(gate.includes('process.exit(1)'));
 });
 
 test('AUD-03: build publica identidade rastreável por SHA', async () => {
   const config = await read('../vite.config.js');
-  assert.match(config, /upptb-build-sha/);
-  assert.match(config, /dist\/build\\.json/);
-  assert.match(config, /GITHUB_SHA/);
+  assert.ok(config.includes('upptb-build-sha'));
+  assert.ok(config.includes("resolve(process.cwd(), 'dist/build.json')"));
+  assert.ok(config.includes('GITHUB_SHA'));
 });
