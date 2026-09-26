@@ -1,5 +1,5 @@
 const alicePages = ['home', 'lab', 'english', 'memories'];
-const aliceStorageKey = 'upptb-alice-characters-v1';
+const aliceStorageKey = 'upptb-alice-characters-v2';
 const alicePlane = document.querySelector('#random-asset-plane');
 const alicePage = document.documentElement.dataset.page || 'home';
 
