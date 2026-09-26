@@ -105,7 +105,7 @@ export function initRandomizer() {
 
   function clearLegacyRandomAssets() {
     // Fallbacks antigos não podem disputar leitura com o conteúdo real.
-    randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
+    randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)').forEach((asset) => asset.remove());
     purgeBeybladeOutsideLab();
   }
 
@@ -116,7 +116,7 @@ export function initRandomizer() {
     const caption = document.createElement('figcaption');
     figure.className = 'random-asset random-character random-hairless-cat';
     cat.src = 'assets/sphynx-local.svg';
-    cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
+    cat.alt = ''; cat.loading = 'eager'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
     caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
     figure.append(cat, caption); randomAssetPlane.append(figure); hairlessCatCreated = true;
   }
@@ -126,7 +126,7 @@ export function initRandomizer() {
     const image = document.createElement('img');
     const caption = document.createElement('figcaption');
     figure.className = ('random-asset random-character ' + asset.classes).trim();
-    image.src = asset.src; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
+    image.src = asset.src; image.alt = ''; image.loading = 'eager'; image.decoding = 'async';
     caption.textContent = asset.caption; figure.append(image, caption); randomAssetPlane.append(figure);
   }
 
@@ -154,7 +154,7 @@ export function initRandomizer() {
       const turtle = document.createElement('img');
       figure.className = 'random-asset random-turtle' + (index >= 28 ? ' large-turtle' : '');
       turtle.src = 'assets/turtles/turtle-' + String(index).padStart(2, '0') + '.webp';
-      turtle.alt = ''; turtle.loading = 'lazy'; turtle.decoding = 'async'; figure.append(turtle); randomAssetPlane.append(figure);
+      turtle.alt = ''; turtle.loading = 'eager'; turtle.decoding = 'async'; figure.append(turtle); randomAssetPlane.append(figure);
     }
     turtlesCreated = true;
   }
@@ -177,14 +177,27 @@ export function initRandomizer() {
   function scatterAssets() {
     const main = document.querySelector('main');
     const pageHeight = Math.max(main?.scrollHeight ?? 2200, 2200);
-    const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
-    assets.forEach((asset, index) => placeAsset(asset, index, pageHeight));
+    const assets = [...randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)')];
+
+    assets.forEach((asset, index) => {
+      const image = asset.querySelector('img');
+      if (image && (!image.complete || !image.naturalWidth)) {
+        asset.hidden = true;
+        if (!image.dataset.safePlacementListener) {
+          image.dataset.safePlacementListener = 'true';
+          image.addEventListener('load', scatterAssets, { once: true });
+          image.addEventListener('error', () => { asset.hidden = true; }, { once: true });
+        }
+        return;
+      }
+      placeAsset(asset, index, pageHeight);
+    });
   }
 
   clearLegacyRandomAssets();
   createHairlessCat(); createRoamingImages(); createTurtles();
   purgeBeybladeOutsideLab();
-  window.addEventListener('load', purgeBeybladeOutsideLab, { once: true });
+  window.addEventListener('load', () => { purgeBeybladeOutsideLab(); scatterAssets(); }, { once: true });
   randomAssetPlane.dataset.randomizerReady = 'true';
   // Um passe imediato mantém o efeito Alice instantâneo. Um segundo passe no
   // próximo frame absorve dimensões já conhecidas sem bloquear navegação.
