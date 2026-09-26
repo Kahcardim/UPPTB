@@ -10,7 +10,7 @@ test('regressão estrutural: páginas institucionais essenciais existem e carreg
     const html = await read(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.ok(html.includes('<script type="module" src="app.js?v=6"></script>'));
+    assert.ok(html.includes('<script type="module" src="app.js?v=11"></script>'));
     assert.doesNotMatch(html, /navigation\.js/);
   }
 });
@@ -200,8 +200,8 @@ test('mobile mantém assets dentro do viewport e invalida distribuição/cache a
   assert.match(css, /max-width:min\(9rem,32vw\) !important/);
   for (const page of ['index.html','laboratorio-beyblade.html','ingles.html','memorias.html']) {
     const html = await read(page);
-    assert.match(html, /styles\.css\?v=6/);
-    assert.match(html, /app\.js\?v=6/);
+    assert.match(html, /styles\.css\?v=11/);
+    assert.match(html, /app\.js\?v=11/);
   }
 });
 
