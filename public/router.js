@@ -7,12 +7,16 @@ export function initRouter() {
   const previous = document.querySelector('[data-carousel-prev]');
   const next = document.querySelector('[data-carousel-next]');
 
+  function setMobileMenu(open) {
+    if (!nav || !menuButton) return;
+    nav.dataset.open = String(open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open);
+  }
+
   function closeMenus({ closeMobile = false } = {}) {
     navGroups.forEach((group) => { group.open = false; });
-    if (closeMobile && nav && menuButton) {
-      nav.dataset.open = 'false';
-      menuButton.setAttribute('aria-expanded', 'false');
-    }
+    if (closeMobile) setMobileMenu(false);
   }
 
   navGroups.forEach((group) => group.addEventListener('toggle', () => {
@@ -22,8 +26,7 @@ export function initRouter() {
   if (menuButton && nav) {
     menuButton.addEventListener('click', () => {
       const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-      menuButton.setAttribute('aria-expanded', String(!isOpen));
-      nav.dataset.open = String(!isOpen);
+      setMobileMenu(!isOpen);
     });
     nav.addEventListener('click', (event) => {
       if (event.target.matches('a')) closeMenus({ closeMobile: true });
@@ -31,7 +34,7 @@ export function initRouter() {
   }
 
   document.addEventListener('pointerdown', (event) => {
-    if (!header?.contains(event.target)) closeMenus();
+    if (!header?.contains(event.target)) closeMenus({ closeMobile: true });
   });
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
