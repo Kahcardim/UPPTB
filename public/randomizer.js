@@ -1,19 +1,25 @@
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v6';
+const campusStorageKey = 'upptb-campus-distribution-v7';
 
 const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
+const beybladeAssets = [
+  'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
+  'ekusu-remade.webp',
+  'Beyblade_X_-_Ekusu_Kurosu.webp',
+  'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
+];
+
 const roamingImages = [
-  { src: 'assets/upptb-collage.webp', caption: 'IDENTIDADE ULTRA TURTLE', classes: 'random-identity', fixedPage: 'home' },
   { src: 'assets/upptb-styleboard.webp', caption: 'MANUAL QUE O CAOS IGNOROU', classes: 'random-identity', fixedPage: 'memories' },
   { src: 'assets/pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp', caption: 'ROBIN.EXE // 01', classes: '', fixedPage: 'lab' },
   { src: 'assets/ekusu-remade.webp', caption: 'ROBIN.EXE // 02', classes: '', fixedPage: 'lab' },
   { src: 'assets/Beyblade_X_-_Ekusu_Kurosu.webp', caption: 'CAPACETE REMOVIDO EM PRODUÇÃO', classes: '', fixedPage: 'lab' },
   { src: 'assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp', caption: 'MULTI REBORN // REITORIA', classes: '', fixedPage: 'lab' },
-  { src: 'assets/images-2-.jpg', caption: 'DEPARTAMENTO DESCONHECIDO', classes: 'random-photo' },
-  { src: 'assets/images-1-.jpg', caption: 'ARQUIVO LEGADO', classes: 'random-photo' },
-  { src: 'assets/images.jpg', caption: 'A MESMA FOTO MENOR', classes: 'random-photo tiny-evidence' }
+  { src: 'assets/images-2-.jpg', caption: 'DEPARTAMENTO DESCONHECIDO', classes: 'random-photo', fixedPage: 'memories' },
+  { src: 'assets/images-1-.jpg', caption: 'ARQUIVO LEGADO', classes: 'random-photo', fixedPage: 'memories' },
+  { src: 'assets/images.jpg', caption: 'A MESMA FOTO MENOR', classes: 'random-photo tiny-evidence', fixedPage: 'memories' }
 ];
 
 function shuffled(values) {
@@ -83,16 +89,19 @@ export function initRandomizer() {
   let roamingImagesCreated = false;
   let hairlessCatCreated = false;
 
+  function purgeBeybladeOutsideLab() {
+    if (currentPage === 'lab') return;
+    document.querySelectorAll('img').forEach((image) => {
+      if (beybladeAssets.some((asset) => image.src.includes(asset))) {
+        image.closest('figure')?.remove();
+      }
+    });
+  }
+
   function clearLegacyRandomAssets() {
-    // O HTML possui fallbacks visuais. A engine assume o controle apenas depois
-    // de estar carregada, evitando tela vazia caso módulos falhem.
+    // Fallbacks antigos não podem disputar leitura com o conteúdo real.
     randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
-    if (currentPage !== 'lab') {
-      const beybladeAssets = ['pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp','ekusu-remade.webp','Beyblade_X_-_Ekusu_Kurosu.webp','multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'];
-      document.querySelectorAll('img').forEach((image) => {
-        if (beybladeAssets.some((asset) => image.src.includes(asset))) image.closest('figure')?.remove();
-      });
-    }
+    purgeBeybladeOutsideLab();
   }
 
   function createHairlessCat() {
@@ -112,6 +121,7 @@ export function initRandomizer() {
     roamingImages.forEach((asset, index) => {
       const targetPage = asset.fixedPage || campusDistribution.images?.[index];
       if (targetPage !== currentPage) return;
+      if (currentPage !== 'lab' && beybladeAssets.some((name) => asset.src.includes(name))) return;
       const figure = document.createElement('figure');
       const image = document.createElement('img');
       const caption = document.createElement('figcaption');
@@ -142,17 +152,22 @@ export function initRandomizer() {
     const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
     const isMobile = window.innerWidth <= 700;
     const assetHeight = isLarge ? (isMobile ? 150 : 320) : (isMobile ? 96 : 180);
-    const topLimit = Math.max(pageHeight - assetHeight, 520);
+    const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
+    const safeTop = hero ? Math.ceil(hero.offsetTop + hero.offsetHeight + 48) : 120;
+    const topLimit = Math.max(pageHeight - assetHeight, safeTop + 140);
     const isCat = asset.classList.contains('random-hairless-cat');
-    const lanes = isMobile ? [1, 73] : [1.5, 84];
-    const lane = isCat ? lanes[index % lanes.length] : (isMobile ? [1, 73][index % 2] : [1.5, 12, 76, 86][index % 4]);
-    const bandCount = Math.max(1, Math.floor((topLimit - 120) / (isLarge ? 340 : 220)));
+    const homeLanes = isMobile ? [1, 75] : [.5, 89];
+    const defaultLanes = isMobile ? [1, 73] : [1.5, 12, 76, 86];
+    const lanes = currentPage === 'home' ? homeLanes : defaultLanes;
+    const lane = isCat ? lanes[index % lanes.length] : lanes[index % lanes.length];
+    const usableHeight = Math.max(topLimit - safeTop, 140);
+    const bandCount = Math.max(1, Math.floor(usableHeight / (isLarge ? 340 : 220)));
     const band = index % bandCount;
-    const bandSize = (topLimit - 120) / bandCount;
+    const bandSize = usableHeight / bandCount;
     const jitter = Math.min(bandSize * .55, isMobile ? 90 : 150);
 
     asset.hidden = false;
-    asset.style.top = Math.round(120 + band * bandSize + randomBetween(0, Math.max(12, jitter))) + 'px';
+    asset.style.top = Math.round(safeTop + band * bandSize + randomBetween(0, Math.max(12, jitter))) + 'px';
     asset.style.left = lane + '%';
     asset.style.transform = 'rotate(' + randomBetween(-12, 12).toFixed(1) + 'deg)';
     asset.style.zIndex = String(index % 2);
@@ -167,6 +182,8 @@ export function initRandomizer() {
 
   clearLegacyRandomAssets();
   createHairlessCat(); createRoamingImages(); createTurtles();
+  purgeBeybladeOutsideLab();
+  window.addEventListener('load', purgeBeybladeOutsideLab, { once: true });
   randomAssetPlane.dataset.randomizerReady = 'true';
   // Um passe imediato mantém o efeito Alice instantâneo. Um segundo passe no
   // próximo frame absorve dimensões já conhecidas sem bloquear navegação.
