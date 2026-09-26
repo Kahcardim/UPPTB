@@ -12,7 +12,7 @@ test('campi essenciais usam a mesma revisão de assets e não carregam arquivos 
     const html = await readPublic(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.match(html, /styles\.css\?v=12/);
+    assert.match(html, /styles\.css\?v=13/);
     assert.match(html, /app\.js\?v=12/);
     assert.doesNotMatch(html, /navigation\.js|ux-safety\.css/);
   }
@@ -21,7 +21,7 @@ test('campi essenciais usam a mesma revisão de assets e não carregam arquivos 
 test('Alice permanece isolada do plano aleatório global e usa revisão própria atual', async () => {
   const html = await readPublic('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /styles\.css\?v=12/);
+  assert.match(html, /styles\.css\?v=13/);
   assert.match(html, /app\.js\?v=12/);
   assert.match(html, /alice-page\.css\?v=9/);
   assert.match(html, /alice-page\.js\?v=9/);
