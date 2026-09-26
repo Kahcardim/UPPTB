@@ -32,6 +32,7 @@
     const raw = input.value;
     const result = execute(raw);
     output.textContent = raw.trim().toLowerCase() === 'clear' ? '' : '$ ' + raw.trim() + '\n' + result;
+    document.dispatchEvent(new Event('upptb:content-layout'));
     input.value = '';
     input.focus();
   });
