@@ -197,12 +197,10 @@ test('randomizer aguarda dimensões reais das imagens antes do passe autoritativ
 });
 
 
-test('randomizer revalida colisões após fontes e mudanças de layout', async () => {
+test('randomizer evita observadores caros e recalcula apenas no resize', async () => {
   const js = await read('randomizer.js');
-  assert.match(js, /document\.fonts\?\.ready\?\.then\(scatterAssets\)/);
-  assert.match(js, /window\.addEventListener\('resize', scheduleCollisionRecheck/);
-  assert.match(js, /new ResizeObserver\(scheduleCollisionRecheck\)/);
-  assert.match(js, /layoutObserver\?\.observe\(main\)/);
+  assert.match(js, /window\.addEventListener\('resize', scheduleLayout/);
+  assert.doesNotMatch(js, /ResizeObserver|document\.fonts|elementsFromPoint/);
 });
 
 
