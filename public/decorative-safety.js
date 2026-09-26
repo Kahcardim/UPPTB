@@ -1,4 +1,5 @@
 const protectedSelector = [
+  'main > section',
   'main h1',
   'main h2',
   'main h3',
@@ -18,10 +19,10 @@ const protectedSelector = [
 
 function intersects(a, b, padding = 8) {
   return !(
-    a.right <= b.left + padding ||
-    a.left >= b.right - padding ||
-    a.bottom <= b.top + padding ||
-    a.top >= b.bottom - padding
+    a.right <= b.left - padding ||
+    a.left >= b.right + padding ||
+    a.bottom <= b.top - padding ||
+    a.top >= b.bottom + padding
   );
 }
 
