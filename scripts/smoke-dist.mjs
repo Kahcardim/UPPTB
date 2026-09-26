@@ -67,6 +67,7 @@ const isKnownDebtUrl = (raw) => {
 async function decorativeOverlaps(page) {
   return page.evaluate(() => {
     const targetSelector = [
+      'main > section',
       'main h1',
       'main h2',
       'main h3',
@@ -85,10 +86,10 @@ async function decorativeOverlaps(page) {
     ].join(',');
 
     const intersects = (a, b) => !(
-      a.right <= b.left + 8 ||
-      a.left >= b.right - 8 ||
-      a.bottom <= b.top + 8 ||
-      a.top >= b.bottom - 8
+      a.right <= b.left - 8 ||
+      a.left >= b.right + 8 ||
+      a.bottom <= b.top - 8 ||
+      a.top >= b.bottom + 8
     );
 
     const targets = [...document.querySelectorAll(targetSelector)]
@@ -304,15 +305,14 @@ try {
 
         // Efeito Alice canônico: força um estado conhecido e comprova gato + Chapeleiro no campus.
         const aliceEffectContext = await browser.newContext({ viewport });
-        const aliceEffectPage = await aliceEffectContext.newPage();
-        await aliceEffectPage.goto(origin + '/build.json', { waitUntil: 'domcontentloaded' });
-        await aliceEffectPage.evaluate(() => {
+        await aliceEffectContext.addInitScript(() => {
           localStorage.setItem('upptb-alice-characters-v3', JSON.stringify({
             gato: { visible: true, page: 'home', phrase: 'Gato de teste' },
             chapeleiro: { visible: true, page: 'home', phrase: 'Chapeleiro de teste' },
             generatedAt: Date.now()
           }));
         });
+        const aliceEffectPage = await aliceEffectContext.newPage();
         await aliceEffectPage.goto(origin + '/index.html', { waitUntil: 'domcontentloaded' });
         await aliceEffectPage.waitForTimeout(500);
         if (await aliceEffectPage.locator('.alice-gato').count() !== 1) {
