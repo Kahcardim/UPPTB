@@ -50,9 +50,9 @@ test('engine da Alice usa SHA do build e preserva 4 famílias de borboletas', as
   assert.doesNotMatch(js, /setInterval\s*\(/);
   assert.match(js, /from '\.\/alice-states\.js'/);
   assert.match(js, /upptb-build-sha/);
-  for (const family of ['pink', 'blue', 'white', 'black']) {
-    assert.match(js, new RegExp(`alice-butterfly-${family}`));
-  }
+  assert.match(js, /index % 4 === 0 \? 'pink'/);
+  assert.match(js, /index % 4 === 1 \? 'blue'/);
+  assert.match(js, /index % 4 === 2 \? 'white' : 'black'/);
   assert.match(js, /wallpaperFrame\?\.prepend\(butterflyPlane\)/);
 });
 
@@ -165,7 +165,8 @@ test('CSS protege composição atual da Home', async () => {
   const css = await readPublic('styles.css');
   assert.match(css, /html\[data-page="home"\] \.hero-copy \{[\s\S]*text-align: center/);
   assert.match(css, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-  assert.match(css, /\.home-fossil-wrap/);
+  assert.match(css, /\.fossil \{[\s\S]*width: min\(58rem/);
+  assert.match(css, /\.fossil \{[\s\S]*text-align: center/);
 });
 
 test('governança de dívida usa fonte única e está vazia após decisões AUD-21/AUD-07', async () => {
