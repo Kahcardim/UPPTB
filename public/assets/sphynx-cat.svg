@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-labelledby="title desc">
+  <title id="title">Gato pelado do TI</title>
+  <desc id="desc">Ilustração vetorial local de um gato Sphynx da UPPTB.</desc>
+  <defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7b79e"/>
+      <stop offset="1" stop-color="#b87966"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#020805" flood-opacity=".65"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M80 98 38 28l87 35c23-10 48-10 70 0l87-35-42 71c18 24 28 55 27 88-1 59-45 106-107 106S54 246 53 187c0-34 10-65 27-89Z" fill="url(#skin)" stroke="#07120a" stroke-width="8"/>
+    <path d="M88 107 64 58l55 24M232 107l24-49-55 24" fill="none" stroke="#8f5d52" stroke-width="6" stroke-linecap="round"/>
+    <path d="M92 157c19-15 41-14 58 3M228 157c-19-15-41-14-58 3" fill="none" stroke="#07120a" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="121" cy="165" rx="8" ry="15" fill="#35ff66"/>
+    <ellipse cx="199" cy="165" rx="8" ry="15" fill="#35ff66"/>
+    <path d="M151 194h18l-9 12Z" fill="#7e5149"/>
+    <path d="M137 222c14 12 32 12 46 0" fill="none" stroke="#71473f" stroke-width="5" stroke-linecap="round"/>
+    <path d="M85 280c18 15 39 22 75 22s58-7 75-22c23 30 34 70 24 104H61c-10-34 2-74 24-104Z" fill="url(#skin)" stroke="#07120a" stroke-width="8"/>
+    <path d="M99 315c14 15 18 42 13 68M221 315c-14 15-18 42-13 68M160 305v78" fill="none" stroke="#8f5d52" stroke-width="5" stroke-linecap="round"/>
+    <path d="M102 129c-16 12-25 31-26 53M218 129c16 12 25 31 26 53" fill="none" stroke="#f2cfba" stroke-width="4" opacity=".8"/>
+  </g>
+  <rect x="82" y="365" width="156" height="34" rx="17" fill="#07120a" stroke="#35ff66" stroke-width="3"/>
+  <text x="160" y="388" text-anchor="middle" font-family="monospace" font-size="16" font-weight="800" fill="#35ff66">GATO PELADO DO TI</text>
+</svg>

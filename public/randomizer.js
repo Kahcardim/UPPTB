@@ -1,6 +1,8 @@
+import { collectProtectedRects, placeDecorativeAsset } from './decorative-safety.js';
+
 const campusPages = ['home', 'lab', 'english', 'memories'];
 const turtleCount = 31;
-const campusStorageKey = 'upptb-campus-distribution-v9';
+const campusStorageKey = 'upptb-campus-distribution-v10';
 
 const fixedLargeTurtles = { 28: 'home', 29: 'lab', 30: 'english', 31: 'memories' };
 
@@ -45,6 +47,7 @@ export function makeCampusDistribution() {
   const smallTurtleIds = Array.from({ length: 27 }, (_, index) => index + 1);
   const roamingImageIds = roamingImages.map((asset, index) => ({ asset, index }))
     .filter(({ asset }) => !asset.fixedPage).map(({ index }) => index);
+
   return {
     turtles: { ...distributeIds(smallTurtleIds), ...fixedLargeTurtles },
     images: distributeIds(roamingImageIds),
@@ -54,9 +57,6 @@ export function makeCampusDistribution() {
 }
 
 function loadCampusDistribution() {
-  // Regra de negócio: uma ocorrência nasce no carregamento inicial/F5 e
-  // permanece consistente durante a navegação entre os campi.
-  // Só um reload real cria um novo mapa.
   try {
     const navigationEntry = performance.getEntriesByType?.('navigation')?.[0];
     const isReload = navigationEntry?.type === 'reload';
@@ -80,8 +80,6 @@ function loadCampusDistribution() {
   }
 }
 
-function randomBetween(min, max) { return Math.random() * (max - min) + min; }
-
 export function initRandomizer() {
   const currentPage = document.documentElement.dataset.page || 'home';
   const randomAssetPlane = document.querySelector('#random-asset-plane');
@@ -102,30 +100,43 @@ export function initRandomizer() {
   }
 
   function clearLegacyRandomAssets() {
-    // Fallbacks antigos não podem disputar leitura com o conteúdo real.
-    randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
+    randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)').forEach((asset) => asset.remove());
     purgeBeybladeOutsideLab();
   }
 
   function createHairlessCat() {
     if (hairlessCatCreated || campusDistribution.catPage !== currentPage) return;
+
     const figure = document.createElement('figure');
     const cat = document.createElement('img');
     const caption = document.createElement('figcaption');
+
     figure.className = 'random-asset random-character random-hairless-cat';
-    cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
-    cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
+    cat.src = 'assets/sphynx-cat.svg';
+    cat.alt = '';
+    cat.loading = 'lazy';
+    cat.decoding = 'async';
     caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
-    figure.append(cat, caption); randomAssetPlane.append(figure); hairlessCatCreated = true;
+
+    figure.append(cat, caption);
+    randomAssetPlane.append(figure);
+    hairlessCatCreated = true;
   }
 
   function appendRoamingImage(asset) {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
     const caption = document.createElement('figcaption');
+
     figure.className = ('random-asset random-character ' + asset.classes).trim();
-    image.src = asset.src; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
-    caption.textContent = asset.caption; figure.append(image, caption); randomAssetPlane.append(figure);
+    image.src = asset.src;
+    image.alt = '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    caption.textContent = asset.caption;
+
+    figure.append(image, caption);
+    randomAssetPlane.append(figure);
   }
 
   function createRoamingImages() {
@@ -137,70 +148,71 @@ export function initRandomizer() {
       appendRoamingImage(asset);
     });
 
-    if (currentPage === 'lab') {
-      labOnlyImages.forEach(appendRoamingImage);
-    }
-
+    if (currentPage === 'lab') labOnlyImages.forEach(appendRoamingImage);
     roamingImagesCreated = true;
   }
 
   function createTurtles() {
     if (turtlesCreated) return;
+
     for (let index = 1; index <= turtleCount; index += 1) {
       if (campusDistribution.turtles?.[index] !== currentPage) continue;
+
       const figure = document.createElement('figure');
       const turtle = document.createElement('img');
       figure.className = 'random-asset random-turtle' + (index >= 28 ? ' large-turtle' : '');
       turtle.src = 'assets/turtles/turtle-' + String(index).padStart(2, '0') + '.webp';
-      turtle.alt = ''; turtle.loading = 'lazy'; turtle.decoding = 'async'; figure.append(turtle); randomAssetPlane.append(figure);
+      turtle.alt = '';
+      turtle.loading = 'lazy';
+      turtle.decoding = 'async';
+      figure.append(turtle);
+      randomAssetPlane.append(figure);
     }
+
     turtlesCreated = true;
-  }
-
-  // EPIC performance: assets decorativos ficam abaixo do conteúdo, portanto não
-  // precisam executar dezenas de medições de layout por item. O posicionamento
-  // usa faixas seguras e nunca oculta uma ocorrência válida.
-  function placeAsset(asset, index, pageHeight) {
-    const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
-    const isMobile = window.innerWidth <= 700;
-    const assetHeight = isLarge ? (isMobile ? 150 : 320) : (isMobile ? 96 : 180);
-    const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
-    const safeTop = hero ? Math.ceil(hero.offsetTop + hero.offsetHeight + 48) : 120;
-    const topLimit = Math.max(pageHeight - assetHeight, safeTop + 140);
-    const isCat = asset.classList.contains('random-hairless-cat');
-    const homeLanes = isMobile ? [1, 75] : [.5, 89];
-    const defaultLanes = isMobile ? [1, 73] : [1.5, 12, 76, 86];
-    const lanes = currentPage === 'home' ? homeLanes : defaultLanes;
-    const lane = isCat ? lanes[index % lanes.length] : lanes[index % lanes.length];
-    const usableHeight = Math.max(topLimit - safeTop, 140);
-    const bandCount = Math.max(1, Math.floor(usableHeight / (isLarge ? 340 : 220)));
-    const band = index % bandCount;
-    const bandSize = usableHeight / bandCount;
-    const jitter = Math.min(bandSize * .55, isMobile ? 90 : 150);
-
-    asset.hidden = false;
-    asset.style.top = Math.round(safeTop + band * bandSize + randomBetween(0, Math.max(12, jitter))) + 'px';
-    asset.style.left = lane + '%';
-    asset.style.transform = 'rotate(' + randomBetween(-12, 12).toFixed(1) + 'deg)';
-    asset.style.zIndex = String(index % 2);
   }
 
   function scatterAssets() {
     const main = document.querySelector('main');
     const pageHeight = Math.max(main?.scrollHeight ?? 2200, 2200);
-    const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
-    assets.forEach((asset, index) => placeAsset(asset, index, pageHeight));
+    const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
+    const topStart = hero ? Math.ceil(hero.offsetTop + hero.offsetHeight + 40) : 100;
+    const protectedRects = collectProtectedRects();
+    const assets = [...randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)')];
+
+    assets.forEach((asset, index) => {
+      asset.style.zIndex = String(index % 2);
+      placeDecorativeAsset(asset, {
+        index,
+        pageHeight,
+        topStart,
+        protectedRects,
+        rotation: 12
+      });
+    });
   }
 
   clearLegacyRandomAssets();
-  createHairlessCat(); createRoamingImages(); createTurtles();
+  createHairlessCat();
+  createRoamingImages();
+  createTurtles();
   purgeBeybladeOutsideLab();
-  window.addEventListener('load', purgeBeybladeOutsideLab, { once: true });
   randomAssetPlane.dataset.randomizerReady = 'true';
-  // Um passe imediato mantém o efeito Alice instantâneo. Um segundo passe no
-  // próximo frame absorve dimensões já conhecidas sem bloquear navegação.
+
+  randomAssetPlane.querySelectorAll('.random-asset img').forEach((image) => {
+    image.addEventListener('load', () => requestAnimationFrame(scatterAssets), { once: true });
+  });
+  const mainObserver = new ResizeObserver(() => requestAnimationFrame(scatterAssets));
+  const mainElement = document.querySelector('main');
+  if (mainElement) mainObserver.observe(mainElement);
+
   scatterAssets();
   requestAnimationFrame(scatterAssets);
+  window.addEventListener('load', () => {
+    purgeBeybladeOutsideLab();
+    scatterAssets();
+  }, { once: true });
+  document.fonts?.ready?.then(scatterAssets).catch(() => {});
 
   let resizeTimer;
   const scheduleLayout = () => {

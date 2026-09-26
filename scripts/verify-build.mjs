@@ -2,19 +2,30 @@ import { access, readFile, readdir } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
 
 const distRoot = resolve(process.cwd(), 'dist');
+const debtConfigPath = resolve(process.cwd(), 'config/audit-debt.json');
 
-// Dívidas conhecidas que dependem de decisão humana. Elas continuam visíveis
-// no log e não viram precedente: qualquer nova referência ausente falha o build.
-const knownAuditDebt = new Set([
-  'alice.js',
-  'docs/alice-30-estados.pdf'
-]);
+const debtConfig = JSON.parse(await readFile(debtConfigPath, 'utf8'));
+const auditDebt = new Map((debtConfig.items ?? []).map((item) => [item.path, item]));
+
+for (const item of auditDebt.values()) {
+  if (!item.decisionId || !item.reason || !item.expiresOn) {
+    console.error(`Dívida inválida em ${item.path}: decisionId, reason e expiresOn são obrigatórios.`);
+    process.exit(1);
+  }
+
+  if (Date.parse(item.expiresOn + 'T23:59:59Z') < Date.now()) {
+    console.error(`Dívida expirada em ${item.path}: ${item.expiresOn}.`);
+    process.exit(1);
+  }
+}
 
 const requiredRuntime = [
   'assets/turtles/turtle-01.webp',
   'assets/turtles/turtle-31.webp',
   'assets/alice-states/alice_01.webp',
   'assets/alice-states/alice_30.webp',
+  'assets/sphynx-cat.svg',
+  'docs/alice-30-estados.pdf',
   'build.json'
 ];
 
@@ -43,6 +54,7 @@ const htmlPaths = (await readdir(distRoot))
 
 const missing = [];
 const allowedDebt = [];
+const observedDebt = new Set();
 
 for (const htmlPath of htmlPaths) {
   const html = await readFile(htmlPath, 'utf8');
@@ -57,8 +69,10 @@ for (const htmlPath of htmlPaths) {
     try {
       await access(ref.absolute);
     } catch {
-      if (knownAuditDebt.has(ref.relative)) {
-        allowedDebt.push({ page: relative(distRoot, htmlPath), path: ref.relative });
+      const debt = auditDebt.get(ref.relative);
+      if (debt) {
+        observedDebt.add(ref.relative);
+        allowedDebt.push({ page: relative(distRoot, htmlPath), path: ref.relative, decisionId: debt.decisionId });
       } else {
         missing.push({ page: relative(distRoot, htmlPath), path: ref.relative });
       }
@@ -74,10 +88,17 @@ for (const runtimePath of requiredRuntime) {
   }
 }
 
+for (const item of auditDebt.values()) {
+  if (!observedDebt.has(item.path)) {
+    console.error(`Dívida obsoleta: ${item.path} está listada, mas não foi observada como ausente.`);
+    process.exit(1);
+  }
+}
+
 if (allowedDebt.length) {
-  console.warn('Dívidas de auditoria ainda permitidas:');
+  console.warn('Dívidas de auditoria permitidas:');
   for (const item of allowedDebt) {
-    console.warn(` - ${item.page} -> ${item.path}`);
+    console.warn(` - ${item.page} -> ${item.path} (${item.decisionId})`);
   }
 }
 
@@ -89,4 +110,4 @@ if (missing.length) {
   process.exit(1);
 }
 
-console.log(`Build reference gate: OK (${htmlPaths.length} HTMLs validados)`);
+console.log(`Build reference gate: OK (${htmlPaths.length} HTMLs validados · ${auditDebt.size} dívidas ativas)`);

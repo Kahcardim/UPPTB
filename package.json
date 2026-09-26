@@ -2,7 +2,7 @@
   "name": "upptb",
   "version": "0.1.0",
   "private": true,
-  "description": "Fundação do laboratório UPPTB em JavaScript e Node.js",
+  "description": "Universidade publica turtles and bleys: laboratório UPPTB em JavaScript e Node.js",
   "type": "module",
   "packageManager": "pnpm@11.19.0",
   "engines": {

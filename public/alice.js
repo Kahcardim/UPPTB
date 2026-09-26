@@ -1,5 +1,7 @@
+import { collectProtectedRects, placeDecorativeAsset } from './decorative-safety.js';
+
 const alicePages = ['home', 'lab', 'english', 'memories'];
-const aliceStorageKey = 'upptb-alice-characters-v2';
+const aliceStorageKey = 'upptb-alice-characters-v3';
 const alicePlane = document.querySelector('#random-asset-plane');
 const alicePage = document.documentElement.dataset.page || 'home';
 
@@ -133,18 +135,7 @@ function loadAliceState() {
   }
 }
 
-function characterOverlapsContent(figure) {
-  const rect = figure.getBoundingClientRect();
-  const probes = [
-    [rect.left + rect.width * .25, rect.top + rect.height * .25],
-    [rect.left + rect.width * .5, rect.top + rect.height * .5],
-    [rect.right - rect.width * .2, rect.bottom - rect.height * .2]
-  ];
-  return probes.some(([x, y]) => document.elementsFromPoint(x, y).some((element) =>
-    element.closest('main > section, article, pre, .hero-copy, .hero-actions') &&
-    !element.closest('.random-asset-plane')
-  ));
-}
+const placedCharacters = [];
 
 function placeAliceCharacter(config) {
   if (!alicePlane || !config.visible || config.page !== alicePage) return;
@@ -157,25 +148,30 @@ function placeAliceCharacter(config) {
   image.src = config.src;
   image.alt = '';
   image.loading = 'lazy';
+  image.decoding = 'async';
   caption.textContent = config.phrase;
   figure.append(image, caption);
+  image.addEventListener('load', () => requestAnimationFrame(scatterAliceCharacters), { once: true });
   alicePlane.append(figure);
+  placedCharacters.push(figure);
+}
+
+function scatterAliceCharacters() {
+  if (!alicePlane || !placedCharacters.length) return;
 
   const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 2400, 2400);
-  const mobile = window.matchMedia('(max-width: 700px)').matches;
-  const maxTop = Math.max(pageHeight - (mobile ? 260 : 420), 700);
-  let attempts = 0;
-  do {
-    figure.style.top = `${Math.floor(120 + Math.random() * (maxTop - 120))}px`;
-    figure.style.left = `${(Math.random() * (mobile ? 70 : 80)).toFixed(1)}%`;
-    figure.style.transform = `rotate(${(Math.random() * 16 - 8).toFixed(1)}deg)`;
-    attempts += 1;
-  } while (characterOverlapsContent(figure) && attempts < 24);
+  const protectedRects = collectProtectedRects();
 
-  if (characterOverlapsContent(figure)) {
-    figure.style.left = mobile ? '2%' : '1.5%';
-  }
-  figure.style.zIndex = '8';
+  placedCharacters.forEach((figure, index) => {
+    figure.style.zIndex = '8';
+    placeDecorativeAsset(figure, {
+      index: index + 50,
+      pageHeight,
+      topStart: 110,
+      protectedRects,
+      rotation: 8
+    });
+  });
 }
 
 const aliceState = loadAliceState();
@@ -191,3 +187,18 @@ placeAliceCharacter({
   src: 'assets/chapeleiro.png',
   className: 'alice-chapeleiro'
 });
+
+const aliceMainObserver = new ResizeObserver(() => requestAnimationFrame(scatterAliceCharacters));
+const aliceMain = document.querySelector('main');
+if (aliceMain) aliceMainObserver.observe(aliceMain);
+
+scatterAliceCharacters();
+requestAnimationFrame(scatterAliceCharacters);
+window.addEventListener('load', scatterAliceCharacters, { once: true });
+document.fonts?.ready?.then(scatterAliceCharacters).catch(() => {});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(scatterAliceCharacters, 180);
+}, { passive: true });

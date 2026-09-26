@@ -7,7 +7,8 @@ const publishedDocs = [
   'UPPTB-escopo-e-banco-de-frases.docx',
   'UPPTB-Arquivo-Proibido-Turtle.md',
   'benchmark-gate-1.md',
-  'escopo-gate-2.md'
+  'escopo-gate-2.md',
+  'alice-30-estados.pdf'
 ];
 
 function resolveBuildSha() {
