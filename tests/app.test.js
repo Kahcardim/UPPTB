@@ -30,7 +30,7 @@ test('Home atual é servida com identidade e fóssil fundador preservados', asyn
     assert.equal(response.status, 200);
     assert.match(response.headers.get('content-type'), /text\/html/);
     const html = await response.text();
-    assert.match(html, /Universidade Pública Peculiar Turtle and Beys/);
+    assert.match(html, /Universidade publica turtles and bleys/);
     assert.match(html, /Identidade HIGH · Severidade ULTRA TURTLE/);
     assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
     assert.match(html, /Desenvolvimento de Inglês/);
@@ -58,7 +58,8 @@ test('pacote visual contém 31 tartarugas separadas e imagens aleatórias', asyn
       '/assets/turtles/turtle-31.webp',
       '/assets/upptb-collage.webp',
       '/assets/Beyblade_X_-_Ekusu_Kurosu.webp',
-      '/assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
+      '/assets/multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp',
+      '/assets/sphynx-cat.svg'
     ]) {
       const response = await fetch(`${base}${path}`);
       assert.equal(response.status, 200, `asset indisponível: ${path}`);
@@ -66,13 +67,17 @@ test('pacote visual contém 31 tartarugas separadas e imagens aleatórias', asyn
   });
 });
 
-test('documento do Arquivo Proibido Turtle é servido pelo backend', async () => {
+test('documentos publicados da UPPTB são servidos pelo backend', async () => {
   await withServer(async base => {
-    const response = await fetch(`${base}/docs/UPPTB-Arquivo-Proibido-Turtle.md`);
-    assert.equal(response.status, 200);
-    const text = await response.text();
+    const archive = await fetch(`${base}/docs/UPPTB-Arquivo-Proibido-Turtle.md`);
+    assert.equal(archive.status, 200);
+    const text = await archive.text();
     assert.match(text, /Identidade:\*\* HIGH/);
     assert.match(text, /ULTRA TURTLE/);
+
+    const alicePdf = await fetch(`${base}/docs/alice-30-estados.pdf`);
+    assert.equal(alicePdf.status, 200);
+    assert.match(alicePdf.headers.get('content-type') ?? '', /pdf|octet-stream/);
   });
 });
 
