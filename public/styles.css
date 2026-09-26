@@ -500,3 +500,50 @@ body { min-width:0; }
 @media(min-width:1600px){
   :root { --max:1280px; }
 }
+
+
+/* EPIC navigation/performance V9: menu mobile previsível e caos barato de renderizar. */
+.random-asset-plane {
+  contain: layout paint style;
+  pointer-events: none;
+}
+.random-asset {
+  content-visibility: auto;
+  contain-intrinsic-size: 180px 180px;
+  will-change: auto !important;
+}
+main > section { isolation: isolate; }
+
+@media (max-width:700px) {
+  html.menu-open, html.menu-open body { overflow:hidden !important; }
+  .site-header { backdrop-filter:none; background:rgba(7,18,10,.98); }
+  .site-header nav,
+  .site-header nav[data-open="true"] {
+    position:fixed !important;
+    top:calc(3.9rem + env(safe-area-inset-top,0px)) !important;
+    left:.65rem !important;
+    right:.65rem !important;
+    bottom:.65rem !important;
+    width:auto !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    z-index:900 !important;
+    align-items:stretch !important;
+    text-align:left !important;
+    padding:.75rem !important;
+    border-radius:20px;
+  }
+  .site-header nav:not([data-open="true"]) { display:none !important; }
+  .site-header nav[data-open="true"] { display:flex !important; }
+  .nav-group,.site-page-link { width:100% !important; max-width:none !important; margin:0 !important; text-align:left !important; }
+  .nav-group>summary,.site-page-link { min-height:44px; display:flex !important; align-items:center; text-align:left !important; }
+  .nav-panel { position:static !important; width:100% !important; max-height:none !important; }
+  .random-character { max-width:min(7.5rem,28vw) !important; }
+  .random-turtle { max-width:min(5.2rem,20vw) !important; }
+  .random-turtle.large-turtle { max-width:min(6.2rem,23vw) !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .random-asset { transition:none !important; animation:none !important; }
+}
