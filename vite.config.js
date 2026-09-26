@@ -1,6 +1,28 @@
 import { defineConfig } from 'vite';
+import { execFileSync } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { cpSync, existsSync } from 'node:fs';
+
+const publishedDocs = [
+  'UPPTB-escopo-e-banco-de-frases.docx',
+  'UPPTB-Arquivo-Proibido-Turtle.md',
+  'benchmark-gate-1.md',
+  'escopo-gate-2.md'
+];
+
+function resolveBuildSha() {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+  try {
+    return execFileSync('git', ['rev-parse', 'HEAD'], {
+      cwd: process.cwd(),
+      encoding: 'utf8'
+    }).trim();
+  } catch {
+    return 'unknown';
+  }
+}
+
+const buildSha = resolveBuildSha();
 
 function preserveRuntimeAssets() {
   return {
@@ -12,6 +34,36 @@ function preserveRuntimeAssets() {
       const source = resolve(process.cwd(), 'public/assets');
       const target = resolve(process.cwd(), 'dist/assets');
       if (existsSync(source)) cpSync(source, target, { recursive: true, force: true });
+
+      // Os documentos publicados passam a fazer parte do próprio artefato
+      // validado. Assim o deploy não cria arquivos que o gate nunca viu.
+      const docsTarget = resolve(process.cwd(), 'dist/docs');
+      mkdirSync(docsTarget, { recursive: true });
+      for (const file of publishedDocs) {
+        const sourceDoc = resolve(process.cwd(), 'docs', file);
+        if (existsSync(sourceDoc)) {
+          cpSync(sourceDoc, resolve(docsTarget, file), { force: true });
+        }
+      }
+    }
+  };
+}
+
+function buildIdentity() {
+  return {
+    name: 'upptb-build-identity',
+    transformIndexHtml() {
+      return [{
+        tag: 'meta',
+        attrs: { name: 'upptb-build-sha', content: buildSha },
+        injectTo: 'head'
+      }];
+    },
+    closeBundle() {
+      writeFileSync(
+        resolve(process.cwd(), 'dist/build.json'),
+        JSON.stringify({ sha: buildSha }, null, 2) + '\n'
+      );
     }
   };
 }
@@ -19,7 +71,7 @@ function preserveRuntimeAssets() {
 export default defineConfig({
   root: 'public',
   base: './',
-  plugins: [preserveRuntimeAssets()],
+  plugins: [preserveRuntimeAssets(), buildIdentity()],
   build: {
     outDir: '../dist',
     emptyOutDir: true,
