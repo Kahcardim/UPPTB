@@ -8,7 +8,9 @@ test('HOME CT07 mantém hero compacto e atalhos Turtle', async () => {
   const css = await readPublic('styles.css');
   assert.ok(css.includes('font-size: clamp(2.25rem, 3.5vw, 3.55rem);'));
   assert.ok(css.includes('grid-template-columns: repeat(2, minmax(0, 1fr));'));
-  assert.ok(css.includes('background: url("assets/turtle-mark.svg") center / contain no-repeat;'));
+  const html = await readPublic('index.html');
+  assert.equal((html.match(/<img src="assets\/turtle-mark\.svg" alt="" \/>/g) ?? []).length, 4);
+  assert.ok(css.includes('html[data-page="home"] .home-page-links .button img'));
   assert.ok(css.includes('min-height: 3.2rem;'));
 });
 
