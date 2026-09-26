@@ -131,7 +131,7 @@ test('Home preserva identidade única, quatro atalhos e preview de Inglês', asy
 test('CSS atual protege composição da Home em desktop e mobile', async () => {
   const css = await readPublic('styles.css');
   assert.match(css, /html\[data-page="home"\] \.hero-copy \{[\s\S]*text-align: center/);
-  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*flex-wrap: nowrap/);
+  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(css, /\.english-preview-grid \{[\s\S]*grid-template-columns: repeat\(3/);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.english-preview-grid \{[\s\S]*grid-template-columns: 1fr/);
 });
