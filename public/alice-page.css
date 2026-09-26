@@ -303,3 +303,124 @@ html[data-page="alice"] .memory-grid article { min-height:auto; }
   }
   .alice-hero-copy{max-width:42rem!important;margin:auto auto 0!important;}
 }
+
+
+/* V8 QA Alice: leitura, carrosseis sem botoes, gato contido e legado restaurado. */
+html[data-page="alice"] { color-scheme: dark; }
+html[data-page="alice"] .alice-card-grid,
+html[data-page="alice"] #regras .memory-grid {
+  display:grid !important;
+  grid-auto-flow:column;
+  grid-auto-columns:minmax(280px, min(82vw, 390px));
+  grid-template-columns:none !important;
+  gap:1rem;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scroll-snap-type:inline mandatory;
+  scroll-padding-inline:1rem;
+  padding:.35rem max(.15rem,calc((100% - min(390px,82vw))/2)) 1.15rem;
+  scrollbar-width:thin;
+  scrollbar-color:var(--green) transparent;
+  -webkit-overflow-scrolling:touch;
+}
+html[data-page="alice"] .alice-card-grid > *,
+html[data-page="alice"] #regras .memory-grid > * {
+  scroll-snap-align:center;
+  scroll-snap-stop:always;
+  min-height:220px;
+  height:auto;
+  transform:none !important;
+}
+html[data-page="alice"] .alice-card-grid::after,
+html[data-page="alice"] #regras .memory-grid::after {
+  content:'';
+  width:.1px;
+}
+.alice-card-grid.is-auto-scrolling,
+#regras .memory-grid.is-auto-scrolling { scroll-behavior:smooth; }
+
+.alice-cat {
+  width:min(96px,18vw) !important;
+  filter:drop-shadow(.3rem .3rem 0 rgba(0,0,0,.38));
+  animation:aliceCatRouteV8 14s ease-in-out infinite alternate !important;
+}
+@keyframes aliceCatRouteV8 {
+  0%{left:.75rem;transform:translateY(0)}
+  50%{left:calc(50% - 48px);transform:translateY(-.25rem)}
+  100%{left:calc(100% - 7rem);transform:translateY(.1rem)}
+}
+.alice-cat-bubble { max-width:min(220px,46vw); }
+.alice-state-quote {
+  background:rgba(8,0,8,.72);
+  box-shadow:0 10px 32px rgba(0,0,0,.28);
+  backdrop-filter:blur(8px);
+}
+.alice-butterfly-plane { z-index:6; }
+.alice-butterfly { opacity:.9; }
+.alice-butterfly-white { mix-blend-mode:screen; filter:drop-shadow(0 0 .55rem rgba(255,255,255,.38)); }
+
+.alice-do-not-feed {
+  --warning:#ffb5d8;
+  --green:#ff4fa3;
+  display:block !important;
+}
+.alice-footer {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:.35rem;
+  width:min(1080px,calc(100% - 2rem));
+  padding:2rem 1rem 5rem;
+  border-top:1px solid rgba(255,79,163,.25);
+}
+.alice-footer img { margin:0 auto .4rem; }
+.alice-footer p { margin:.15rem 0; }
+
+@media(max-width:760px){
+  .alice-hero-copy {
+    padding:.9rem .7rem .3rem !important;
+    border-radius:24px;
+    background:linear-gradient(180deg,rgba(8,0,8,.18),rgba(8,0,8,.68));
+    backdrop-filter:blur(2px);
+  }
+  .alice-hero .lead { color:#f4dce9; text-shadow:0 2px 14px #000; }
+  .alice-dialogue-stage { min-height:13.2rem; padding-bottom:6.3rem; }
+  .alice-companion-zone { inset:5.25rem .4rem 0; }
+  .alice-cat { width:72px !important; max-width:72px !important; animation:aliceCatRouteMobileV8 12s ease-in-out infinite alternate !important; }
+  @keyframes aliceCatRouteMobileV8 {
+    0%{left:.2rem;transform:translateY(0)}
+    50%{left:calc(50% - 36px);transform:translateY(-.2rem)}
+    100%{left:calc(100% - 4.8rem);transform:translateY(.1rem)}
+  }
+  .alice-cat-bubble { width:min(148px,42vw); max-width:148px; font-size:.58rem; line-height:1.28; }
+  html[data-page="alice"] .alice-card-grid,
+  html[data-page="alice"] #regras .memory-grid {
+    grid-auto-columns:min(86vw,340px);
+    padding-inline:calc((100% - min(86vw,340px))/2);
+  }
+  html[data-page="alice"] .alice-card-grid > *,
+  html[data-page="alice"] #regras .memory-grid > * { min-height:0 !important; }
+  .alice-do-not-feed { max-width:min(13rem,calc(100vw - 1rem)); }
+}
+@media(max-width:390px){
+  .alice-hero-copy { padding-inline:.45rem !important; }
+  .alice-cat { width:64px !important; max-width:64px !important; }
+  .alice-cat-bubble { width:min(132px,40vw); font-size:.55rem; }
+}
+@media(prefers-reduced-motion:reduce){
+  .alice-cat { animation:none !important; left:50% !important; transform:translateX(-50%) !important; }
+  .alice-card-grid,#regras .memory-grid { scroll-behavior:auto !important; }
+}
+@media(prefers-contrast:more){
+  html[data-page="alice"] { --muted:#f7deeb; --line:#ff72b6; }
+  .alice-card,.alice-rule,html[data-page="alice"] .memory-grid article { border-width:2px; }
+  .alice-hero-copy,.alice-state-quote { background:#080008 !important; text-shadow:none !important; }
+}
+@media(forced-colors:active){
+  html[data-page="alice"] .alice-card,
+  html[data-page="alice"] .memory-grid article,
+  .alice-state-quote,.alice-rule,.button { forced-color-adjust:auto; border:1px solid CanvasText; }
+  .alice-butterfly-plane { display:none; }
+}
