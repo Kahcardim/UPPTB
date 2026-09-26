@@ -160,6 +160,14 @@ if (hero && heroCopy) {
 // Navegação é funcionalidade crítica: inicializa antes de qualquer caos visual.
 initRouter();
 
+// Guard de domínio: Beyblade e Multi nunca sobrevivem fora do laboratório.
+if (document.documentElement.dataset.page !== 'lab') {
+  const labOnly = ['pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp','ekusu-remade.webp','Beyblade_X_-_Ekusu_Kurosu.webp','multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'];
+  document.querySelectorAll('img').forEach((image) => {
+    if (labOnly.some((asset) => image.src.includes(asset))) image.closest('figure')?.remove();
+  });
+}
+
 let randomizer = { scatterAssets() {} };
 const bootRandomizer = () => { randomizer = initRandomizer(); };
 if ('requestIdleCallback' in window) {
