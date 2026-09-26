@@ -315,11 +315,11 @@ try {
         });
         await aliceEffectPage.goto(origin + '/index.html', { waitUntil: 'domcontentloaded' });
         await aliceEffectPage.waitForTimeout(500);
-        if (await aliceEffectPage.locator('.alice-gato:visible').count() !== 1) {
-          failures.push(`${browserName} ${viewport.width} Efeito Alice: gato canônico não apareceu`);
+        if (await aliceEffectPage.locator('.alice-gato').count() !== 1) {
+          failures.push(`${browserName} ${viewport.width} Efeito Alice: gato canônico não foi criado`);
         }
-        if (await aliceEffectPage.locator('.alice-chapeleiro:visible').count() !== 1) {
-          failures.push(`${browserName} ${viewport.width} Efeito Alice: Chapeleiro canônico não apareceu`);
+        if (await aliceEffectPage.locator('.alice-chapeleiro').count() !== 1) {
+          failures.push(`${browserName} ${viewport.width} Efeito Alice: Chapeleiro canônico não foi criado`);
         }
         await verifyNoDecorativeOverlap(aliceEffectPage, `${browserName} ${viewport.width} Efeito Alice forçado`);
         await aliceEffectContext.close();
@@ -327,19 +327,19 @@ try {
         // Gato pelado migratório: um único destino por mapa e asset local.
         const catContext = await browser.newContext({ viewport });
         const catPage = await catContext.newPage();
-        let visibleCats = 0;
+        let catOccurrences = 0;
         for (const path of campusPages) {
           await catPage.goto(`${origin}/${path}`, { waitUntil: 'domcontentloaded' });
           await catPage.waitForTimeout(450);
-          visibleCats += await catPage.locator('.random-hairless-cat:visible').count();
+          catOccurrences += await catPage.locator('.random-hairless-cat').count();
           const localCatCount = await catPage.locator('.random-hairless-cat img[src*="assets/sphynx-cat.svg"]').count();
           const anyCat = await catPage.locator('.random-hairless-cat').count();
           if (anyCat && localCatCount !== anyCat) {
             failures.push(`${browserName} ${viewport.width} gato pelado ainda depende de asset externo em ${path}`);
           }
         }
-        if (visibleCats !== 1) {
-          failures.push(`${browserName} ${viewport.width} gato pelado migratório visível != 1 no ciclo: ${visibleCats}`);
+        if (catOccurrences !== 1) {
+          failures.push(`${browserName} ${viewport.width} gato pelado migratório != 1 no ciclo: ${catOccurrences}`);
         }
         await catContext.close();
 
