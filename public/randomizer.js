@@ -102,7 +102,7 @@ export function initRandomizer() {
     const caption = document.createElement('figcaption');
     figure.className = 'random-asset random-character random-photo random-hairless-cat';
     cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
-    cat.alt = ''; cat.loading = 'lazy'; cat.referrerPolicy = 'no-referrer';
+    cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
     caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
     figure.append(cat, caption); randomAssetPlane.append(figure); hairlessCatCreated = true;
   }
@@ -116,7 +116,7 @@ export function initRandomizer() {
       const image = document.createElement('img');
       const caption = document.createElement('figcaption');
       figure.className = ('random-asset random-character ' + asset.classes).trim();
-      image.src = asset.src; image.alt = ''; image.loading = 'lazy';
+      image.src = asset.src; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
       caption.textContent = asset.caption; figure.append(image, caption); randomAssetPlane.append(figure);
     });
     roamingImagesCreated = true;
@@ -130,7 +130,7 @@ export function initRandomizer() {
       const turtle = document.createElement('img');
       figure.className = 'random-asset random-turtle' + (index >= 28 ? ' large-turtle' : '');
       turtle.src = 'assets/turtles/turtle-' + String(index).padStart(2, '0') + '.webp';
-      turtle.alt = ''; turtle.loading = 'lazy'; figure.append(turtle); randomAssetPlane.append(figure);
+      turtle.alt = ''; turtle.loading = 'lazy'; turtle.decoding = 'async'; figure.append(turtle); randomAssetPlane.append(figure);
     }
     turtlesCreated = true;
   }
