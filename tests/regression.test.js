@@ -56,7 +56,7 @@ test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laborat
 test('regressão UX: tartarugas não entram na Alice e posicionamento preserva desempenho', async () => {
   const js = await read('randomizer.js');
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
-  assert.doesNotMatch(js, /'alice'/);
+  assert.match(js, /currentPage === 'alice'/);
   assert.match(js, /function placeAsset\(/);
   assert.doesNotMatch(js, /attempts < 80|ResizeObserver|elementsFromPoint/);
 });
