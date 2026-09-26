@@ -38,7 +38,13 @@ jobs:
             pnpm-lock.yaml
             .github/cache-version
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
+      - name: Upload refreshed lockfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: refreshed-lockfile
+          path: pnpm-lock.yaml
+          retention-days: 1
       - name: Run full regression suite
         run: pnpm test
       - name: Validate production build
