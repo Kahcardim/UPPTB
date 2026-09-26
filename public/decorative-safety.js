@@ -58,6 +58,7 @@ export function placeDecorativeAsset(element, {
   const seed = Number(element.dataset.layoutSeed ?? (element.dataset.layoutSeed = Math.random()));
 
   element.hidden = false;
+  element.removeAttribute('data-positioned');
   element.removeAttribute('data-suppressed');
   element.style.transformOrigin = 'top left';
 
@@ -75,6 +76,7 @@ export function placeDecorativeAsset(element, {
       element.style.transform = `rotate(${angle.toFixed(1)}deg) scale(${scale})`;
 
       if (!decorativeOverlapsContent(element, protectedRects)) {
+        element.dataset.positioned = 'true';
         return true;
       }
     }
