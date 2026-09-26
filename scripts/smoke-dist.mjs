@@ -63,6 +63,84 @@ const isKnownDebtUrl = (raw) => {
   }
 };
 
+const pageKeyByPath = {
+  'index.html': 'home',
+  'laboratorio-beyblade.html': 'lab',
+  'ingles.html': 'english',
+  'memorias.html': 'memories'
+};
+
+async function decorationOverlaps(page) {
+  return page.evaluate(() => {
+    const margin = 8;
+    const selector = [
+      'header','footer','main h1','main h2','main h3','main p','main li','main a',
+      'main button','main input','main textarea','main select','main label','main pre',
+      'main article','main .button','main .downloads','main .terminal-controls',
+      'main .warning','main .classified','main .error-board','main .fossil'
+    ].join(',');
+
+    const intersects = (a, b) => !(
+      a.right + margin <= b.left ||
+      a.left >= b.right + margin ||
+      a.bottom + margin <= b.top ||
+      a.top >= b.bottom + margin
+    );
+
+    const blockers = [...document.querySelectorAll(selector)].filter((node) => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+    });
+
+    const collisions = [];
+    for (const asset of document.querySelectorAll('#random-asset-plane .random-asset:not([hidden])')) {
+      const rect = asset.getBoundingClientRect();
+      for (const blocker of blockers) {
+        if (intersects(rect, blocker.getBoundingClientRect())) {
+          collisions.push({
+            asset: asset.className,
+            blocker: blocker.tagName + (blocker.className ? '.' + String(blocker.className).replaceAll(' ', '.') : '')
+          });
+          break;
+        }
+      }
+    }
+    return collisions.slice(0, 12);
+  });
+}
+
+async function verifyMigratoryCharacters(page, path, browserName, viewportWidth) {
+  const pageKey = pageKeyByPath[path];
+  if (!pageKey) return;
+
+  const state = await page.evaluate(() => {
+    try { return JSON.parse(localStorage.getItem('upptb-alice-characters-v2') || 'null'); }
+    catch { return null; }
+  });
+
+  for (const [key, selector] of [['gato', '.alice-gato'], ['chapeleiro', '.alice-chapeleiro']]) {
+    const expected = Boolean(state?.[key]?.visible && state?.[key]?.page === pageKey);
+    const count = await page.locator(selector).count();
+    if (expected && count !== 1) {
+      failures.push(`${browserName} ${viewportWidth} Efeito Alice ausente em ${path}: ${key} esperado, encontrado ${count}`);
+    }
+    if (!expected && count !== 0) {
+      failures.push(`${browserName} ${viewportWidth} Efeito Alice fora do mapa em ${path}: ${key} = ${count}`);
+    }
+  }
+
+  const campusState = await page.evaluate(() => {
+    try { return JSON.parse(localStorage.getItem('upptb-campus-distribution-v9') || 'null'); }
+    catch { return null; }
+  });
+  const catExpected = campusState?.catPage === pageKey;
+  const catCount = await page.locator('.random-hairless-cat img[src*="sphynx-local.svg"]').count();
+  if (catExpected && catCount !== 1) {
+    failures.push(`${browserName} ${viewportWidth} gato pelado local ausente em ${path}: ${catCount}`);
+  }
+}
+
 try {
   await waitForServer();
 
@@ -103,6 +181,13 @@ try {
             timeout: 20_000
           });
           await page.waitForTimeout(350);
+          if (path !== 'alice.html') {
+            await page.locator('#random-asset-plane').waitFor({ state: 'attached', timeout: 3000 });
+            await page.waitForFunction(() =>
+              document.querySelector('#random-asset-plane')?.dataset.randomizerReady === 'true',
+              { timeout: 3500 }
+            );
+          }
           if (!response?.ok()) {
             failures.push(`${browserName} ${viewport.width} navegação ${path}: ${response?.status()}`);
             continue;
@@ -136,6 +221,40 @@ try {
               const count = await page.locator(selector).count();
               if (count !== 0) {
                 failures.push(`${browserName} ${viewport.width} Beyblade fora do Lab em ${path}: ${selector} = ${count}`);
+              }
+            }
+          }
+
+          if (path !== 'alice.html') {
+            const overlapSamples = viewport.width <= 360 ? 3 : 1;
+            for (let overlapSample = 0; overlapSample < overlapSamples; overlapSample += 1) {
+              if (overlapSample > 0) {
+                await page.reload({ waitUntil: 'domcontentloaded', timeout: 20_000 });
+                await page.waitForFunction(() =>
+                  document.querySelector('#random-asset-plane')?.dataset.randomizerReady === 'true',
+                  { timeout: 3500 }
+                );
+              }
+              const collisions = await decorationOverlaps(page);
+              if (collisions.length) {
+                failures.push(
+                  `${browserName} ${viewport.width} sobreposição em ${path} amostra #${overlapSample + 1}: ${JSON.stringify(collisions)}`
+                );
+              }
+              await verifyMigratoryCharacters(page, path, browserName, viewport.width);
+            }
+          }
+
+          if (path === 'alice.html' && viewport.width === 360) {
+            await page.emulateMedia({ reducedMotion: 'reduce' });
+            await page.reload({ waitUntil: 'domcontentloaded', timeout: 20_000 });
+            const track = page.locator('.alice-card-grid').first();
+            if (await track.count()) {
+              const before = await track.evaluate((element) => element.scrollLeft);
+              await page.waitForTimeout(5600);
+              const after = await track.evaluate((element) => element.scrollLeft);
+              if (Math.abs(after - before) > 1) {
+                failures.push(`${browserName} reduced-motion: carrossel Alice avançou de ${before} para ${after}`);
               }
             }
           }
