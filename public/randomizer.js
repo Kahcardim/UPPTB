@@ -178,7 +178,7 @@ export function initRandomizer() {
     const hero = currentPage === 'home' ? document.querySelector('.hero') : null;
     const topStart = hero ? Math.ceil(hero.offsetTop + hero.offsetHeight + 40) : 100;
     const protectedRects = collectProtectedRects();
-    const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
+    const assets = [...randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)')];
 
     assets.forEach((asset, index) => {
       asset.style.zIndex = String(index % 2);
@@ -198,6 +198,13 @@ export function initRandomizer() {
   createTurtles();
   purgeBeybladeOutsideLab();
   randomAssetPlane.dataset.randomizerReady = 'true';
+
+  randomAssetPlane.querySelectorAll('.random-asset img').forEach((image) => {
+    image.addEventListener('load', () => requestAnimationFrame(scatterAssets), { once: true });
+  });
+  const mainObserver = new ResizeObserver(() => requestAnimationFrame(scatterAssets));
+  const mainElement = document.querySelector('main');
+  if (mainElement) mainObserver.observe(mainElement);
 
   scatterAssets();
   requestAnimationFrame(scatterAssets);
