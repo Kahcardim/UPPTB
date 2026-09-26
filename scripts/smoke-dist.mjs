@@ -24,7 +24,7 @@ const selected = (process.env.SMOKE_BROWSERS || 'chromium')
   .filter(Boolean);
 
 const auditDebt = JSON.parse(await readFile(new URL('../config/audit-debt.json', import.meta.url), 'utf8'));
-const knownAuditDebt = new Set((auditDebt.items ?? []).map((item) => '/' + item.path.replace(/^\\/+/, '')));
+const knownAuditDebt = new Set((auditDebt.items ?? []).map((item) => '/' + item.path.replace(/^\/+/, '')));
 
 const viteBin = fileURLToPath(new URL('../node_modules/vite/bin/vite.js', import.meta.url));
 const server = spawn(process.execPath, [
