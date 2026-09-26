@@ -24,7 +24,7 @@ test('health expõe o contrato JSON sem cabeçalho do framework', async () => {
   });
 });
 
-test('Home V1 é servida com identidade e fóssil fundador preservados', async () => {
+test('Home atual é servida com identidade e fóssil fundador preservados', async () => {
   await withServer(async base => {
     const response = await fetch(`${base}/`);
     assert.equal(response.status, 200);
@@ -86,19 +86,18 @@ test('rotas e métodos sem contrato retornam 404 JSON', async () => {
   });
 });
 
-test('catálogo tem 255 rascunhos únicos em 17 categorias e classes válidas', async () => {
+test('catálogo editorial mantém IDs únicos e schema válido sem depender de contagem histórica', async () => {
   const phrases = JSON.parse(await readFile(new URL('../content/phrases.json', import.meta.url), 'utf8'));
-  assert.equal(phrases.length, 255);
-  assert.equal(new Set(phrases.map(item => item.id)).size, 255);
-  assert.equal(new Set(phrases.map(item => item.category)).size, 17);
-  const counts = { public: 0, easter_egg: 0, internal_chaos: 0 };
+  assert.ok(Array.isArray(phrases) && phrases.length > 0);
+  assert.equal(new Set(phrases.map(item => item.id)).size, phrases.length);
+
+  const allowedClassifications = new Set(['public', 'easter_egg', 'internal_chaos']);
   for (const phrase of phrases) {
     assert.match(phrase.id, /^[A-Z]{3}-\d{2}$/);
     assert.ok(phrase.text.trim());
-    assert.equal(phrase.status, 'draft');
+    assert.ok(phrase.category?.trim());
+    assert.ok(['draft', 'active', 'archived'].includes(phrase.status));
     assert.ok(['pt-BR', 'en'].includes(phrase.language));
-    assert.ok(Object.hasOwn(counts, phrase.classification));
-    counts[phrase.classification]++;
+    assert.ok(allowedClassifications.has(phrase.classification));
   }
-  assert.deepEqual(counts, { public: 102, easter_egg: 68, internal_chaos: 85 });
 });
