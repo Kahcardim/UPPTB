@@ -151,6 +151,7 @@ function placeAliceCharacter(config) {
   image.decoding = 'async';
   caption.textContent = config.phrase;
   figure.append(image, caption);
+  image.addEventListener('load', () => requestAnimationFrame(scatterAliceCharacters), { once: true });
   alicePlane.append(figure);
   placedCharacters.push(figure);
 }
@@ -186,6 +187,10 @@ placeAliceCharacter({
   src: 'assets/chapeleiro.png',
   className: 'alice-chapeleiro'
 });
+
+const aliceMainObserver = new ResizeObserver(() => requestAnimationFrame(scatterAliceCharacters));
+const aliceMain = document.querySelector('main');
+if (aliceMain) aliceMainObserver.observe(aliceMain);
 
 scatterAliceCharacters();
 requestAnimationFrame(scatterAliceCharacters);
