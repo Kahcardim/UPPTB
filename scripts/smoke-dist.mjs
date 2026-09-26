@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { fileURLToPath } from 'node:url';
+import { readFile } from 'node:fs/promises';
 import { chromium, firefox, webkit } from '@playwright/test';
 
 const port = 4173;
@@ -22,10 +23,8 @@ const selected = (process.env.SMOKE_BROWSERS || 'chromium')
   .map((value) => value.trim())
   .filter(Boolean);
 
-const knownAuditDebt = new Set([
-  '/alice.js',
-  '/docs/alice-30-estados.pdf'
-]);
+const auditDebt = JSON.parse(await readFile(new URL('../config/audit-debt.json', import.meta.url), 'utf8'));
+const knownAuditDebt = new Set((auditDebt.items ?? []).map((item) => '/' + item.path.replace(/^\\/+/, '')));
 
 const viteBin = fileURLToPath(new URL('../node_modules/vite/bin/vite.js', import.meta.url));
 const server = spawn(process.execPath, [
