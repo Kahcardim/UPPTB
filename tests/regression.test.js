@@ -47,10 +47,11 @@ test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laborat
     'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
   ];
   for (const asset of assets) {
-    const line = js.split('\n').find(value => value.includes(asset));
-    assert.ok(line, 'asset ausente: ' + asset);
-    assert.match(line, /fixedPage: 'lab'/, 'asset fora do Lab: ' + asset);
+    const line = js.split('\n').find(value => value.includes(asset) && value.includes("fixedPage: 'lab'"));
+    assert.ok(line, 'asset fora do Lab ou ausente: ' + asset);
   }
+  assert.match(js, /function purgeBeybladeOutsideLab\(/);
+  assert.match(js, /window\.addEventListener\('load', purgeBeybladeOutsideLab/);
 });
 
 test('regressão UX: tartarugas não entram na Alice e posicionamento preserva desempenho', async () => {
@@ -193,7 +194,7 @@ test('randomizer performático preserva assets sem colisão síncrona pesada', a
 test('mobile mantém assets dentro do viewport e invalida distribuição/cache antigo', async () => {
   const js = await read('randomizer.js');
   const css = await read('styles.css');
-  assert.match(js, /upptb-campus-distribution-v6/);
+  assert.match(js, /upptb-campus-distribution-v7/);
   assert.match(js, /const lanes = isMobile/);
   assert.match(js, /asset\.hidden = false/);
   assert.match(css, /V6 mobile asset safety/);
@@ -262,4 +263,45 @@ test('AUD-03: build publica identidade rastreável por SHA', async () => {
   assert.ok(config.includes('upptb-build-sha'));
   assert.ok(config.includes("resolve(process.cwd(), 'dist/build.json')"));
   assert.ok(config.includes('GITHUB_SHA'));
+});
+
+
+test('HOME CT01: identidade aparece uma vez e randomizer respeita zona segura do hero', async () => {
+  const html = await read('index.html');
+  const js = await read('randomizer.js');
+  const occurrences = html.match(/assets\/upptb-collage\.webp/g) ?? [];
+  assert.equal(occurrences.length, 1);
+  assert.doesNotMatch(js, /upptb-collage\.webp/);
+  assert.match(js, /const safeTop = hero \? Math\.ceil\(hero\.offsetTop \+ hero\.offsetHeight \+ 48\) : 120/);
+});
+
+test('HOME CT02-CT03: hero equilibrado e CTAs representam os quatro campi', async () => {
+  const html = await read('index.html');
+  const css = await read('styles.css');
+  for (const target of ['laboratorio-beyblade.html','ingles.html','memorias.html','alice.html']) {
+    assert.ok(html.includes(`href="${target}"`), 'CTA ausente: ' + target);
+  }
+  assert.match(html, /class="hero-actions home-page-links"/);
+  assert.match(css, /html\[data-page="home"\] \.hero \{[\s\S]*min-height: 68vh/);
+  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*flex-wrap: nowrap/);
+});
+
+test('HOME CT04-CT05: Beyblade fica no Lab e fotos legadas ficam em Memórias', async () => {
+  const js = await read('randomizer.js');
+  for (const asset of ['images-2-.jpg','images-1-.jpg','images.jpg']) {
+    const line = js.split('\n').find(value => value.includes(asset));
+    assert.ok(line, 'foto legada ausente: ' + asset);
+    assert.match(line, /fixedPage: 'memories'/);
+  }
+  assert.match(js, /if \(currentPage !== 'lab' && beybladeAssets\.some/);
+  assert.match(js, /purgeBeybladeOutsideLab\(\)/);
+});
+
+test('HOME CT06: preview de Inglês ganhou contexto, três destaques e CTA', async () => {
+  const html = await read('index.html');
+  assert.match(html, /class="home-english-preview"/);
+  assert.match(html, /class="english-preview-grid"/);
+  const preview = html.split('class="english-preview-grid"')[1]?.split('</div>')[0] ?? '';
+  assert.equal((preview.match(/<article>/g) ?? []).length, 3);
+  assert.match(html, /Entrar no campus sem fugir/);
 });
