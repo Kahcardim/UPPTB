@@ -1,6 +1,6 @@
 # UPPTB
 
-**Universidade Pública Peculiar Turtle and Beys**
+**Universidade publica turtles and bleys**
 
 Laboratório autoral de QA, programação, inglês, Turtle Step, Beyblade e caos controlado. A universidade é fictícia. A engenharia, os testes e o aprendizado são reais.
 
@@ -65,7 +65,7 @@ O Efeito Alice mantém a composição não determinística por F5 nas páginas d
 
 ## Documentação
 
-A pasta `docs/` contém os gates, arquitetura, escopo de regressão e o Forbidden Turtle Archive.
+A pasta `docs/` contém os gates, arquitetura, escopo de regressão, decisões de auditoria e o Forbidden Turtle Archive. As decisões vigentes da Auditoria 02 estão em `docs/auditoria-02-decisoes.md`; o estudo de regras canônicas começou em `docs/canonical-rules-draft.md`.
 
 ## Estado
 
