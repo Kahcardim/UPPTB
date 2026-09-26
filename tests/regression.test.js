@@ -226,7 +226,7 @@ test('mobile mantém assets dentro do viewport e invalida distribuição/cache a
   const css = await read('styles.css');
   assert.match(js, /upptb-campus-distribution-v6/);
   assert.match(js, /const lanes = isMobile/);
-  assert.match(js, /asset\\.hidden = false/);
+  assert.match(js, /asset\.hidden = false/);
   assert.match(css, /V6 mobile asset safety/);
   assert.match(css, /max-width:min\(9rem,32vw\) !important/);
   for (const page of ['index.html','laboratorio-beyblade.html','ingles.html','memorias.html']) {
