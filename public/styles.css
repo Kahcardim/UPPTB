@@ -647,14 +647,13 @@ html[data-page="home"] .home-page-links .button.secondary {
   background: linear-gradient(180deg, rgba(53,255,102,.08), rgba(16,39,24,.72));
   border-color: rgba(53,255,102,.72);
 }
-html[data-page="home"] .home-page-links .button::before {
-  content: "";
+html[data-page="home"] .home-page-links .button img {
   flex: 0 0 1.15rem;
   width: 1.15rem;
   height: 1.15rem;
-  background: url("assets/turtle-mark.svg") center / contain no-repeat;
+  object-fit: contain;
 }
-html[data-page="home"] .home-page-links .button:not(.secondary)::before {
+html[data-page="home"] .home-page-links .button:not(.secondary) img {
   filter: brightness(0) saturate(100%);
 }
 html[data-page="home"] .random-turtle.large-turtle {
