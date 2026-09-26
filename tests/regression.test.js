@@ -53,11 +53,12 @@ test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laborat
   }
 });
 
-test('regressão UX: tartarugas não entram na Alice e posicionamento protege conteúdo', async () => {
+test('regressão UX: tartarugas não entram na Alice e posicionamento preserva desempenho', async () => {
   const js = await read('randomizer.js');
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
-  assert.match(js, /function overlapsContent\(/);
-  assert.match(js, /attempts < 80/);
+  assert.doesNotMatch(js, /'alice'/);
+  assert.match(js, /function placeAsset\(/);
+  assert.doesNotMatch(js, /attempts < 80|ResizeObserver|elementsFromPoint/);
 });
 
 test('regressão: gato pelado continua migratório nas páginas do campus', async () => {
@@ -134,7 +135,6 @@ test('Sprint 2: mapa persiste na navegação e só renova em reload/F5', async (
   assert.match(js, /if \(valid\) return parsed/);
   assert.match(js, /localStorage\.setItem\(campusStorageKey/);
   assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
-  assert.match(js, /attempts < 80/);
 });
 
 
@@ -184,7 +184,6 @@ test('randomizer protege caixas de leitura contra colisão visual', async () => 
   const js = await read('randomizer.js');
   assert.match(js, /protectedElements/);
   assert.match(js, /const margin = 10/);
-  assert.match(js, /attempts < 80/);
   assert.match(js, /asset\.hidden = !foundSafeSlot/);
   assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
 });
@@ -262,4 +261,21 @@ test('Alice V7 abre menu mobile, oculta galeria e preserva hero responsiva', asy
   assert.match(css, /@media\(min-width:761px\)[\s\S]*object-fit:contain!important/);
   assert.match(css, /@media\(max-width:760px\)[\s\S]*nav\[data-open="true"\][\s\S]*display:flex!important/);
   assert.match(css, /@media\(max-width:760px\)[\s\S]*object-fit:cover!important/);
+});
+
+
+test('EPIC: menu mobile tem estado único, fecha fora e bloqueia scroll de fundo', async () => {
+  const router = await read('router.js');
+  const css = await read('styles.css');
+  assert.match(router, /function setMobileMenu\(open\)/);
+  assert.match(router, /closeMenus\(\{ closeMobile: true \}\)/);
+  assert.match(css, /html\.menu-open, html\.menu-open body/);
+  assert.match(css, /position:fixed !important/);
+});
+
+test('EPIC: Multi permanece exclusiva do laboratório e Alice fora do campus global', async () => {
+  const js = await read('randomizer.js');
+  const multi = js.split('\n').find(line => line.includes('multi-nanairo-from-beyblade'));
+  assert.match(multi, /fixedPage: 'lab'/);
+  assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
 });
