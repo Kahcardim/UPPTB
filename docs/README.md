@@ -8,6 +8,8 @@ A pasta `docs/` mistura documentação operacional atual com registros históric
 - `escopo-regressao.md`: escopo de QA e regressão.
 - `UPPTB-Arquivo-Proibido-Turtle.md`: identidade, lore e regras preservadas.
 - `escopo-e-frases.md`: material editorial e banco de frases.
+- `auditoria-02-decisoes.md`: decisões humanas vigentes da Auditoria 02.
+- `canonical-rules-draft.md`: estudo em andamento de AUD-23; não é a lista final.
 
 ## Histórico de evolução
 
