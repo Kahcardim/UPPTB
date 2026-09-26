@@ -135,112 +135,49 @@ export function initRandomizer() {
     turtlesCreated = true;
   }
 
-  function overlapsContent(asset) {
-    const rect = asset.getBoundingClientRect();
-    const viewportPadding = window.innerWidth <= 700 ? 8 : 4;
-    if (
-      rect.left < viewportPadding ||
-      rect.right > window.innerWidth - viewportPadding ||
-      rect.top < 0
-    ) return true;
-    const protectedElements = [...document.querySelectorAll(
-      'h1, h2, h3, p, a, button, article, pre, code, .hero-copy, .hero-actions, .nav-panel, .timeline, .mode-grid, .code-grid, .memory-grid, .archive, .downloads, .fossil, .warning, .classified, .error-board'
-    )].filter((element) => !element.closest('.random-asset-plane'));
-
-    const margin = 10;
-    return protectedElements.some((element) => {
-      const target = element.getBoundingClientRect();
-      if (!target.width || !target.height) return false;
-      return !(
-        rect.right + margin <= target.left ||
-        rect.left - margin >= target.right ||
-        rect.bottom + margin <= target.top ||
-        rect.top - margin >= target.bottom
-      );
-    });
-  }
-
+  // EPIC performance: assets decorativos ficam abaixo do conteúdo, portanto não
+  // precisam executar dezenas de medições de layout por item. O posicionamento
+  // usa faixas seguras e nunca oculta uma ocorrência válida.
   function placeAsset(asset, index, pageHeight) {
     const isLarge = asset.classList.contains('large-turtle') || asset.classList.contains('random-character');
     const isMobile = window.innerWidth <= 700;
-    const topLimit = Math.max(pageHeight - (isLarge ? 440 : 220), 600);
-    const maxRandomLeft = isMobile ? (isLarge ? 58 : 72) : (isLarge ? 78 : 88);
-    let attempts = 0;
+    const assetHeight = isLarge ? (isMobile ? 150 : 320) : (isMobile ? 96 : 180);
+    const topLimit = Math.max(pageHeight - assetHeight, 520);
+    const lanes = isMobile ? [2, 68] : [1.5, 14, 72, 86];
+    const lane = lanes[index % lanes.length];
+    const bandCount = Math.max(1, Math.floor((topLimit - 120) / (isLarge ? 340 : 220)));
+    const band = index % bandCount;
+    const bandSize = (topLimit - 120) / bandCount;
+    const jitter = Math.min(bandSize * .55, isMobile ? 90 : 150);
+
     asset.hidden = false;
-
-    do {
-      asset.style.top = randomBetween(90, topLimit).toFixed(0) + 'px';
-      asset.style.left = randomBetween(0, maxRandomLeft).toFixed(1) + '%';
-      asset.style.transform = 'rotate(' + randomBetween(-20, 20).toFixed(1) + 'deg)';
-      attempts += 1;
-    } while (overlapsContent(asset) && attempts < 80);
-
-    if (overlapsContent(asset)) {
-      const maxLeft = maxRandomLeft;
-      const yStep = isLarge ? 96 : 56;
-      const xStep = isLarge ? 8 : 4;
-      let foundSafeSlot = false;
-
-      for (let top = 90; top <= topLimit && !foundSafeSlot; top += yStep) {
-        for (let left = 0; left <= maxLeft; left += xStep) {
-          asset.style.top = top + 'px';
-          asset.style.left = left + '%';
-          asset.style.transform = 'rotate(0deg)';
-          if (!overlapsContent(asset)) {
-            foundSafeSlot = true;
-            break;
-          }
-        }
-      }
-      asset.hidden = !foundSafeSlot;
-    } else {
-      asset.hidden = false;
-    }
+    asset.style.top = Math.round(120 + band * bandSize + randomBetween(0, Math.max(12, jitter))) + 'px';
+    asset.style.left = lane + '%';
+    asset.style.transform = 'rotate(' + randomBetween(-12, 12).toFixed(1) + 'deg)';
     asset.style.zIndex = String(index % 2);
   }
 
   function scatterAssets() {
     const main = document.querySelector('main');
-    const pageHeight = Math.max(main?.scrollHeight ?? 2400, 2400);
+    const pageHeight = Math.max(main?.scrollHeight ?? 2200, 2200);
     const assets = [...randomAssetPlane.querySelectorAll('.random-asset')];
-
-    // Nunca esconda tudo antes de medir: hidden zera a geometria e fazia a
-    // própria validação concluir que não existia espaço para as tartarugas.
     assets.forEach((asset, index) => placeAsset(asset, index, pageHeight));
   }
 
   clearLegacyRandomAssets();
   createHairlessCat(); createRoamingImages(); createTurtles();
   randomAssetPlane.dataset.randomizerReady = 'true';
-  // O primeiro passe é apenas fallback. O passe autoritativo ocorre depois que
-  // as imagens possuem dimensões reais. Assim a colisão usa a caixa renderizada.
+  // Um passe imediato mantém o efeito Alice instantâneo. Um segundo passe no
+  // próximo frame absorve dimensões já conhecidas sem bloquear navegação.
   scatterAssets();
-  const images = [...randomAssetPlane.querySelectorAll('img')];
-  Promise.all(images.map((image) => image.complete
-    ? Promise.resolve()
-    : new Promise((resolve) => {
-        image.addEventListener('load', resolve, { once: true });
-        image.addEventListener('error', resolve, { once: true });
-      })
-  )).then(scatterAssets);
-  window.addEventListener('load', scatterAssets, { once: true });
-
-  // Fontes e responsividade podem deslocar texto depois do load. Revalidamos
-  // sem mudar a ocorrência do campus: só as coordenadas visuais são recalculadas.
-  document.fonts?.ready?.then(scatterAssets);
+  requestAnimationFrame(scatterAssets);
 
   let resizeTimer;
-  const scheduleCollisionRecheck = () => {
+  const scheduleLayout = () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(scatterAssets, 120);
+    resizeTimer = setTimeout(scatterAssets, 180);
   };
-  window.addEventListener('resize', scheduleCollisionRecheck, { passive: true });
-
-  const main = document.querySelector('main');
-  const layoutObserver = typeof ResizeObserver === 'function' && main
-    ? new ResizeObserver(scheduleCollisionRecheck)
-    : null;
-  layoutObserver?.observe(main);
+  window.addEventListener('resize', scheduleLayout, { passive: true });
 
   return { scatterAssets };
 }
