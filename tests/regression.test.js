@@ -77,7 +77,8 @@ test('regressão: fóssil fundador permanece intacto', async () => {
 
 test('regressão: resíduos de bladers são removidos fora do laboratório', async () => {
   const js = await read('randomizer.js');
-  assert.match(js, /if \(currentPage !== 'lab'\)/);
+  assert.match(js, /function purgeBeybladeOutsideLab\(/);
+  assert.match(js, /if \(currentPage === 'lab'\) return/);
   assert.match(js, /image\.closest\('figure'\)\?\.remove\(\)/);
 });
 
@@ -195,7 +196,8 @@ test('mobile mantém assets dentro do viewport e invalida distribuição/cache a
   const js = await read('randomizer.js');
   const css = await read('styles.css');
   assert.match(js, /upptb-campus-distribution-v7/);
-  assert.match(js, /const lanes = isMobile/);
+  assert.match(js, /const homeLanes = isMobile/);
+  assert.match(js, /const defaultLanes = isMobile/);
   assert.match(js, /asset\.hidden = false/);
   assert.match(css, /V6 mobile asset safety/);
   assert.match(css, /max-width:min\(9rem,32vw\) !important/);
@@ -243,8 +245,8 @@ test('EPIC: menu mobile tem estado único, fecha fora e bloqueia scroll de fundo
 
 test('EPIC: Multi permanece exclusiva do laboratório e Alice fora do campus global', async () => {
   const js = await read('randomizer.js');
-  const multi = js.split('\n').find(line => line.includes('multi-nanairo-from-beyblade'));
-  assert.match(multi, /fixedPage: 'lab'/);
+  const multi = js.split('\n').find(line => line.includes('multi-nanairo-from-beyblade') && line.includes("fixedPage: 'lab'"));
+  assert.ok(multi, 'Multi precisa continuar fixa no Lab');
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
 });
 
