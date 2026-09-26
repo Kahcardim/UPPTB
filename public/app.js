@@ -1,3 +1,4 @@
+import './alice.js';
 import { initRouter } from './router.js';
 import { initRandomizer } from './randomizer.js';
 
