@@ -72,11 +72,6 @@ jobs:
         run: |
           mkdir -p _site
           cp -R dist/. _site/
-          mkdir -p _site/docs
-          cp docs/UPPTB-Arquivo-Proibido-Turtle.md _site/docs/
-          cp docs/benchmark-gate-1.md _site/docs/
-          cp docs/escopo-gate-2.md _site/docs/
-          cp docs/UPPTB-escopo-e-banco-de-frases.docx _site/docs/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
