@@ -1,9 +1,9 @@
-import { estadosAlice } from './alice-states.js';
+import { estadosAlice } from './alice-states.js?v=9';
 
 const alicePageRoot = document.documentElement;
 
 if (alicePageRoot.dataset.page === 'alice') {
-  const aliceAssetVersion = '3';
+  const aliceAssetVersion = '4';
   const stateDetails = [
     ['Então por que sua mão ainda está no painel?', 'Soltar uma variável'],
     ['Você entendeu. Agora consegue suportar não mexer?', 'Observar sem tocar'],
