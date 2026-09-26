@@ -34,7 +34,7 @@ function intersects(a, b, margin) {
 
 function visibleBlockers(element) {
   return [...document.querySelectorAll(blockerSelector)].filter((blocker) => {
-    if (blocker === element || blocker.closest('.random-asset-plane')) return false;
+    if (blocker === element || blocker.closest('.random-asset-plane') || blocker.matches('.do-not-feed')) return false;
     const style = getComputedStyle(blocker);
     const rect = blocker.getBoundingClientRect();
     return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
