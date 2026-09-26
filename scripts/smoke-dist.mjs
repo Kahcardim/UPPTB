@@ -1,4 +1,6 @@
 import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from '@playwright/test';
 
 const port = 4173;
@@ -25,7 +27,14 @@ const knownAuditDebt = new Set([
   '/docs/alice-30-estados.pdf'
 ]);
 
-const server = spawn('pnpm', ['preview', '--', '--port', String(port), '--strictPort'], {
+const viteBin = fileURLToPath(new URL('../node_modules/vite/bin/vite.js', import.meta.url));
+const server = spawn(process.execPath, [
+  viteBin,
+  'preview',
+  '--host', '127.0.0.1',
+  '--port', String(port),
+  '--strictPort'
+], {
   stdio: ['ignore', 'pipe', 'pipe']
 });
 
@@ -140,7 +149,14 @@ try {
     }
   }
 } finally {
-  server.kill('SIGTERM');
+  if (server.exitCode === null) {
+    server.kill('SIGTERM');
+    await Promise.race([
+      once(server, 'exit'),
+      new Promise((resolve) => setTimeout(resolve, 2_000))
+    ]);
+    if (server.exitCode === null) server.kill('SIGKILL');
+  }
 }
 
 if (failures.length) {
