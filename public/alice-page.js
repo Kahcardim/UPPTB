@@ -142,6 +142,7 @@ if (alicePageRoot.dataset.page === 'alice') {
   const palette = [
     { wing: '#ff4fa3', wing2: '#ff9ccd', edge: '#ffd2e8', glow: 'rgba(255,79,163,.38)' },
     { wing: '#45a7ff', wing2: '#8dd1ff', edge: '#d9f1ff', glow: 'rgba(69,167,255,.38)' },
+    { wing: '#fffafc', wing2: '#ffffff', edge: '#ff9ccd', glow: 'rgba(255,255,255,.42)' },
     { wing: '#080008', wing2: '#2d1229', edge: '#ff79ba', glow: 'rgba(255,79,163,.24)' }
   ];
   const safeButterflyZones = [[5,5],[24,3],[70,4],[89,9],[4,28],[90,31],[5,52],[91,56],[6,76],[25,91],[69,91],[90,80],[17,67],[80,69],[49,94]];
@@ -154,7 +155,7 @@ if (alicePageRoot.dataset.page === 'alice') {
   safeButterflyZones.forEach(([x, y], index) => {
     const tone = palette[index % palette.length];
     const butterfly = document.createElement('div');
-    butterfly.className = `alice-butterfly alice-butterfly-${index % 3 === 0 ? 'pink' : index % 3 === 1 ? 'blue' : 'black'}`;
+    butterfly.className = `alice-butterfly alice-butterfly-${index % 4 === 0 ? 'pink' : index % 4 === 1 ? 'blue' : index % 4 === 2 ? 'white' : 'black'}`;
     butterfly.innerHTML = butterflySvg(tone, index);
     butterfly.style.left = `${x}%`;
     butterfly.style.top = `${y}%`;
@@ -236,6 +237,48 @@ if (alicePageRoot.dataset.page === 'alice') {
     const initialId = window.location.hash.slice(1);
     if (sections.some((section) => section.id === initialId)) setActiveSection(initialId);
   }
+
+  // Carrosseis editoriais: scroll-snap nativo + avanço automático discreto.
+  // Sem botões artificiais; toque, trackpad, teclado e swipe continuam nativos.
+  const autoCarousels = [...document.querySelectorAll('.alice-card-grid, #regras .memory-grid')];
+  autoCarousels.forEach((track, trackIndex) => {
+    let paused = false;
+    let timer = null;
+    const cards = [...track.children].filter((node) => node.matches('article'));
+    if (cards.length < 2) return;
+
+    const advance = () => {
+      if (paused || prefersReducedMotion || document.hidden) return;
+      const trackRect = track.getBoundingClientRect();
+      const center = trackRect.left + trackRect.width / 2;
+      let current = 0;
+      let distance = Infinity;
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const nextDistance = Math.abs(cardCenter - center);
+        if (nextDistance < distance) { distance = nextDistance; current = index; }
+      });
+      cards[(current + 1) % cards.length].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    };
+
+    const start = () => {
+      if (prefersReducedMotion) return;
+      clearInterval(timer);
+      timer = setInterval(advance, 5200 + trackIndex * 600);
+    };
+    const pause = () => { paused = true; };
+    const resume = () => { paused = false; start(); };
+
+    track.classList.add('is-auto-scrolling');
+    track.addEventListener('pointerenter', pause);
+    track.addEventListener('pointerleave', resume);
+    track.addEventListener('focusin', pause);
+    track.addEventListener('focusout', resume);
+    track.addEventListener('touchstart', pause, { passive: true });
+    track.addEventListener('touchend', () => setTimeout(resume, 1800), { passive: true });
+    start();
+  });
 
   sectionLinks.forEach((link) => link.addEventListener('click', (event) => {
     event.preventDefault();
