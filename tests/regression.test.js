@@ -12,7 +12,7 @@ test('campi essenciais usam a mesma revisão de assets e não carregam arquivos 
     const html = await readPublic(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.match(html, /styles\.css\?v=12/);
+    assert.match(html, /styles\.css\?v=13/);
     assert.match(html, /app\.js\?v=12/);
     assert.doesNotMatch(html, /navigation\.js|ux-safety\.css/);
   }
@@ -21,7 +21,7 @@ test('campi essenciais usam a mesma revisão de assets e não carregam arquivos 
 test('Alice permanece isolada do plano aleatório global e usa revisão própria atual', async () => {
   const html = await readPublic('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /styles\.css\?v=12/);
+  assert.match(html, /styles\.css\?v=13/);
   assert.match(html, /app\.js\?v=12/);
   assert.match(html, /alice-page\.css\?v=9/);
   assert.match(html, /alice-page\.js\?v=9/);
@@ -131,7 +131,7 @@ test('Home preserva identidade única, quatro atalhos e preview de Inglês', asy
 test('CSS atual protege composição da Home em desktop e mobile', async () => {
   const css = await readPublic('styles.css');
   assert.match(css, /html\[data-page="home"\] \.hero-copy \{[\s\S]*text-align: center/);
-  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*flex-wrap: nowrap/);
+  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(css, /\.english-preview-grid \{[\s\S]*grid-template-columns: repeat\(3/);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.english-preview-grid \{[\s\S]*grid-template-columns: 1fr/);
 });

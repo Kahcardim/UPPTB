@@ -196,13 +196,46 @@ try {
             if (await pageLinks.count() !== 4) {
               failures.push(`${browserName} ${viewport.width} CTAs da Home != 4`);
             }
-            if (viewport.width >= 1100) {
-              const wrap = await page.locator('.home-page-links').evaluate(
-                (element) => getComputedStyle(element).flexWrap
-              );
-              if (wrap !== 'nowrap') {
-                failures.push(`${browserName} ${viewport.width} CTAs desktop não estão lineares: ${wrap}`);
+
+            const turtleButtons = await pageLinks.evaluateAll((elements) => elements.map((element) => {
+              const rect = element.getBoundingClientRect();
+              return { width: rect.width, height: rect.height };
+            }));
+            for (const button of turtleButtons) {
+              if (button.height < 44) {
+                failures.push(`${browserName} ${viewport.width} CTA Turtle baixo demais: ${button.height}`);
               }
+            }
+            const turtleIconCount = await page.locator('.home-page-links .button img').count();
+            if (turtleIconCount !== 4) {
+              failures.push(`${browserName} ${viewport.width} ícones Turtle nos CTAs != 4: ${turtleIconCount}`);
+            }
+
+            const titleSize = await page.locator('#hero-title').evaluate(
+              (element) => parseFloat(getComputedStyle(element).fontSize)
+            );
+            if (viewport.width >= 1100 && titleSize > 58) {
+              failures.push(`${browserName} ${viewport.width} título da Home grande demais: ${titleSize}px`);
+            }
+
+            const fossilMetrics = await page.locator('.fossil').evaluate((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                left: rect.left,
+                width: rect.width,
+                viewport: window.innerWidth,
+                textAlign: getComputedStyle(element).textAlign
+              };
+            });
+            const fossilCenter = fossilMetrics.left + fossilMetrics.width / 2;
+            if (Math.abs(fossilCenter - fossilMetrics.viewport / 2) > 3) {
+              failures.push(`${browserName} ${viewport.width} fóssil fora do centro`);
+            }
+            if (viewport.width >= 1100 && fossilMetrics.width > 940) {
+              failures.push(`${browserName} ${viewport.width} fóssil largo demais: ${fossilMetrics.width}px`);
+            }
+            if (fossilMetrics.textAlign !== 'center') {
+              failures.push(`${browserName} ${viewport.width} conteúdo do fóssil não centralizado`);
             }
 
             const textAlign = await page.locator('.hero-copy').evaluate(
