@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: regression-${{ github.ref }}
@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -39,12 +41,18 @@ jobs:
             .github/cache-version
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
-      - name: Upload refreshed lockfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: refreshed-lockfile
-          path: pnpm-lock.yaml
-          retention-days: 1
+      - name: Commit refreshed lockfile
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --quiet -- pnpm-lock.yaml; then
+            echo "Lockfile already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          git commit -m "build(lock): sincroniza pnpm lockfile"
+          git push origin HEAD:${{ github.head_ref }}
       - name: Run full regression suite
         run: pnpm test
       - name: Validate production build
