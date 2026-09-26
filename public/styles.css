@@ -131,9 +131,27 @@ h3 { margin-top: 0; font-size: 1.3rem; }
 .button.secondary { background: transparent; color: var(--text); }
 .button:hover, .button:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(53,255,102,.16); }
 
-.fossil { padding: 2rem !important; background: linear-gradient(135deg, rgba(53,255,102,.12), rgba(219,255,101,.06)); border: 1px dashed var(--green); border-radius: var(--radius); }
-.fossil h2 { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: clamp(1.35rem, 3vw, 2.4rem); letter-spacing: -.025em; }
-.fossil p:last-child { color: var(--muted); margin-bottom: 0; }
+.fossil {
+  width: min(58rem, calc(100% - 2rem)) !important;
+  margin: clamp(2.5rem, 4vw, 4rem) auto !important;
+  padding: clamp(1.6rem, 3vw, 2.4rem) !important;
+  background: linear-gradient(135deg, rgba(53,255,102,.12), rgba(219,255,101,.06));
+  border: 1px dashed var(--green);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.fossil h2 {
+  max-width: 30ch;
+  margin-inline: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(1.35rem, 3vw, 2.4rem);
+  letter-spacing: -.025em;
+}
+.fossil p:last-child {
+  max-width: 58ch;
+  margin: 1rem auto 0;
+  color: var(--muted);
+}
 
 .split { display: grid; grid-template-columns: .85fr 1.15fr; gap: 4rem; }
 .prose { color: var(--muted); font-size: 1.08rem; }
@@ -576,26 +594,30 @@ main > section { isolation: isolate; }
 
 /* HOME CT01-CT06 · leitura primeiro, caos depois. */
 html[data-page="home"] .hero {
-  min-height: 68vh;
+  min-height: 60vh;
   grid-template-columns: minmax(0, 1.05fr) minmax(22rem, .95fr);
-  gap: clamp(2rem, 4vw, 4rem);
-  padding-top: clamp(3rem, 6vw, 5rem);
-  padding-bottom: clamp(3rem, 6vw, 5rem);
+  gap: clamp(2rem, 3.5vw, 3.5rem);
+  padding-top: clamp(2.75rem, 5vw, 4rem);
+  padding-bottom: clamp(2.75rem, 5vw, 4rem);
 }
 html[data-page="home"] .hero-copy {
   width: 100%;
-  max-width: 44rem;
+  max-width: 40rem;
   margin-inline: auto;
   justify-self: center;
   text-align: center;
 }
 html[data-page="home"] .hero-copy .lead {
-  max-width: 52ch;
+  max-width: 44ch;
   margin-inline: auto;
+  font-size: clamp(1.02rem, 1.45vw, 1.2rem);
+  line-height: 1.55;
 }
 html[data-page="home"] .hero h1 {
-  font-size: clamp(2.8rem, 4.7vw, 4.8rem);
-  line-height: 1.02;
+  max-width: 18ch;
+  margin-inline: auto;
+  font-size: clamp(2.25rem, 3.5vw, 3.55rem);
+  line-height: 1.03;
 }
 html[data-page="home"] .hero-mark {
   width: 100%;
@@ -604,19 +626,36 @@ html[data-page="home"] .hero-mark {
   align-self: center;
 }
 html[data-page="home"] .home-page-links {
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: center;
-  gap: .55rem;
-  width: 100%;
+  gap: .75rem;
+  width: min(100%, 38rem);
+  margin: 1.55rem auto 0;
 }
 html[data-page="home"] .home-page-links .button {
-  flex: 1 1 0;
   min-width: 0;
-  padding: .8rem .85rem;
+  min-height: 3.2rem;
+  gap: .55rem;
+  padding: .78rem 1rem;
   font-size: .88rem;
   line-height: 1.2;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
+}
+html[data-page="home"] .home-page-links .button.secondary {
+  background: linear-gradient(180deg, rgba(53,255,102,.08), rgba(16,39,24,.72));
+  border-color: rgba(53,255,102,.72);
+}
+html[data-page="home"] .home-page-links .button::before {
+  content: "";
+  flex: 0 0 1.15rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  background: url("assets/turtle-mark.svg") center / contain no-repeat;
+}
+html[data-page="home"] .home-page-links .button:not(.secondary)::before {
+  filter: brightness(0) saturate(100%);
 }
 html[data-page="home"] .random-turtle.large-turtle {
   width: clamp(7rem, 11vw, 11rem);
@@ -666,11 +705,7 @@ html[data-page="home"] .random-turtle.large-turtle {
 
 @media (max-width: 1100px) {
   html[data-page="home"] .home-page-links {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  html[data-page="home"] .home-page-links .button {
-    white-space: normal;
+    width: min(100%, 34rem);
   }
 }
 @media (max-width: 900px) {
