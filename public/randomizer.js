@@ -188,6 +188,7 @@ export function initRandomizer() {
   createRoamingImages();
   createTurtles();
   purgeBeybladeOutsideLab();
+  performLayout();
   randomAssetPlane.dataset.randomizerReady = 'true';
 
   let frame = null;
