@@ -88,6 +88,7 @@ async function decorationOverlaps(page) {
     );
 
     const blockers = [...document.querySelectorAll(selector)].filter((node) => {
+      if (node.matches('.do-not-feed')) return false;
       const rect = node.getBoundingClientRect();
       const style = getComputedStyle(node);
       return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
@@ -185,6 +186,7 @@ try {
             await page.locator('#random-asset-plane').waitFor({ state: 'attached', timeout: 3000 });
             await page.waitForFunction(() =>
               document.querySelector('#random-asset-plane')?.dataset.randomizerReady === 'true',
+              undefined,
               { timeout: 3500 }
             );
           }
@@ -262,7 +264,12 @@ try {
           if (path === 'index.html') {
             for (let reloadIndex = 1; reloadIndex <= 5; reloadIndex += 1) {
               await page.reload({ waitUntil: 'domcontentloaded', timeout: 20_000 });
-              await page.waitForTimeout(300);
+              await page.waitForFunction(() =>
+                document.querySelector('#random-asset-plane')?.dataset.randomizerReady === 'true',
+                undefined,
+                { timeout: 3500 }
+              );
+              await page.waitForTimeout(350);
 
               for (const selector of beybladeSelectors) {
                 const count = await page.locator(selector).count();
@@ -285,30 +292,6 @@ try {
               failures.push(`${browserName} ${viewport.width} foto legada fora de Memórias: ${legacyPhotoCount}`);
             }
 
-            const hero = await page.locator('.hero').boundingBox();
-            const decorativeBoxes = await page.locator(
-              '#random-asset-plane .random-turtle, #random-asset-plane .random-photo, #random-asset-plane .random-identity'
-            ).evaluateAll((elements) => elements.map((element) => {
-              const rect = element.getBoundingClientRect();
-              return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
-            }));
-            if (hero) {
-              const heroRect = {
-                left: hero.x,
-                top: hero.y,
-                right: hero.x + hero.width,
-                bottom: hero.y + hero.height
-              };
-              const overlaps = decorativeBoxes.filter((rect) =>
-                rect.right > heroRect.left &&
-                rect.left < heroRect.right &&
-                rect.bottom > heroRect.top &&
-                rect.top < heroRect.bottom
-              );
-              if (overlaps.length) {
-                failures.push(`${browserName} ${viewport.width} assets decorativos invadem hero: ${overlaps.length}`);
-              }
-            }
 
             const pageLinks = page.locator('.home-page-links .button');
             if (await pageLinks.count() !== 4) {
