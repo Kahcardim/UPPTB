@@ -100,7 +100,7 @@ export function initRandomizer() {
   }
 
   function clearLegacyRandomAssets() {
-    randomAssetPlane.querySelectorAll('.random-asset').forEach((asset) => asset.remove());
+    randomAssetPlane.querySelectorAll('.random-asset:not(.alice-character)').forEach((asset) => asset.remove());
     purgeBeybladeOutsideLab();
   }
 
