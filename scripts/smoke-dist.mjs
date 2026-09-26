@@ -126,12 +126,84 @@ try {
             failures.push(`${browserName} ${viewport.width} tartaruga na Alice: ${turtleCount}`);
           }
 
-          const multiCount = await page.locator('img[src*="multi-nanairo"]').count();
-          if (path !== 'laboratorio-beyblade.html' && multiCount !== 0) {
-            failures.push(`${browserName} ${viewport.width} Multi fora do Lab em ${path}: ${multiCount}`);
+          const beybladeSelectors = [
+            'img[src*="pretend-were-the-in-universe-general-public"]',
+            'img[src*="ekusu-remade"]',
+            'img[src*="Beyblade_X_-_Ekusu_Kurosu"]',
+            'img[src*="multi-nanairo"]'
+          ];
+          if (path !== 'laboratorio-beyblade.html') {
+            for (const selector of beybladeSelectors) {
+              const count = await page.locator(selector).count();
+              if (count !== 0) {
+                failures.push(`${browserName} ${viewport.width} Beyblade fora do Lab em ${path}: ${selector} = ${count}`);
+              }
+            }
           }
 
           if (path === 'index.html') {
+            const identityCount = await page.locator('img[src*="upptb-collage"]').count();
+            if (identityCount !== 1) {
+              failures.push(`${browserName} ${viewport.width} identidade duplicada na Home: ${identityCount}`);
+            }
+
+            const legacyPhotoCount = await page.locator(
+              'img[src*="images-2-"], img[src*="images-1-"], img[src$="/images.jpg"]'
+            ).count();
+            if (legacyPhotoCount !== 0) {
+              failures.push(`${browserName} ${viewport.width} foto legada fora de Memórias: ${legacyPhotoCount}`);
+            }
+
+            const hero = await page.locator('.hero').boundingBox();
+            const decorativeBoxes = await page.locator(
+              '#random-asset-plane .random-turtle, #random-asset-plane .random-photo, #random-asset-plane .random-identity'
+            ).evaluateAll((elements) => elements.map((element) => {
+              const rect = element.getBoundingClientRect();
+              return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
+            }));
+            if (hero) {
+              const heroRect = {
+                left: hero.x,
+                top: hero.y,
+                right: hero.x + hero.width,
+                bottom: hero.y + hero.height
+              };
+              const overlaps = decorativeBoxes.filter((rect) =>
+                rect.right > heroRect.left &&
+                rect.left < heroRect.right &&
+                rect.bottom > heroRect.top &&
+                rect.top < heroRect.bottom
+              );
+              if (overlaps.length) {
+                failures.push(`${browserName} ${viewport.width} assets decorativos invadem hero: ${overlaps.length}`);
+              }
+            }
+
+            const pageLinks = page.locator('.home-page-links .button');
+            if (await pageLinks.count() !== 4) {
+              failures.push(`${browserName} ${viewport.width} CTAs da Home != 4`);
+            }
+            if (viewport.width >= 1100) {
+              const wrap = await page.locator('.home-page-links').evaluate(
+                (element) => getComputedStyle(element).flexWrap
+              );
+              if (wrap !== 'nowrap') {
+                failures.push(`${browserName} ${viewport.width} CTAs desktop não estão lineares: ${wrap}`);
+              }
+            }
+
+            const textAlign = await page.locator('.hero-copy').evaluate(
+              (element) => getComputedStyle(element).textAlign
+            );
+            if (textAlign !== 'center') {
+              failures.push(`${browserName} ${viewport.width} hero-copy desalinhado: ${textAlign}`);
+            }
+
+            const englishCards = await page.locator('.english-preview-grid article').count();
+            if (englishCards !== 3) {
+              failures.push(`${browserName} ${viewport.width} preview inglês != 3 cards: ${englishCards}`);
+            }
+
             const input = page.locator('[data-terminal-input]');
             await input.fill('help');
             await input.press('Enter');
