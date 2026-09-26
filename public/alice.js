@@ -204,3 +204,5 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(scatterAliceCharacters, 180);
 }, { passive: true });
 
+
+document.addEventListener('upptb:content-layout', scatterAliceCharacters);
