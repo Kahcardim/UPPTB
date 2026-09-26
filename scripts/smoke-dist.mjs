@@ -91,9 +91,10 @@ try {
 
         for (const path of pages) {
           const response = await page.goto(`${origin}/${path}`, {
-            waitUntil: 'networkidle',
+            waitUntil: 'domcontentloaded',
             timeout: 20_000
           });
+          await page.waitForTimeout(350);
           if (!response?.ok()) {
             failures.push(`${browserName} ${viewport.width} navegação ${path}: ${response?.status()}`);
             continue;
