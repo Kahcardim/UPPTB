@@ -37,7 +37,7 @@ test('engine da Alice mantém estado sem rotação automática e assets versiona
   assert.match(js, /catZone\?\.append\(cat\)/);
 });
 
-test('randomizer mantém domínios atuais: Beyblade no Lab e fotos legadas em Memórias', async () => {
+test('randomizer mantém domínios atuais: Beyblade só nasce no Lab e fotos legadas ficam em Memórias', async () => {
   const js = await readPublic('randomizer.js');
   const labAssets = [
     'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
@@ -45,9 +45,13 @@ test('randomizer mantém domínios atuais: Beyblade no Lab e fotos legadas em Me
     'Beyblade_X_-_Ekusu_Kurosu.webp',
     'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
   ];
+
+  assert.ok(js.includes('const labOnlyImages = ['));
+  assert.ok(js.includes("if (currentPage === 'lab') {\n      labOnlyImages.forEach(appendRoamingImage);"));
+
+  const roamingSection = js.split('const roamingImages = [')[1]?.split('];')[0] ?? '';
   for (const asset of labAssets) {
-    const line = js.split('\n').find(value => value.includes(asset) && value.includes("fixedPage: 'lab'"));
-    assert.ok(line, 'asset Beyblade fora do Lab ou ausente: ' + asset);
+    assert.equal(roamingSection.includes(asset), false, 'Beyblade vazou para roamingImages: ' + asset);
   }
 
   for (const asset of ['images-2-.jpg', 'images-1-.jpg', 'images.jpg']) {
@@ -56,12 +60,10 @@ test('randomizer mantém domínios atuais: Beyblade no Lab e fotos legadas em Me
   }
 
   assert.match(js, /function purgeBeybladeOutsideLab\(/);
-  assert.match(js, /if \(currentPage === 'lab'\) return/);
 });
-
 test('mapa aleatório usa schema atual, persiste navegação e renova em F5', async () => {
   const js = await readPublic('randomizer.js');
-  assert.match(js, /upptb-campus-distribution-v8/);
+  assert.match(js, /upptb-campus-distribution-v9/);
   assert.match(js, /navigationEntry\?\.type === 'reload'/);
   assert.match(js, /if \(!stored \|\| isReload\)/);
   assert.match(js, /if \(valid\) return parsed/);
@@ -71,7 +73,7 @@ test('mapa aleatório usa schema atual, persiste navegação e renova em F5', as
 
 test('registros antigos do runtime são podados sem apagar o schema atual', async () => {
   const app = await readPublic('app.js');
-  assert.match(app, /upptb-campus-distribution-v8/);
+  assert.match(app, /upptb-campus-distribution-v9/);
   assert.match(app, /upptb-alice-characters-v2/);
   assert.match(app, /function pruneLegacyStorage\(/);
   assert.match(app, /localStorage\.removeItem\(key\)/);
