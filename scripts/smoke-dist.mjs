@@ -142,6 +142,19 @@ try {
           }
 
           if (path === 'index.html') {
+            for (let reloadIndex = 1; reloadIndex <= 5; reloadIndex += 1) {
+              await page.reload({ waitUntil: 'domcontentloaded', timeout: 20_000 });
+              await page.waitForTimeout(300);
+
+              for (const selector of beybladeSelectors) {
+                const count = await page.locator(selector).count();
+                if (count !== 0) {
+                  failures.push(
+                    `${browserName} ${viewport.width} F5 #${reloadIndex}: Beyblade apareceu na Home: ${selector} = ${count}`
+                  );
+                }
+              }
+            }
             const identityCount = await page.locator('img[src*="upptb-collage"]').count();
             if (identityCount !== 1) {
               failures.push(`${browserName} ${viewport.width} identidade duplicada na Home: ${identityCount}`);
