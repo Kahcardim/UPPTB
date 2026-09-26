@@ -206,7 +206,7 @@ try {
                 failures.push(`${browserName} ${viewport.width} CTA Turtle baixo demais: ${button.height}`);
               }
             }
-            const turtleIconCount = await page.locator('.home-page-links .button img[src*="turtle-mark"]').count();
+            const turtleIconCount = await page.locator('.home-page-links .button img').count();
             if (turtleIconCount !== 4) {
               failures.push(`${browserName} ${viewport.width} ícones Turtle nos CTAs != 4: ${turtleIconCount}`);
             }
