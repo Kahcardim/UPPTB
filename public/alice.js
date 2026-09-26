@@ -145,20 +145,30 @@ function placeAliceCharacter(config) {
   figure.className = `random-asset random-character alice-character ${config.className}`;
   image.src = config.src;
   image.alt = '';
-  image.loading = 'lazy';
+  image.loading = 'eager';
   caption.textContent = config.phrase;
   figure.append(image, caption);
   alicePlane.append(figure);
 
-  const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 2400, 2400);
-  placeDecorationSafely(figure, {
-    pageHeight,
-    index: config.className === 'alice-gato' ? 71 : 83,
-    minTop: 96,
-    rotation: Number((Math.random() * 14 - 7).toFixed(1)),
-    margin: 12
-  });
-  figure.style.zIndex = '8';
+  const positionCharacter = () => {
+    const pageHeight = Math.max(document.querySelector('main')?.scrollHeight ?? 2400, 2400);
+    placeDecorationSafely(figure, {
+      pageHeight,
+      index: config.className === 'alice-gato' ? 71 : 83,
+      minTop: 96,
+      rotation: Number((Math.random() * 14 - 7).toFixed(1)),
+      margin: 12
+    });
+    figure.style.zIndex = '8';
+  };
+
+  figure.hidden = true;
+  if (image.complete && image.naturalWidth) {
+    positionCharacter();
+  } else {
+    image.addEventListener('load', positionCharacter, { once: true });
+    image.addEventListener('error', () => { figure.hidden = true; }, { once: true });
+  }
 }
 
 const aliceState = loadAliceState();
