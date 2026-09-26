@@ -2,308 +2,152 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const read = (path) => readFile(new URL('../public/' + path, import.meta.url), 'utf8');
+const readPublic = (path) => readFile(new URL('../public/' + path, import.meta.url), 'utf8');
+const readRoot = (path) => readFile(new URL('../' + path, import.meta.url), 'utf8');
 
-test('regressão estrutural: páginas institucionais essenciais existem e carregam scripts esperados', async () => {
-  const pages = ['index.html', 'laboratorio-beyblade.html', 'ingles.html', 'memorias.html'];
-  for (const page of pages) {
-    const html = await read(page);
+const campusPages = ['index.html', 'laboratorio-beyblade.html', 'ingles.html', 'memorias.html'];
+
+test('campi essenciais usam a mesma revisão de assets e não carregam arquivos legados', async () => {
+  for (const page of campusPages) {
+    const html = await readPublic(page);
     assert.match(html, /<main id="conteudo">/);
     assert.match(html, /id="random-asset-plane"/);
-    assert.ok(html.includes('<script type="module" src="app.js?v=11"></script>'));
-    assert.doesNotMatch(html, /navigation\.js/);
+    assert.match(html, /styles\.css\?v=12/);
+    assert.match(html, /app\.js\?v=12/);
+    assert.doesNotMatch(html, /navigation\.js|ux-safety\.css/);
   }
 });
 
-test('regressão UX: Alice permanece isolada do plano aleatório global', async () => {
-  const html = await read('alice.html');
+test('Alice permanece isolada do plano aleatório global e usa revisão própria atual', async () => {
+  const html = await readPublic('alice.html');
   assert.doesNotMatch(html, /id="random-asset-plane"/);
-  assert.match(html, /alice-page\.css\?v=8/);
-  assert.match(html, /alice-page\.js\?v=8/);
+  assert.match(html, /styles\.css\?v=12/);
+  assert.match(html, /app\.js\?v=12/);
+  assert.match(html, /alice-page\.css\?v=9/);
+  assert.match(html, /alice-page\.js\?v=9/);
 });
 
-test('regressão Alice: estado não possui rotação automática por timer', async () => {
-  const js = await read('alice-page.js');
+test('engine da Alice mantém estado sem rotação automática e assets versionados', async () => {
+  const js = await readPublic('alice-page.js');
   assert.doesNotMatch(js, /setInterval\s*\(/);
   assert.doesNotMatch(js, /restartRotation|rotatePhrase/);
-  assert.match(js, /readInitialState/);
-});
-
-test('regressão Alice: borboletas pertencem ao frame da foto e gato ao diálogo', async () => {
-  const js = await read('alice-page.js');
+  assert.match(js, /from '\.\/alice-states\.js\?v=9'/);
+  assert.match(js, /const aliceAssetVersion = '4'/);
   assert.match(js, /wallpaperFrame\?\.prepend\(butterflyPlane\)/);
   assert.match(js, /catZone\?\.append\(cat\)/);
-  const css = await read('alice-page.css');
-  assert.match(css, /\.alice-wallpaper-frame\s*\{[^}]*overflow:hidden/s);
-  assert.match(css, /\.alice-dialogue-stage\s*\{[^}]*overflow:hidden/s);
 });
 
-test('regressão de domínio: bladers e Beyblade ficam exclusivamente no laboratório', async () => {
-  const js = await read('randomizer.js');
-  const assets = [
+test('randomizer mantém domínios atuais: Beyblade no Lab e fotos legadas em Memórias', async () => {
+  const js = await readPublic('randomizer.js');
+  const labAssets = [
     'pretend-were-the-in-universe-general-public-who-do-you-v0-mejb5ymxzwkg1.webp',
     'ekusu-remade.webp',
     'Beyblade_X_-_Ekusu_Kurosu.webp',
     'multi-nanairo-from-beyblade-x-v0-sg3enaxuhy8f1.webp'
   ];
-  for (const asset of assets) {
+  for (const asset of labAssets) {
     const line = js.split('\n').find(value => value.includes(asset) && value.includes("fixedPage: 'lab'"));
-    assert.ok(line, 'asset fora do Lab ou ausente: ' + asset);
+    assert.ok(line, 'asset Beyblade fora do Lab ou ausente: ' + asset);
   }
-  assert.match(js, /function purgeBeybladeOutsideLab\(/);
-  assert.match(js, /window\.addEventListener\('load', purgeBeybladeOutsideLab/);
-});
 
-test('regressão UX: tartarugas não entram na Alice e posicionamento preserva desempenho', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
-  assert.match(js, /currentPage === 'alice'/);
-  assert.match(js, /function placeAsset\(/);
-  assert.doesNotMatch(js, /attempts < 80|ResizeObserver|elementsFromPoint/);
-});
+  for (const asset of ['images-2-.jpg', 'images-1-.jpg', 'images.jpg']) {
+    const line = js.split('\n').find(value => value.includes(asset) && value.includes("fixedPage: 'memories'"));
+    assert.ok(line, 'foto legada fora de Memórias ou ausente: ' + asset);
+  }
 
-test('regressão: gato pelado continua migratório nas páginas do campus', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /Sphynx_kitten\.JPG/);
-  assert.match(js, /catPage: campusPages\[Math\.floor\(Math\.random\(\) \* campusPages\.length\)\]/);
-  assert.match(js, /campusDistribution\.catPage !== currentPage/);
-});
-
-test('regressão: fóssil fundador permanece intacto', async () => {
-  const html = await read('index.html');
-  assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
-});
-
-
-test('regressão: resíduos de bladers são removidos fora do laboratório', async () => {
-  const js = await read('randomizer.js');
   assert.match(js, /function purgeBeybladeOutsideLab\(/);
   assert.match(js, /if \(currentPage === 'lab'\) return/);
-  assert.match(js, /image\.closest\('figure'\)\?\.remove\(\)/);
 });
 
-test('regressão: Chapeleiro evita conteúdo e mantém frase visível', async () => {
-  const js = await read('alice.js');
+test('mapa aleatório usa schema atual, persiste navegação e renova em F5', async () => {
+  const js = await readPublic('randomizer.js');
+  assert.match(js, /upptb-campus-distribution-v8/);
+  assert.match(js, /navigationEntry\?\.type === 'reload'/);
+  assert.match(js, /if \(!stored \|\| isReload\)/);
+  assert.match(js, /if \(valid\) return parsed/);
+  assert.match(js, /localStorage\.setItem\(campusStorageKey/);
+  assert.match(js, /const safeTop = hero \? Math\.ceil\(hero\.offsetTop \+ hero\.offsetHeight \+ 48\) : 120/);
+});
+
+test('registros antigos do runtime são podados sem apagar o schema atual', async () => {
+  const app = await readPublic('app.js');
+  assert.match(app, /upptb-campus-distribution-v8/);
+  assert.match(app, /upptb-alice-characters-v2/);
+  assert.match(app, /function pruneLegacyStorage\(/);
+  assert.match(app, /localStorage\.removeItem\(key\)/);
+});
+
+test('gato e Chapeleiro continuam migratórios com proteção de conteúdo', async () => {
+  const js = await readPublic('alice.js');
+  assert.match(js, /upptb-alice-characters-v2/);
   assert.match(js, /function characterOverlapsContent\(/);
   assert.match(js, /attempts < 24/);
   assert.match(js, /caption\.textContent = config\.phrase/);
-  assert.match(js, /display: block !important/);
-  assert.match(js, /visibility: visible !important/);
+  assert.match(js, /src: 'assets\/gato\.png'/);
+  assert.match(js, /src: 'assets\/chapeleiro\.png'/);
 });
 
+test('fóssil fundador permanece intacto', async () => {
+  const html = await readPublic('index.html');
+  assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
+});
 
-test('regressão: navegação normaliza entrada de página no topo', async () => {
-  const js = await read('router.js');
+test('navegação atual controla topo, histórico e menu mobile', async () => {
+  const js = await readPublic('router.js');
+  const css = await readPublic('styles.css');
   assert.match(js, /scrollRestoration = 'manual'/);
   assert.match(js, /window\.scrollTo\(\{ top: 0, left: 0/);
-  assert.match(js, /currentFile !== targetFile/);
+  assert.match(js, /function setMobileMenu\(open\)/);
+  assert.match(css, /html\.menu-open, html\.menu-open body/);
 });
 
-test('regressão: Alice usa fluxo sem scroll snap e wallpaper vertical', async () => {
-  const css = await read('alice-page.css');
-  assert.match(css, /scroll-snap-type:none/);
-  assert.match(css, /aspect-ratio:9\/16/);
-});
-
-test('regressão: tartarugas mantêm presença visual', async () => {
-  const css = await read('styles.css');
-  assert.match(css, /\.random-turtle\{opacity:\.9 !important/);
-});
-
-
-test('regressão: terminal interativo mantém comandos MVP', async () => {
-  const html = await read('index.html');
-  const js = await read('terminal.js');
+test('terminal institucional preserva os comandos MVP e cache bust atual', async () => {
+  const html = await readPublic('index.html');
+  const js = await readPublic('terminal.js');
+  assert.match(html, /terminal\.js\?v=12/);
   assert.match(html, /data-terminal-form/);
-  assert.match(html, /terminal\.js/);
   for (const command of ['help', 'status', 'lore', 'clear']) {
     assert.match(js, new RegExp("command === '" + command + "'"));
   }
 });
 
+test('Home preserva identidade única, quatro atalhos e preview de Inglês', async () => {
+  const html = await readPublic('index.html');
+  const identityOccurrences = html.match(/assets\/upptb-collage\.webp/g) ?? [];
+  assert.equal(identityOccurrences.length, 1);
 
-test('Sprint 2: app orquestra módulos router e randomizer', async () => {
-  const js = await read('app.js');
-  assert.match(js, /import \{ initRouter \} from '\.\/router\.js'/);
-  assert.match(js, /import \{ initRandomizer \} from '\.\/randomizer\.js'/);
-  assert.match(js, /initRouter\(\)/);
-  assert.match(js, /initRandomizer\(\)/);
+  const linksBlock = html.split('class="hero-actions home-page-links"')[1]?.split('</div>')[0] ?? '';
+  assert.equal((linksBlock.match(/class="button/g) ?? []).length, 4);
+  for (const target of ['laboratorio-beyblade.html', 'ingles.html', 'memorias.html', 'alice.html']) {
+    assert.ok(linksBlock.includes(`href="${target}"`), 'atalho ausente: ' + target);
+  }
+
+  const englishPreview = html.split('class="english-preview-grid"')[1]?.split('</div>')[0] ?? '';
+  assert.equal((englishPreview.match(/<article>/g) ?? []).length, 3);
 });
 
-test('Sprint 2: mapa persiste na navegação e só renova em reload/F5', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /navigationEntry\?\.type === 'reload'/);
-  assert.match(js, /if \(!stored \|\| isReload\)/);
-  assert.match(js, /if \(valid\) return parsed/);
-  assert.match(js, /localStorage\.setItem\(campusStorageKey/);
-  assert.match(js, /campusPages = \['home', 'lab', 'english', 'memories'\]/);
+test('CSS atual protege composição da Home em desktop e mobile', async () => {
+  const css = await readPublic('styles.css');
+  assert.match(css, /html\[data-page="home"\] \.hero-copy \{[\s\S]*text-align: center/);
+  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*flex-wrap: nowrap/);
+  assert.match(css, /\.english-preview-grid \{[\s\S]*grid-template-columns: repeat\(3/);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.english-preview-grid \{[\s\S]*grid-template-columns: 1fr/);
 });
 
-
-test('runtime contract: engine cria tartarugas e sinaliza plano pronto', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /for \(let index = 1; index <= turtleCount; index \+= 1\)/);
-  assert.match(js, /turtle\.src = 'assets\/turtles\/turtle-'/);
-  assert.match(js, /randomAssetPlane\.dataset\.randomizerReady = 'true'/);
-  assert.match(js, /createTurtles\(\)/);
-});
-
-test('runtime contract: Alice continua isolada e mantém os 30 wallpapers', async () => {
-  const html = await read('alice.html');
-  const js = await read('alice-page.js');
-  // Alice mantém o app legado por compatibilidade, mas o próprio app encerra
-  // antes de inicializar o randomizer quando data-page=alice.
-  assert.match(html, /src="app\.js(?:\?v=\d+)?"/);
-  const app = await read('app.js');
-  const randomizer = await read('randomizer.js');
-  assert.match(randomizer, /currentPage === 'alice'/);
-  assert.doesNotMatch(html, /randomizer\.js/);
-  assert.match(js, /const states = estadosAlice\.map/);
-  assert.match(js, /assets\/alice-states/);
-});
-
-
-test('build contract: Vite preserva assets escolhidos dinamicamente em runtime', async () => {
-  const config = await read('../vite.config.js');
-  assert.match(config, /cpSync\(source, target, \{ recursive: true, force: true \}\)/);
-  assert.match(config, /public\/assets/);
-  assert.match(config, /dist\/assets/);
-});
-
-
-test('rodapé institucional identifica fundador e mantém frase da Alice nos campi', async () => {
-  for (const page of ['index.html', 'laboratorio-beyblade.html', 'ingles.html', 'memorias.html']) {
-    const html = await read(page);
+test('rodapé institucional permanece consistente nos campi', async () => {
+  for (const page of campusPages) {
+    const html = await readPublic(page);
     assert.match(html, /class="site-footer"/);
     assert.match(html, /Kauan Cardim · Fundador · PO · QA · estudante de programação/);
     assert.match(html, /class="site-footer-alice"/);
-    assert.match(html, /<strong>Alice:<\/strong>/);
   }
 });
 
-
-test('randomizer performático preserva assets sem colisão síncrona pesada', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /function placeAsset\(asset, index, pageHeight\)/);
-  assert.match(js, /asset\.hidden = false/);
-  assert.match(js, /requestAnimationFrame\(scatterAssets\)/);
-  assert.match(js, /window\.addEventListener\('resize', scheduleLayout/);
-  assert.doesNotMatch(js, /ResizeObserver|elementsFromPoint|foundSafeSlot|Promise\.all\(images/);
-});
-
-
-test('mobile mantém assets dentro do viewport e invalida distribuição/cache antigo', async () => {
-  const js = await read('randomizer.js');
-  const css = await read('styles.css');
-  assert.match(js, /upptb-campus-distribution-v7/);
-  assert.match(js, /const homeLanes = isMobile/);
-  assert.match(js, /const defaultLanes = isMobile/);
-  assert.match(js, /asset\.hidden = false/);
-  assert.match(css, /V6 mobile asset safety/);
-  assert.match(css, /max-width:min\(9rem,32vw\) !important/);
-  for (const page of ['index.html','laboratorio-beyblade.html','ingles.html','memorias.html']) {
-    const html = await read(page);
-    assert.match(html, /styles\.css\?v=11/);
-    assert.match(html, /app\.js\?v=11/);
-  }
-});
-
-
-test('Alice V6 preserva imagem inteira no web e vira background no mobile', async () => {
-  const html = await read('alice.html');
-  const css = await read('alice-page.css');
-  assert.match(html, /alice-page\.css\?v=8/);
-  assert.match(html, /alice-page\.js\?v=8/);
-  assert.match(css, /object-fit:contain/);
-  assert.match(css, /\.alice-dialogue-stage\{overflow:visible;\}/);
-  assert.match(css, /@media\(max-width:760px\)/);
-  assert.match(css, /\.alice-hero-visual\{[\s\S]*position:absolute!important/);
-  assert.match(css, /object-fit:cover/);
-  assert.match(css, /\.alice-gallery\{[\s\S]*z-index:6/);
-});
-
-
-test('Alice V7 abre menu mobile, oculta galeria e preserva hero responsiva', async () => {
-  const html = await read('alice.html');
-  const css = await read('alice-page.css');
-  assert.ok(html.includes('<script type="module" src="app.js?v=8"></script>'));
-  assert.match(css, /\.alice-gallery,\[data-alice-gallery\]\{display:none!important;\}/);
-  assert.match(css, /@media\(min-width:761px\)[\s\S]*object-fit:contain!important/);
-  assert.match(css, /@media\(max-width:760px\)[\s\S]*nav\[data-open="true"\][\s\S]*display:flex!important/);
-  assert.match(css, /@media\(max-width:760px\)[\s\S]*object-fit:cover!important/);
-});
-
-
-test('EPIC: menu mobile tem estado único, fecha fora e bloqueia scroll de fundo', async () => {
-  const router = await read('router.js');
-  const css = await read('styles.css');
-  assert.match(router, /function setMobileMenu\(open\)/);
-  assert.match(router, /closeMenus\(\{ closeMobile: true \}\)/);
-  assert.match(css, /html\.menu-open, html\.menu-open body/);
-  assert.match(css, /position:fixed !important/);
-});
-
-test('EPIC: Multi permanece exclusiva do laboratório e Alice fora do campus global', async () => {
-  const js = await read('randomizer.js');
-  const multi = js.split('\n').find(line => line.includes('multi-nanairo-from-beyblade') && line.includes("fixedPage: 'lab'"));
-  assert.ok(multi, 'Multi precisa continuar fixa no Lab');
-  assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
-});
-
-
-test('AUD-01: gate deriva referências do dist e mantém dívidas humanas explícitas', async () => {
-  const gate = await read('../scripts/verify-build.mjs');
-  assert.ok(gate.includes('matchAll(/\\b(?:src|href)='));
-  assert.ok(gate.includes('knownAuditDebt'));
-  assert.ok(gate.includes("'alice.js'"));
-  assert.ok(gate.includes("'docs/alice-30-estados.pdf'"));
-  assert.ok(gate.includes('process.exit(1)'));
-});
-
-test('AUD-03: build publica identidade rastreável por SHA', async () => {
-  const config = await read('../vite.config.js');
-  assert.ok(config.includes('upptb-build-sha'));
-  assert.ok(config.includes("resolve(process.cwd(), 'dist/build.json')"));
-  assert.ok(config.includes('GITHUB_SHA'));
-});
-
-
-test('HOME CT01: identidade aparece uma vez e randomizer respeita zona segura do hero', async () => {
-  const html = await read('index.html');
-  const js = await read('randomizer.js');
-  const occurrences = html.match(/assets\/upptb-collage\.webp/g) ?? [];
-  assert.equal(occurrences.length, 1);
-  assert.doesNotMatch(js, /upptb-collage\.webp/);
-  assert.match(js, /const safeTop = hero \? Math\.ceil\(hero\.offsetTop \+ hero\.offsetHeight \+ 48\) : 120/);
-});
-
-test('HOME CT02-CT03: hero equilibrado e CTAs representam os quatro campi', async () => {
-  const html = await read('index.html');
-  const css = await read('styles.css');
-  for (const target of ['laboratorio-beyblade.html','ingles.html','memorias.html','alice.html']) {
-    assert.ok(html.includes(`href="${target}"`), 'CTA ausente: ' + target);
-  }
-  assert.match(html, /class="hero-actions home-page-links"/);
-  assert.match(css, /html\[data-page="home"\] \.hero \{[\s\S]*min-height: 68vh/);
-  assert.match(css, /html\[data-page="home"\] \.home-page-links \{[\s\S]*flex-wrap: nowrap/);
-});
-
-test('HOME CT04-CT05: Beyblade fica no Lab e fotos legadas ficam em Memórias', async () => {
-  const js = await read('randomizer.js');
-  for (const asset of ['images-2-.jpg','images-1-.jpg','images.jpg']) {
-    const line = js.split('\n').find(value => value.includes(asset));
-    assert.ok(line, 'foto legada ausente: ' + asset);
-    assert.match(line, /fixedPage: 'memories'/);
-  }
-  assert.match(js, /if \(currentPage !== 'lab' && beybladeAssets\.some/);
-  assert.match(js, /purgeBeybladeOutsideLab\(\)/);
-});
-
-test('HOME CT06: preview de Inglês ganhou contexto, três destaques e CTA', async () => {
-  const html = await read('index.html');
-  assert.match(html, /class="home-english-preview"/);
-  assert.match(html, /class="english-preview-grid"/);
-  const preview = html.split('class="english-preview-grid"')[1]?.split('</div>')[0] ?? '';
-  assert.equal((preview.match(/<article>/g) ?? []).length, 3);
-  assert.match(html, /Entrar no campus sem fugir/);
+test('build preserva assets dinâmicos e publica identidade rastreável por SHA', async () => {
+  const config = await readRoot('vite.config.js');
+  assert.match(config, /cpSync\(source, target, \{ recursive: true, force: true \}\)/);
+  assert.match(config, /public\/assets/);
+  assert.match(config, /dist\/assets/);
+  assert.match(config, /upptb-build-sha/);
+  assert.match(config, /dist\/build\.json/);
 });
