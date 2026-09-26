@@ -246,3 +246,20 @@ test('EPIC: Multi permanece exclusiva do laboratório e Alice fora do campus glo
   assert.match(multi, /fixedPage: 'lab'/);
   assert.match(js, /const campusPages = \['home', 'lab', 'english', 'memories'\]/);
 });
+
+
+test('AUD-01: gate deriva referências do dist e mantém dívidas humanas explícitas', async () => {
+  const gate = await read('../scripts/verify-build.mjs');
+  assert.match(gate, /matchAll\(\/\\b\(\?:src\|href\)/);
+  assert.match(gate, /knownAuditDebt/);
+  assert.match(gate, /alice\\.js/);
+  assert.match(gate, /alice-30-estados\\.pdf/);
+  assert.match(gate, /process\\.exit\(1\)/);
+});
+
+test('AUD-03: build publica identidade rastreável por SHA', async () => {
+  const config = await read('../vite.config.js');
+  assert.match(config, /upptb-build-sha/);
+  assert.match(config, /dist\/build\\.json/);
+  assert.match(config, /GITHUB_SHA/);
+});
