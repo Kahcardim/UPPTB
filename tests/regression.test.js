@@ -180,44 +180,13 @@ test('rodapé institucional identifica fundador e mantém frase da Alice nos cam
 });
 
 
-test('randomizer protege caixas de leitura contra colisão visual', async () => {
+test('randomizer performático preserva assets sem colisão síncrona pesada', async () => {
   const js = await read('randomizer.js');
-  assert.match(js, /protectedElements/);
-  assert.match(js, /const margin = 10/);
-  assert.match(js, /asset\.hidden = !foundSafeSlot/);
-  assert.doesNotMatch(js, /asset\.style\.opacity = '\.18'/);
-});
-
-
-test('randomizer aguarda dimensões reais das imagens antes do passe autoritativo', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /Promise\.all\(images\.map/);
-  assert.match(js, /image\.addEventListener\('load', resolve/);
-  assert.match(js, /\)\)\.then\(scatterAssets\)/);
-});
-
-
-test('randomizer evita observadores caros e recalcula apenas no resize', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /window\.addEventListener\('resize', scheduleLayout/);
-  assert.doesNotMatch(js, /ResizeObserver|document\.fonts|elementsFromPoint/);
-});
-
-
-test('randomizer preserva tartarugas procurando slot livre após tentativas aleatórias', async () => {
-  const js = await read('randomizer.js');
-  assert.match(js, /let foundSafeSlot = false/);
-  assert.match(js, /for \(let top = 90; top <= topLimit/);
-  assert.match(js, /for \(let left = 0; left <= maxLeft/);
-  assert.match(js, /asset\.hidden = !foundSafeSlot/);
-});
-
-
-test('randomizer nunca zera geometria ocultando todos os assets antes da colisão', async () => {
-  const js = await read('randomizer.js');
-  assert.doesNotMatch(js, /assets\.forEach\(\(asset\) => \{ asset\.hidden = true; \}\)/);
   assert.match(js, /function placeAsset\(asset, index, pageHeight\)/);
   assert.match(js, /asset\.hidden = false/);
+  assert.match(js, /requestAnimationFrame\(scatterAssets\)/);
+  assert.match(js, /window\.addEventListener\('resize', scheduleLayout/);
+  assert.doesNotMatch(js, /ResizeObserver|elementsFromPoint|foundSafeSlot|Promise\.all\(images/);
 });
 
 
