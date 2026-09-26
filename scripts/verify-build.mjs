@@ -2,19 +2,18 @@ import { access, readFile, readdir } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
 
 const distRoot = resolve(process.cwd(), 'dist');
-
-// Dívidas conhecidas que dependem de decisão humana. Elas continuam visíveis
-// no log e não viram precedente: qualquer nova referência ausente falha o build.
-const knownAuditDebt = new Set([
-  'alice.js',
-  'docs/alice-30-estados.pdf'
-]);
+const debtFile = resolve(process.cwd(), 'config/audit-debt.json');
+const auditDebt = JSON.parse(await readFile(debtFile, 'utf8'));
+const debtItems = auditDebt.items ?? [];
+const knownAuditDebt = new Set(debtItems.map((item) => item.path));
 
 const requiredRuntime = [
   'assets/turtles/turtle-01.webp',
   'assets/turtles/turtle-31.webp',
   'assets/alice-states/alice_01.webp',
   'assets/alice-states/alice_30.webp',
+  'assets/sphynx-local.svg',
+  'docs/alice-30-estados.pdf',
   'build.json'
 ];
 
@@ -74,19 +73,39 @@ for (const runtimePath of requiredRuntime) {
   }
 }
 
-if (allowedDebt.length) {
-  console.warn('Dívidas de auditoria ainda permitidas:');
-  for (const item of allowedDebt) {
-    console.warn(` - ${item.page} -> ${item.path}`);
+const debtErrors = [];
+const today = new Date();
+for (const item of debtItems) {
+  if (!item.path || !item.decision || !item.expiresAt) {
+    debtErrors.push(`dívida incompleta: ${JSON.stringify(item)}`);
+    continue;
   }
+
+  if (new Date(item.expiresAt) < today) {
+    debtErrors.push(`dívida expirada: ${item.path} (${item.decision})`);
+  }
+
+  try {
+    await access(resolve(distRoot, item.path));
+    debtErrors.push(`dívida obsoleta: ${item.path} já existe no artefato e deve sair da allowlist`);
+  } catch {}
 }
 
-if (missing.length) {
-  console.error('Build incompleto. Referências locais ausentes no artefato:');
-  for (const item of missing) {
-    console.error(` - ${item.page} -> ${item.path}`);
+if (allowedDebt.length) {
+  console.warn('Dívidas de auditoria ainda permitidas:');
+  for (const item of allowedDebt) console.warn(` - ${item.page} -> ${item.path}`);
+}
+
+if (missing.length || debtErrors.length) {
+  if (missing.length) {
+    console.error('Build incompleto. Referências locais ausentes no artefato:');
+    for (const item of missing) console.error(` - ${item.page} -> ${item.path}`);
+  }
+  if (debtErrors.length) {
+    console.error('Governança de dívida inválida:');
+    for (const item of debtErrors) console.error(` - ${item}`);
   }
   process.exit(1);
 }
 
-console.log(`Build reference gate: OK (${htmlPaths.length} HTMLs validados)`);
+console.log(`Build reference gate: OK (${htmlPaths.length} HTMLs validados · ${debtItems.length} dívidas permitidas)`);

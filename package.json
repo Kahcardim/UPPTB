@@ -13,7 +13,7 @@
     "dev": "vite --host 127.0.0.1",
     "test": "node --test",
     "dev:api": "node --watch src/server.js",
-    "build": "vite build && node scripts/verify-build.mjs",
+    "build": "vite build && node scripts/generate-alice-pdf.mjs && node scripts/verify-build.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "smoke": "node scripts/smoke-dist.mjs"
   },

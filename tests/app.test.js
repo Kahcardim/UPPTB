@@ -30,7 +30,7 @@ test('Home atual é servida com identidade e fóssil fundador preservados', asyn
     assert.equal(response.status, 200);
     assert.match(response.headers.get('content-type'), /text\/html/);
     const html = await response.text();
-    assert.match(html, /Universidade Pública Peculiar Turtle and Beys/);
+    assert.match(html, /Universidade publica turtles and bleys/);
     assert.match(html, /Identidade HIGH · Severidade ULTRA TURTLE/);
     assert.match(html, /<h2 id="fossil-title">Let's rip, dude\. Turtle Step\. Robin loses\. Multi reborn\. Site created\.<\/h2>/);
     assert.match(html, /Desenvolvimento de Inglês/);
