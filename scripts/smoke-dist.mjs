@@ -315,6 +315,13 @@ try {
         const aliceEffectPage = await aliceEffectContext.newPage();
         await aliceEffectPage.goto(origin + '/index.html', { waitUntil: 'domcontentloaded' });
         await aliceEffectPage.waitForTimeout(500);
+        const aliceDebug = await aliceEffectPage.evaluate(() => ({
+          storage: localStorage.getItem('upptb-alice-characters-v3'),
+          plane: !!document.querySelector('#random-asset-plane'),
+          scripts: [...document.scripts].map((script) => script.src),
+          characters: document.querySelectorAll('.alice-character').length
+        }));
+        if (aliceDebug.characters !== 2) console.error('Efeito Alice diagnóstico:', JSON.stringify(aliceDebug));
         if (await aliceEffectPage.locator('.alice-gato').count() !== 1) {
           failures.push(`${browserName} ${viewport.width} Efeito Alice: gato canônico não foi criado`);
         }
