@@ -1,5 +1,6 @@
 import { initRouter } from './router.js';
 import { initRandomizer } from './randomizer.js';
+import './alice.js';
 
 const activeStorageKeys = new Set([
   'upptb-campus-distribution-v9',
