@@ -100,7 +100,7 @@ export function initRandomizer() {
     const figure = document.createElement('figure');
     const cat = document.createElement('img');
     const caption = document.createElement('figcaption');
-    figure.className = 'random-asset random-character random-photo random-hairless-cat';
+    figure.className = 'random-asset random-character random-hairless-cat';
     cat.src = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sphynx_kitten.JPG';
     cat.alt = ''; cat.loading = 'lazy'; cat.decoding = 'async'; cat.referrerPolicy = 'no-referrer';
     caption.textContent = 'GATO PELADO DO TI // COMPUTADOR OCUPADO';
@@ -143,8 +143,9 @@ export function initRandomizer() {
     const isMobile = window.innerWidth <= 700;
     const assetHeight = isLarge ? (isMobile ? 150 : 320) : (isMobile ? 96 : 180);
     const topLimit = Math.max(pageHeight - assetHeight, 520);
-    const lanes = isMobile ? [2, 68] : [1.5, 14, 72, 86];
-    const lane = lanes[index % lanes.length];
+    const isCat = asset.classList.contains('random-hairless-cat');
+    const lanes = isMobile ? [1, 73] : [1.5, 84];
+    const lane = isCat ? lanes[index % lanes.length] : (isMobile ? [1, 73][index % 2] : [1.5, 12, 76, 86][index % 4]);
     const bandCount = Math.max(1, Math.floor((topLimit - 120) / (isLarge ? 340 : 220)));
     const band = index % bandCount;
     const bandSize = (topLimit - 120) / bandCount;
