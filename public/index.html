@@ -7,15 +7,15 @@
   <meta name="theme-color" content="#07120a" />
   <title>UPPTB | Universidade Pública Peculiar Turtle and Beys</title>
   <link rel="icon" href="assets/turtle-mark.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=11" />
   <style>
     @media (max-width: 700px) {
       .hero-actions { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: .5rem; flex-wrap: wrap; }
       .hero-actions .button { flex: 0 0 auto !important; width: auto !important; max-width: none !important; min-width: 0 !important; padding: .68rem .9rem; font-size: .8rem; line-height: 1.1; white-space: nowrap; }
     }
   </style>
-  <script type="module" src="app.js?v=6"></script>
-  <script src="alice.js?v=6" defer></script>
+  <script type="module" src="app.js?v=11"></script>
+  <script src="alice.js?v=11" defer></script>
   <script src="terminal.js" defer></script>
 </head>
 <body>
@@ -129,8 +129,16 @@ robin ............... provavelmente perdeu
 multi ................ reborn
 campus ................ 5 páginas
 efeito alice .......... ativo</code></pre>
-      <form class="terminal-form" data-terminal-form><label for="terminal-command">Comando institucional</label><div class="terminal-prompt"><span aria-hidden="true">$</span><input id="terminal-command" data-terminal-input autocomplete="off" spellcheck="false" placeholder="help" /></div></form>
-      <button type="button" class="button secondary" id="chaos-button">Executar auditoria inútil</button>
+      <div class="terminal-controls">
+        <form class="terminal-form terminal-control-card" data-terminal-form>
+          <label for="terminal-command">Comando institucional</label>
+          <div class="terminal-prompt"><span aria-hidden="true">$</span><input id="terminal-command" data-terminal-input autocomplete="off" spellcheck="false" placeholder="help" /></div>
+        </form>
+        <div class="terminal-control-card terminal-audit">
+          <span class="terminal-control-label">Auditoria institucional</span>
+          <button type="button" class="button secondary" id="chaos-button">Executar auditoria inútil</button>
+        </div>
+      </div>
     </section>
   </main>
 
