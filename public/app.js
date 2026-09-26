@@ -119,7 +119,7 @@ const heroCopy = document.querySelector('.hero-copy');
 const heroMark = document.querySelector('.hero-mark');
 const heroTitle = document.querySelector('#hero-title');
 
-if (hero && heroCopy) {
+if (hero && heroCopy && document.documentElement.dataset.page !== 'home') {
   hero.style.gridTemplateColumns = 'minmax(0, 1fr) minmax(280px, 420px)';
   hero.style.justifyItems = 'stretch';
   hero.style.alignItems = 'center';
