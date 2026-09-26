@@ -2,7 +2,7 @@ import { initRouter } from './router.js';
 import { initRandomizer } from './randomizer.js';
 
 const activeStorageKeys = new Set([
-  'upptb-campus-distribution-v8',
+  'upptb-campus-distribution-v9',
   'upptb-alice-characters-v2'
 ]);
 
