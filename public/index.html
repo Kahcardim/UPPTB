@@ -46,11 +46,7 @@
   </header>
 
   <main id="conteudo">
-    <div class="random-asset-plane" id="random-asset-plane" aria-hidden="true">
-      <figure class="random-asset random-character random-identity"><img src="assets/upptb-collage.webp" alt="" /></figure>
-      <figure class="random-asset random-character random-identity"><img src="assets/upptb-styleboard.webp" alt="" /></figure>
-      <figure class="random-asset random-character random-photo"><img src="assets/images-2-.jpg" alt="" /><figcaption>DEPARTAMENTO DESCONHECIDO</figcaption></figure>
-    </div>
+    <div class="random-asset-plane" id="random-asset-plane" aria-hidden="true"></div>
 
     <p class="do-not-feed" aria-hidden="true">FAVOR NÃO ALIMENTAR AS TARTARUGAS. ELAS JÁ ESTÃO BEM ALIMENTADAS.</p>
 
@@ -59,9 +55,11 @@
         <p class="eyebrow">Identidade HIGH · Severidade ULTRA TURTLE</p>
         <h1 id="hero-title">Uma universidade que ninguém pediu. Um laboratório que precisava existir.</h1>
         <p class="lead">A UPPTB mistura QA, programação, inglês, Turtle Step, Beyblade, projetos reais e uma quantidade administrativamente irresponsável de lore.</p>
-        <div class="hero-actions">
-          <a class="button" href="#origem">Entender o acidente</a>
-          <a class="button secondary" href="laboratorio-beyblade.html">Entrar no laboratório</a>
+        <div class="hero-actions home-page-links" aria-label="Atalhos dos campi da UPPTB">
+          <a class="button" href="laboratorio-beyblade.html">Soltar o Beyblade</a>
+          <a class="button secondary" href="ingles.html">Treinar inglês sem fugir</a>
+          <a class="button secondary" href="memorias.html">Abrir as memórias</a>
+          <a class="button secondary" href="alice.html">Perguntar pra Alice</a>
         </div>
       </div>
       <div class="hero-mark" aria-label="Identidade visual completa da UPPTB">
@@ -98,11 +96,29 @@
       </div>
     </section>
 
-    <section class="chaos-cluster" aria-labelledby="english-entry-title">
-      <p class="eyebrow">Novo campus</p>
-      <h2 id="english-entry-title">Desenvolvimento de Inglês</h2>
-      <p class="lead small">A parte de inglês saiu da Home e ganhou uma página própria para registrar evolução, métodos, erros recorrentes e prática.</p>
-      <div class="hero-actions"><a class="button" href="ingles.html">Abrir campus de inglês</a></div>
+    <section class="home-english-preview" aria-labelledby="english-entry-title">
+      <div class="home-english-copy">
+        <p class="eyebrow">Novo campus · inglês sem modo entrevista</p>
+        <h2 id="english-entry-title">Desenvolvimento de Inglês</h2>
+        <p class="lead small">Um campus para registrar evolução, praticar com contexto real e transformar erro recorrente em evidência para o próximo treino.</p>
+      </div>
+      <div class="english-preview-grid" aria-label="Resumo do campus de inglês">
+        <article>
+          <strong>Turtle Talk</strong>
+          <span>Prática curta, repetível e ligada ao que está sendo estudado.</span>
+        </article>
+        <article>
+          <strong>Erros viram evidência</strong>
+          <span>O que tropeça hoje entra no mapa do próximo treino.</span>
+        </article>
+        <article>
+          <strong>Inglês aplicado</strong>
+          <span>QA, código e rotina entram no vocabulário em vez de frases genéricas.</span>
+        </article>
+      </div>
+      <div class="english-preview-action">
+        <a class="button" href="ingles.html">Entrar no campus sem fugir</a>
+      </div>
     </section>
 
     <section id="arquivo" class="archive" aria-labelledby="archive-title">
